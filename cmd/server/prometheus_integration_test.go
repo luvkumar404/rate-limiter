@@ -1,3 +1,4 @@
+
 //go:build integration && prometheus
 
 package main

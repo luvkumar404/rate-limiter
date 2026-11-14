@@ -299,10 +299,10 @@ Each phase ends with something runnable. Do not start a phase until the previous
 **Objective:** Let other Go apps adopt the limiter with minimal code.
 
 **Tasks**
-- [ ] `pkg/middleware` for `net/http` (optional adapters for chi / gin)
-- [ ] Key extractors: client IP (with trusted-proxy handling), header, custom func
-- [ ] Support both modes: call remote service, or embed a limiter directly
-- [ ] `examples/demo-app` showing usage
+- [x] `pkg/middleware` for `net/http` (optional adapters for chi / gin)
+- [x] Key extractors: client IP (with trusted-proxy handling), header, custom func
+- [x] Support both modes: call remote service, or embed a limiter directly
+- [x] `examples/demo-app` showing usage
 
 **Deliverables:** public, documented package.
 

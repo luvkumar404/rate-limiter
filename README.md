@@ -1,6 +1,6 @@
 # ratelimiter
 
-A Go rate limiting service under development. See [PRD.md](PRD.md) for the
+A Go rate limiting service and middleware library under development. See [PRD.md](PRD.md) for the
 requirements and [implementation progress](docs/progress.md) for current scope.
 
 Requires Go 1.22 or later. YAML parsing uses `gopkg.in/yaml.v3`; Redis mode uses
@@ -121,3 +121,19 @@ backend errors. The three-node
 cluster, throughput targets, and latency percentiles remain unmeasured.
 
 See [benchmark notes](docs/benchmarks.md) for the measured local microbenchmark.
+
+Use `pkg/middleware` to protect another Go app with an embedded limiter or the
+remote service. Public constructors and contracts are in `pkg/limiter`; no
+internal imports are needed. Key extractors support socket IPs, explicit trusted
+proxy CIDRs, headers, and custom functions. See [middleware usage](docs/middleware.md).
+
+Run the demo without Redis:
+
+```powershell
+go run -buildvcs=false ./examples/demo-app -addr :8083
+```
+
+Request `http://localhost:8083/hello` six times promptly: five calls pass, then
+one returns 429. To use the central service instead, add
+`-limiter-url http://localhost:8082 -rule login` with the service running at that
+address. See the [demo instructions](examples/demo-app/README.md).

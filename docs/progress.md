@@ -33,13 +33,19 @@ Development follows the phase gates in PRD.md. Optional dashboard work is deferr
   Retry-After values. Request IDs propagate through HTTP responses, limiter
   context, access logs, fallback logs, and circuit-transition logs.
   [Observability](observability.md) includes setup, semantics, and PromQL.
-- Phases 7–11: pending.
+- Phase 7: implemented. Public `pkg/limiter` constructors, contracts, Redis
+  pools, and the rule factory support external Go consumers. `pkg/middleware`
+  supports embedded and remote checks, header/custom/socket-IP keys, explicit
+  trusted-proxy CIDRs, request correlation, deadlines, and failure policies.
+  The [demo](../examples/demo-app/README.md) runs in both modes and the
+  [middleware guide](middleware.md) documents setup and ownership.
+- Phases 8–11: pending.
 
 Verification on 2026-11-14:
 
 - Windows build, vet (including integration-tagged code), and integration tests
   pass. Coverage: API 97.8%, config 100%, limiter 91.2%, store 93.7%, resilience
-  98.8%, metrics 100%, request IDs 92.3% after Phase 6. Vet also covers the
+  98.8%, metrics 100%, request IDs 92.3%, middleware 98.1% after Phase 7. Vet also covers the
   opt-in chaos and real-Prometheus test code.
 - The full suite passes with `-race -tags integration` inside
   `golang:1.26-bookworm`, including all earlier phases. Windows native race
@@ -61,6 +67,19 @@ Verification on 2026-11-14:
   versus circuit short-circuits, cancellation exclusions, and live
   closed/open/half-open gauges. Header and log tests cover Retry-After rounding,
   quota/body consistency, ID validation, and correlation through failure logs.
+- Phase 7 middleware tests verify embedded and remote application enforcement,
+  validated remote responses, preserved application bodies and contexts,
+  deadlines, cancellation, request-ID forwarding, explicit no-redirect behavior,
+  failure policies, and trusted-proxy extraction resistant to spoofed prefixes.
+- Two application instances sharing Redis admit exactly 25/200 checks with a
+  token bucket (limit 20, burst 5), or 20/200 with each window algorithm. All
+  remaining checks are blocked with zero errors, in both embedded and remote
+  modes. The full Linux race suite includes these tests and both live demo modes.
+- A separate temporary Go module imports only public packages, implements a
+  custom limiter, and verifies first-allow/second-deny behavior for all three
+  built-in memory algorithms. No consumer imports of internal packages are
+  needed. The demo independently verifies live HTTP responses and shutdown in
+  embedded and remote modes.
 - Tests verify Redis TIME, refill, fractional state, expiry, clock regression,
   script-cache fallback, key/rule isolation, and bounded Redis I/O. Phase 4 adds
   exact sliding cutoffs, staggered events, fixed boundary resets, aligned
@@ -82,7 +101,7 @@ Shutdown tests exercise context cancellation and request draining; the Windows
 console Ctrl+C event has not been automated. See [Redis testing](redis.md) for
 reproduction commands.
 
-The next milestone is the public middleware package (Phase 7). Scope is supplied by the caller
+The next milestone is Docker deployment and CI (Phase 8). Scope is supplied by the caller
 through the request key. Changing algorithms starts a new budget; restart
 instances with consistent rule settings. Nonzero burst is rejected for window
 algorithms. During Redis errors or circuit cooldown, fail-open returns an allowed
