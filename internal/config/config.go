@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/ratelimiter/ratelimiter/internal/store"
 	"gopkg.in/yaml.v3"
 )
 
@@ -20,8 +21,10 @@ type Rule struct {
 }
 
 type Config struct {
-	Rules         map[string]Rule `yaml:"rules"`
-	FailurePolicy string          `yaml:"failure_policy"`
+	Rules         map[string]Rule    `yaml:"rules"`
+	FailurePolicy string             `yaml:"failure_policy"`
+	Backend       string             `yaml:"backend"`
+	Redis         store.RedisOptions `yaml:"redis"`
 }
 
 func Load(path string) (Config, error) {
@@ -51,6 +54,17 @@ func Decode(r io.Reader) (Config, error) {
 	if cfg.FailurePolicy != "fail_open" && cfg.FailurePolicy != "fail_closed" {
 		return Config{}, fmt.Errorf("failure_policy must be fail_open or fail_closed")
 	}
+	if cfg.Backend == "" {
+		cfg.Backend = "memory"
+	}
+	if cfg.Backend != "memory" && cfg.Backend != "redis" {
+		return Config{}, fmt.Errorf("backend must be memory or redis")
+	}
+	redisOptions, err := cfg.Redis.WithDefaults()
+	if err != nil {
+		return Config{}, err
+	}
+	cfg.Redis = redisOptions
 	if len(cfg.Rules) == 0 {
 		return Config{}, fmt.Errorf("at least one rule is required")
 	}
@@ -63,6 +77,9 @@ func Decode(r io.Reader) (Config, error) {
 		}
 		if err := (limiter.TokenBucketConfig{Limit: rule.Limit, Burst: rule.Burst, Window: rule.Window}).Validate(); err != nil {
 			return Config{}, fmt.Errorf("rule %q: %w", name, err)
+		}
+		if cfg.Backend == "redis" && rule.Window%time.Microsecond != 0 {
+			return Config{}, fmt.Errorf("rule %q: redis window must be a whole number of microseconds", name)
 		}
 		if rule.Scope == "" {
 			rule.Scope = "key"

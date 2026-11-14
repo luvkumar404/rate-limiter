@@ -148,3 +148,25 @@ func TestBackendErrorAndRetryRounding(t *testing.T) {
 		})
 	}
 }
+
+func TestReadinessReflectsBackendHealth(t *testing.T) {
+	for _, available := range []bool{true, false} {
+		h := New(nil, slog.New(slog.NewJSONHandler(io.Discard, nil)), WithBackend("redis", func(ctx context.Context) error {
+			if !available {
+				return errors.New("private connection details")
+			}
+			return ctx.Err()
+		}))
+		for _, path := range []string{"/healthz", "/readyz"} {
+			w := httptest.NewRecorder()
+			h.ServeHTTP(w, httptest.NewRequest("GET", path, nil))
+			want := 200
+			if path == "/readyz" && !available {
+				want = 503
+			}
+			if w.Code != want || strings.Contains(w.Body.String(), "private") {
+				t.Fatalf("available=%t path=%s: %d %s", available, path, w.Code, w.Body.String())
+			}
+		}
+	}
+}

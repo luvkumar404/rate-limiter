@@ -226,13 +226,13 @@ Each phase ends with something runnable. Do not start a phase until the previous
 **Objective:** Make limits shared and atomic across instances. This is the heart of the project.
 
 **Tasks**
-- [ ] Add `go-redis` and a configurable connection (address, pool size, timeouts)
-- [ ] Write token bucket as a Lua script: hash with `tokens` and `last_refill`, TTL set on every call
-- [ ] Use Redis `TIME` inside the script (no app clock dependency)
-- [ ] Load via `EVALSHA`, fall back to `EVAL` on `NOSCRIPT`
-- [ ] Return `{allowed, remaining, retry_after}` from the script
-- [ ] Integration tests with `testcontainers-go` or Docker Compose Redis
-- [ ] Concurrency test: N goroutines hammer one key, assert allowed <= limit + burst
+- [x] Add `go-redis` and a configurable connection (address, pool size, timeouts)
+- [x] Write token bucket as a Lua script: hash with `tokens` and `last_refill`, TTL set on every call
+- [x] Use Redis `TIME` inside the script (no app clock dependency)
+- [x] Load via `EVALSHA`, fall back to `EVAL` on `NOSCRIPT`
+- [x] Return `{allowed, remaining, retry_after}` from the script
+- [x] Integration tests with `testcontainers-go` or Docker Compose Redis
+- [x] Concurrency test: N goroutines hammer one key, assert allowed <= limit + burst
 
 **Deliverables:** `internal/store/redis.go`, `scripts/token_bucket.lua`, integration tests.
 

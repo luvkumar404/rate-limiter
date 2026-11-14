@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"log/slog"
 	"net"
 	"net/http"
@@ -16,6 +17,7 @@ import (
 	"github.com/ratelimiter/ratelimiter/internal/api"
 	"github.com/ratelimiter/ratelimiter/internal/config"
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/ratelimiter/ratelimiter/internal/store"
 )
 
 func main() {
@@ -37,26 +39,51 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 		return err
 	}
 	rules := make(map[string]limiter.Limiter, len(cfg.Rules))
-	var buckets []*limiter.TokenBucket
+	var buckets []io.Closer
 	defer func() {
 		for _, b := range buckets {
 			_ = b.Close()
 		}
 	}()
-	for name, rule := range cfg.Rules {
-		b, err := limiter.NewTokenBucket(limiter.TokenBucketConfig{Limit: rule.Limit, Burst: rule.Burst, Window: rule.Window})
-		if err != nil {
-			return fmt.Errorf("rule %q: %w", name, err)
+	var redisStore *store.Redis
+	var ready func(context.Context) error
+	if cfg.Backend == "redis" {
+		if password, ok := os.LookupEnv("REDIS_PASSWORD"); ok {
+			cfg.Redis.Password = password
 		}
-		buckets = append(buckets, b)
-		rules[name] = b
+		redisStore, err = store.NewRedis(cfg.Redis)
+		if err != nil {
+			return err
+		}
+		buckets = append(buckets, redisStore)
+		if err := redisStore.Ping(ctx); err != nil {
+			return fmt.Errorf("redis startup ping: %w", err)
+		}
+		ready = redisStore.Ping
+	}
+	for name, rule := range cfg.Rules {
+		bucketConfig := limiter.TokenBucketConfig{Limit: rule.Limit, Burst: rule.Burst, Window: rule.Window}
+		if redisStore != nil {
+			b, err := redisStore.TokenBucket(name, bucketConfig)
+			if err != nil {
+				return fmt.Errorf("rule %q: %w", name, err)
+			}
+			rules[name] = b
+		} else {
+			b, err := limiter.NewTokenBucket(bucketConfig)
+			if err != nil {
+				return fmt.Errorf("rule %q: %w", name, err)
+			}
+			buckets = append(buckets, b)
+			rules[name] = b
+		}
 	}
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
 		return fmt.Errorf("listen: %w", err)
 	}
-	logger.Info("server listening", "address", listener.Addr().String(), "backend", "memory", "rules", len(rules))
-	return serve(ctx, listener, api.New(rules, logger), logger)
+	logger.Info("server listening", "address", listener.Addr().String(), "backend", cfg.Backend, "rules", len(rules))
+	return serve(ctx, listener, api.New(rules, logger, api.WithBackend(cfg.Backend, ready)), logger)
 }
 
 func serve(ctx context.Context, listener net.Listener, handler http.Handler, logger *slog.Logger) error {

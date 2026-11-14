@@ -1,10 +1,13 @@
-.PHONY: build test lint run bench
+.PHONY: build test test-integration lint run bench
 
 build:
 	go build -o bin/ratelimiter ./cmd/server
 
 test:
 	go test -race ./...
+
+test-integration:
+	go test -tags integration ./...
 
 lint:
 	go vet ./...

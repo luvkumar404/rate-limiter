@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"io"
@@ -25,11 +26,27 @@ type checkResponse struct {
 	RetryAfterMS int64 `json:"retry_after_ms"`
 }
 
+type settings struct {
+	backend string
+	ready   func(context.Context) error
+}
+
+type Option func(*settings)
+
+// WithBackend makes readiness probe the active backend on every request.
+func WithBackend(name string, ready func(context.Context) error) Option {
+	return func(s *settings) { s.backend, s.ready = name, ready }
+}
+
 // New returns an HTTP handler with independent limiters for each named rule.
 // The supplied limiters must be safe for concurrent calls.
-func New(rules map[string]limiter.Limiter, logger *slog.Logger) http.Handler {
+func New(rules map[string]limiter.Limiter, logger *slog.Logger, options ...Option) http.Handler {
 	if logger == nil {
 		logger = slog.Default()
+	}
+	cfg := settings{backend: "memory"}
+	for _, option := range options {
+		option(&cfg)
 	}
 	owned := make(map[string]limiter.Limiter, len(rules))
 	for name, l := range rules {
@@ -96,9 +113,14 @@ func New(rules map[string]limiter.Limiter, logger *slog.Logger) http.Handler {
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
-	// No external dependency exists in memory mode. Redis readiness comes in Phase 3.
-	mux.HandleFunc("GET /readyz", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, http.StatusOK, map[string]string{"status": "ready", "backend": "memory"})
+	mux.HandleFunc("GET /readyz", func(w http.ResponseWriter, r *http.Request) {
+		if cfg.ready != nil {
+			if err := cfg.ready(r.Context()); err != nil {
+				writeJSON(w, http.StatusServiceUnavailable, map[string]string{"status": "unavailable", "backend": cfg.backend})
+				return
+			}
+		}
+		writeJSON(w, http.StatusOK, map[string]string{"status": "ready", "backend": cfg.backend})
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
