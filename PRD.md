@@ -207,12 +207,12 @@ Each phase ends with something runnable. Do not start a phase until the previous
 **Objective:** Make the limiter usable over the network.
 
 **Tasks**
-- [ ] `POST /check`, `GET /healthz`
-- [ ] YAML rule loader with validation (clear errors on bad config)
-- [ ] Rule lookup by name; unknown rule returns `400`
-- [ ] Structured logging with `log/slog`
-- [ ] Graceful shutdown using `context` and `os/signal`
-- [ ] Handler tests with `httptest`
+- [x] `POST /check`, `GET /healthz`
+- [x] YAML rule loader with validation (clear errors on bad config)
+- [x] Rule lookup by name; unknown rule returns `400`
+- [x] Structured logging with `log/slog`
+- [x] Graceful shutdown using `context` and `os/signal`
+- [x] Handler tests with `httptest`
 
 **Deliverables:** runnable server using the in-memory backend.
 

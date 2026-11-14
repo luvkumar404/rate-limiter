@@ -44,21 +44,31 @@ type TokenBucket struct {
 
 var _ Limiter = (*TokenBucket)(nil)
 
-func NewTokenBucket(cfg TokenBucketConfig) (*TokenBucket, error) {
+// Validate checks a configuration without starting a cleanup worker.
+func (cfg TokenBucketConfig) Validate() error {
 	if cfg.Limit <= 0 || cfg.Burst < 0 || cfg.Window <= 0 || cfg.SweepInterval < 0 {
-		return nil, fmt.Errorf("limit and window must be positive; burst and sweep interval must be nonnegative")
+		return fmt.Errorf("limit and window must be positive; burst and sweep interval must be nonnegative")
 	}
 	// Floating point token counts must represent every integral capacity exactly.
 	const maxExact = 1 << 53
 	capacity64 := uint64(cfg.Limit) + uint64(cfg.Burst)
 	if capacity64 > maxExact || capacity64 > uint64(^uint(0)>>1) {
-		return nil, fmt.Errorf("limit + burst must not exceed %d", maxExact)
+		return fmt.Errorf("limit + burst exceeds supported capacity (maximum %d or platform int size)", maxExact)
 	}
 	capacity := cfg.Limit + cfg.Burst
 	ttl := math.Ceil(float64(cfg.Window) * (float64(capacity) / float64(cfg.Limit)))
 	if ttl >= float64(math.MaxInt64) {
-		return nil, fmt.Errorf("time to refill capacity exceeds supported duration")
+		return fmt.Errorf("time to refill capacity exceeds supported duration")
 	}
+	return nil
+}
+
+func NewTokenBucket(cfg TokenBucketConfig) (*TokenBucket, error) {
+	if err := cfg.Validate(); err != nil {
+		return nil, err
+	}
+	capacity := cfg.Limit + cfg.Burst
+	ttl := math.Ceil(float64(cfg.Window) * (float64(capacity) / float64(cfg.Limit)))
 	if cfg.Clock == nil {
 		cfg.Clock = time.Now
 	}
