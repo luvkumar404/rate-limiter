@@ -133,8 +133,12 @@ func (r *Redis) TokenBucket(rule string, cfg limiter.TokenBucketConfig) (*RedisT
 }
 
 func (b *RedisTokenBucket) redisKey(key string) string {
+	return b.store.redisKey(limiter.TokenBucketAlgorithm, b.rule, key)
+}
+
+func (r *Redis) redisKey(algorithm, rule, key string) string {
 	hash := sha256.Sum256([]byte(key))
-	return b.store.opts.Prefix + ":token_bucket:" + base64.RawURLEncoding.EncodeToString([]byte(b.rule)) + ":" + hex.EncodeToString(hash[:])
+	return r.opts.Prefix + ":" + algorithm + ":" + base64.RawURLEncoding.EncodeToString([]byte(rule)) + ":" + hex.EncodeToString(hash[:])
 }
 
 func (b *RedisTokenBucket) Allow(ctx context.Context, key string) (limiter.Result, error) {
@@ -149,11 +153,15 @@ func (b *RedisTokenBucket) Allow(ctx context.Context, key string) (limiter.Resul
 	if err != nil {
 		return limiter.Result{}, fmt.Errorf("redis token bucket: %w", err)
 	}
-	if len(values) != 3 || (values[0] != 0 && values[0] != 1) || values[1] < 0 || values[1] > int64(b.capacity) || values[2] < 0 || values[2] > math.MaxInt64/int64(time.Microsecond) {
-		return limiter.Result{}, errors.New("redis token bucket: invalid script response")
+	return parseResult(values, b.limit, b.capacity)
+}
+
+func parseResult(values []int64, limit, capacity int) (limiter.Result, error) {
+	if len(values) != 3 || (values[0] != 0 && values[0] != 1) || values[1] < 0 || values[1] > int64(capacity) || values[2] < 0 || values[2] > math.MaxInt64/int64(time.Microsecond) {
+		return limiter.Result{}, errors.New("redis limiter: invalid script response")
 	}
 	return limiter.Result{
-		Allowed: values[0] == 1, Limit: b.limit, Remaining: int(values[1]),
+		Allowed: values[0] == 1, Limit: limit, Remaining: int(values[1]),
 		RetryAfter: time.Duration(values[2]) * time.Microsecond,
 	}, nil
 }

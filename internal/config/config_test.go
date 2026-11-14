@@ -25,7 +25,9 @@ func TestInvalidConfig(t *testing.T) {
 		"empty": "", "no rules": "rules: {}", "bad yaml": "[",
 		"unknown root field":          valid + "typo: 1\n",
 		"unknown rule field":          valid + "    typo: 1\n",
-		"unknown algorithm":           strings.Replace(valid, "token_bucket", "sliding_window", 1),
+		"unknown algorithm":           strings.Replace(valid, "token_bucket", "unknown", 1),
+		"sliding burst":               strings.Replace(valid, "token_bucket", "sliding_window", 1) + "    burst: 1\n",
+		"fixed burst":                 strings.Replace(valid, "token_bucket", "fixed_window", 1) + "    burst: 1\n",
 		"zero limit":                  strings.Replace(valid, "limit: 10", "limit: 0", 1),
 		"negative limit":              strings.Replace(valid, "limit: 10", "limit: -1", 1),
 		"zero window":                 strings.Replace(valid, "window: 1m", "window: 0s", 1),
@@ -78,5 +80,19 @@ func TestRedisConfig(t *testing.T) {
 	}
 	if cfg.Backend != "redis" || cfg.Redis.Addr != "redis:6379" || cfg.Redis.DB != 2 || cfg.Redis.Prefix != "staging" || cfg.Redis.PoolSize != 16 || cfg.Redis.ReadTimeout != 75*time.Millisecond {
 		t.Fatalf("unexpected Redis config: %+v", cfg.Redis)
+	}
+}
+
+func TestAllAlgorithmsLoad(t *testing.T) {
+	for _, backend := range []string{"memory", "redis"} {
+		for _, algorithm := range []string{"token_bucket", "sliding_window", "fixed_window"} {
+			t.Run(backend+"/"+algorithm, func(t *testing.T) {
+				input := "backend: " + backend + "\nrules:\n  api:\n    algorithm: " + algorithm + "\n    limit: 5\n    window: 1m\n"
+				cfg, err := Decode(strings.NewReader(input))
+				if err != nil || cfg.Rules["api"].Algorithm != algorithm {
+					t.Fatalf("config: %+v %v", cfg, err)
+				}
+			})
+		}
 	}
 }

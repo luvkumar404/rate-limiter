@@ -246,11 +246,11 @@ Each phase ends with something runnable. Do not start a phase until the previous
 **Objective:** Support multiple algorithms chosen by config.
 
 **Tasks**
-- [ ] Sliding window (sorted set, or the sliding-window-counter approximation)
-- [ ] Fixed window baseline
-- [ ] Factory function that builds a `Limiter` from rule config
-- [ ] Shared test suite run against every implementation
-- [ ] Document accuracy vs memory tradeoffs of each algorithm
+- [x] Sliding window (sorted set, or the sliding-window-counter approximation)
+- [x] Fixed window baseline
+- [x] Factory function that builds a `Limiter` from rule config
+- [x] Shared test suite run against every implementation
+- [x] Document accuracy vs memory tradeoffs of each algorithm
 
 **Deliverables:** three algorithms behind one interface.
 

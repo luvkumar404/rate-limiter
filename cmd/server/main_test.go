@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"log/slog"
 	"net"
@@ -105,8 +106,14 @@ func (h addressHandler) Handle(ctx context.Context, r slog.Record) error {
 }
 
 func TestRunEndToEnd(t *testing.T) {
+	for _, algorithm := range []string{"token_bucket", "sliding_window", "fixed_window"} {
+		t.Run(algorithm, func(t *testing.T) { testRunAlgorithm(t, algorithm) })
+	}
+}
+
+func testRunAlgorithm(t *testing.T, algorithm string) {
 	path := filepath.Join(t.TempDir(), "rules.yaml")
-	if err := os.WriteFile(path, []byte("rules:\n  api:\n    algorithm: token_bucket\n    limit: 2\n    burst: 1\n    window: 1h\n"), 0600); err != nil {
+	if err := os.WriteFile(path, []byte(fmt.Sprintf("rules:\n  api:\n    algorithm: %s\n    limit: 2\n    window: 1h\n", algorithm)), 0600); err != nil {
 		t.Fatal(err)
 	}
 	addresses := make(chan string, 1)
@@ -125,7 +132,7 @@ func TestRunEndToEnd(t *testing.T) {
 	}
 	client := &http.Client{Timeout: 3 * time.Second}
 	defer client.CloseIdleConnections()
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 3; i++ {
 		resp, err := client.Post("http://"+address+"/check", "application/json", strings.NewReader(`{"key":"user:42","rule":"api"}`))
 		if err != nil {
 			t.Fatal(err)
@@ -133,7 +140,7 @@ func TestRunEndToEnd(t *testing.T) {
 		_, _ = io.Copy(io.Discard, resp.Body)
 		_ = resp.Body.Close()
 		want := 200
-		if i == 3 {
+		if i == 2 {
 			want = 429
 		}
 		if resp.StatusCode != want {

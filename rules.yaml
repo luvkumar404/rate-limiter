@@ -6,8 +6,13 @@ rules:
     burst: 20
     scope: user
   login:
-    algorithm: token_bucket
+    algorithm: sliding_window
     limit: 5
     window: 1m
     scope: ip
+  fixed-demo:
+    algorithm: fixed_window
+    limit: 10
+    window: 1m
+    scope: key
 failure_policy: fail_open

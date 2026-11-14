@@ -46,13 +46,21 @@ errors return 503. Bodies are limited to 4 KiB, keys to 512 bytes, and rule name
 to 128 bytes.
 
 Edit [rules.yaml](rules.yaml) and restart to change rules. Supported fields are
-`algorithm: token_bucket`, positive `limit` and `window` (Go durations such as
-`1m`), nonnegative `burst`, and optional `scope` (`key`, `user`, `route`, or `ip`).
+`algorithm` (`token_bucket`, `sliding_window`, or `fixed_window`), positive
+`limit` and `window` (Go durations such as `1m`), nonnegative `burst` for token
+buckets, and optional `scope` (`key`, `user`, `route`, or `ip`). Window algorithms
+reject nonzero `burst`. The samples use a token bucket for `api-default`, an
+exact sliding log for `login`, and a fixed window for `fixed-demo`.
 Each rule tracks keys separately. Scope describes the caller-supplied key: send
 a user identifier, route, or IP address as appropriate; `/check` does not extract
 these from headers. For combined limits, use a composite key such as
 `user:42:route:/orders`. Unknown fields, duplicate YAML keys, multiple documents,
 invalid values, and unsupported algorithms fail validation.
+
+See [algorithm tradeoffs](docs/algorithms.md) for rolling quota semantics,
+memory costs, and the boundary bursts permitted by fixed windows. Restart the
+server after config changes. If port 8080 is occupied, select another address,
+for example `-addr :8082`, and use that port for requests.
 
 `failure_policy` accepts `fail_open` (default) or `fail_closed`; policy enforcement
 and the circuit breaker are scheduled for Phase 5. Currently Redis must be
@@ -79,10 +87,11 @@ go run ./cmd/server -config rules.redis.yaml -addr :8080
 
 This development Redis listens on `127.0.0.1:16379` and has persistence disabled.
 Start another server on `:8081` with the same config to share the limit. Each
-check uses one Lua script for refill, decision, state update, and idle expiry;
+check uses one Lua script for decision, state update, and expiry;
 the script reads Redis `TIME`. All instances must use identical rule settings,
-database, and prefix. Redis windows must be whole microseconds. Idle keys expire
-after enough time to refill the full `limit + burst` capacity.
+database, and prefix. Redis windows must be whole microseconds. Token bucket
+keys expire after enough idle time to refill the full `limit + burst` capacity;
+window keys expire when their tracked events or interval no longer matter.
 
 Redis connection settings include address, database, pool size, timeouts,
 username/password, and key prefix. `REDIS_PASSWORD` overrides the config password.
@@ -95,8 +104,10 @@ On this Windows workspace, elevated builds hit Git's ownership check. Add
 `go test -buildvcs=false ./...`. This disables optional VCS metadata stamping.
 
 The module path `github.com/ratelimiter/ratelimiter` is a placeholder. Integration
-tests verify a shared limit across two HTTP server instances: 1,000 checks,
-120 allowed, 880 blocked, zero errors with limit 100 and burst 20. The three-node
+tests verify all algorithms across two HTTP server instances: per 1,000 checks,
+token buckets allow 120 with limit 100/burst 20, while sliding and fixed windows
+allow 100 with limit 100/burst 0. All remaining checks are blocked with zero
+backend errors. The three-node
 cluster, throughput targets, and latency percentiles remain unmeasured.
 
 See [benchmark notes](docs/benchmarks.md) for the measured local microbenchmark.

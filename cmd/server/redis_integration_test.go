@@ -16,6 +16,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ratelimiter/ratelimiter/internal/limiter"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -47,6 +48,19 @@ func startRedisInstance(t *testing.T, path string) string {
 }
 
 func TestRedisTwoHTTPInstancesShareLimit(t *testing.T) {
+	for _, tc := range []struct {
+		algorithm      string
+		burst, allowed int
+	}{
+		{limiter.TokenBucketAlgorithm, 20, 120},
+		{limiter.SlidingWindowAlgorithm, 0, 100},
+		{limiter.FixedWindowAlgorithm, 0, 100},
+	} {
+		t.Run(tc.algorithm, func(t *testing.T) { testRedisTwoInstances(t, tc.algorithm, tc.burst, tc.allowed) })
+	}
+}
+
+func testRedisTwoInstances(t *testing.T, algorithm string, burst, wantAllowed int) {
 	addr := os.Getenv("REDIS_TEST_ADDR")
 	if addr == "" {
 		addr = "localhost:6379"
@@ -63,7 +77,7 @@ func TestRedisTwoHTTPInstancesShareLimit(t *testing.T) {
 		}
 	})
 	path := filepath.Join(t.TempDir(), "rules.yaml")
-	data := fmt.Sprintf("backend: redis\nredis:\n  addr: %q\n  prefix: %q\n  operation_timeout: 5s\nrules:\n  api:\n    algorithm: token_bucket\n    limit: 100\n    burst: 20\n    window: 24h\n", addr, prefix)
+	data := fmt.Sprintf("backend: redis\nredis:\n  addr: %q\n  prefix: %q\n  operation_timeout: 5s\nrules:\n  api:\n    algorithm: %s\n    limit: 100\n    burst: %d\n    window: 24h\n", addr, prefix, algorithm, burst)
 	if err := os.WriteFile(path, []byte(data), 0600); err != nil {
 		t.Fatal(err)
 	}
@@ -112,8 +126,8 @@ func TestRedisTwoHTTPInstancesShareLimit(t *testing.T) {
 		}()
 	}
 	wg.Wait()
-	if allowed.Load() != 120 || blocked.Load() != 880 || failures.Load() != 0 {
+	if allowed.Load() != int64(wantAllowed) || blocked.Load() != int64(1000-wantAllowed) || failures.Load() != 0 {
 		t.Fatalf("across two HTTP instances: allowed=%d blocked=%d failures=%d", allowed.Load(), blocked.Load(), failures.Load())
 	}
-	t.Log("1,000 HTTP checks across two server instances: 120 allowed, 880 blocked, zero errors")
+	t.Logf("1,000 HTTP checks across two server instances: %d allowed, %d blocked, zero errors", wantAllowed, 1000-wantAllowed)
 }

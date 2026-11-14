@@ -62,21 +62,14 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 		ready = redisStore.Ping
 	}
 	for name, rule := range cfg.Rules {
-		bucketConfig := limiter.TokenBucketConfig{Limit: rule.Limit, Burst: rule.Burst, Window: rule.Window}
-		if redisStore != nil {
-			b, err := redisStore.TokenBucket(name, bucketConfig)
-			if err != nil {
-				return fmt.Errorf("rule %q: %w", name, err)
-			}
-			rules[name] = b
-		} else {
-			b, err := limiter.NewTokenBucket(bucketConfig)
-			if err != nil {
-				return fmt.Errorf("rule %q: %w", name, err)
-			}
-			buckets = append(buckets, b)
-			rules[name] = b
+		l, err := store.NewLimiter(name, rule.RuleConfig, redisStore)
+		if err != nil {
+			return fmt.Errorf("rule %q: %w", name, err)
 		}
+		if closer, ok := l.(io.Closer); ok {
+			buckets = append(buckets, closer)
+		}
+		rules[name] = l
 	}
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {

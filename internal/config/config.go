@@ -13,11 +13,8 @@ import (
 )
 
 type Rule struct {
-	Algorithm string        `yaml:"algorithm"`
-	Limit     int           `yaml:"limit"`
-	Window    time.Duration `yaml:"window"`
-	Burst     int           `yaml:"burst"`
-	Scope     string        `yaml:"scope"`
+	limiter.RuleConfig `yaml:",inline"`
+	Scope              string `yaml:"scope"`
 }
 
 type Config struct {
@@ -72,10 +69,7 @@ func Decode(r io.Reader) (Config, error) {
 		if strings.TrimSpace(name) == "" || strings.TrimSpace(name) != name || len(name) > 128 {
 			return Config{}, fmt.Errorf("rule names must be nonempty, at most 128 bytes, with no surrounding whitespace")
 		}
-		if rule.Algorithm != "token_bucket" {
-			return Config{}, fmt.Errorf("rule %q: algorithm must be token_bucket (other algorithms are not implemented yet)", name)
-		}
-		if err := (limiter.TokenBucketConfig{Limit: rule.Limit, Burst: rule.Burst, Window: rule.Window}).Validate(); err != nil {
+		if err := rule.RuleConfig.Validate(); err != nil {
 			return Config{}, fmt.Errorf("rule %q: %w", name, err)
 		}
 		if cfg.Backend == "redis" && rule.Window%time.Microsecond != 0 {

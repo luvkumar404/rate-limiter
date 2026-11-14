@@ -9,7 +9,7 @@ go run ./cmd/server -config rules.redis.yaml -addr :8080
 
 In another terminal, run a second instance with `-addr :8081`. Both instances
 must use the same rule parameters, database, and key prefix. State is shared by
-rule name and caller-supplied key. Separate deployments should use different
+algorithm, rule name, and caller-supplied key. Separate deployments should use different
 prefixes. Changing a prefix starts a new budget; rule changes require consistent
 configuration across instances. There is no dynamic configuration rollout yet.
 
@@ -41,6 +41,13 @@ computes the decision, and refreshes a millisecond TTL on every check, including
 denied checks. Capacity is `limit + burst`; refill is `limit / window`. TTL covers
 the time to refill full capacity, plus a millisecond to account for rounding.
 Redis windows must be multiples of one microsecond.
+
+Phase 4 adds [sliding_window.lua](../internal/store/scripts/sliding_window.lua)
+and [fixed_window.lua](../internal/store/scripts/fixed_window.lua). Sliding
+windows use an exact sorted-set log and a clock key; both expire after a window
+of inactivity. Fixed windows use a hash counter aligned to the Unix epoch and
+expire at the interval boundary. All three scripts use Redis TIME and the same
+EVALSHA/NOSCRIPT behavior. See [algorithm tradeoffs](algorithms.md).
 
 Redis guarantees atomic script execution, so other requests cannot interleave
 the read and update. See [Redis Lua scripting](https://redis.io/docs/latest/develop/programmability/eval-intro/).
@@ -74,9 +81,11 @@ The tests cover concurrent decisions across independent clients, Redis time,
 fractional refill, clock regression, capacity caps, key/rule isolation, TTL
 refresh and actual expiration, corrupt state, and script-cache misses. The HTTP
 integration test starts two independently configured servers with separate Redis
-connection pools in the test process. It sends 1,000 checks with limit 100,
-burst 20, and a 24-hour window: exactly 120 are allowed, 880 are blocked, and no
-requests fail. The long window prevents a complete token refill during the test.
+connection pools in the test process for each algorithm. Each run sends 1,000
+checks with limit 100 and a 24-hour window. Token buckets with burst 20 allow
+120 and block 880; sliding and fixed windows with burst 0 allow 100 and block
+900. No requests fail. The long window prevents a complete token refill during
+the test.
 This verifies correctness; it is not a throughput or latency benchmark.
 
 Windows does not have a C compiler configured here. Run race-enabled tests in a
@@ -96,5 +105,6 @@ disabled and should not hold data you need to keep.
 Verified on 2026-11-14 against Redis 7.4.9: Windows build, vet, and integration
 tests pass; the complete race-enabled integration suite also passes in the
 Linux Go container. Store statement coverage from the Windows integration run
-is 98.1%. The verification container is removed after testing. Restart it with
+is 93.7% after adding all three algorithms. Temporary verification containers
+are removed after testing. Start the development Redis with
 the Compose command above before running the service or integration suite.
