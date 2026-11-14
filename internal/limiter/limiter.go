@@ -12,6 +12,8 @@ type Result struct {
 	Limit      int
 	Remaining  int
 	RetryAfter time.Duration
+	// Degraded marks a fail-open decision made without authoritative store state.
+	Degraded bool
 }
 
 // Limiter enforces a configured rule for independently tracked keys.

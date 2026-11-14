@@ -264,11 +264,11 @@ Each phase ends with something runnable. Do not start a phase until the previous
 **Objective:** Behave predictably when Redis misbehaves.
 
 **Tasks**
-- [ ] `context.WithTimeout` on every Redis call (default 50 ms)
-- [ ] Fail-open / fail-closed policy from config
-- [ ] Simple circuit breaker (closed, open, half-open) to stop hammering a dead Redis
-- [ ] `/readyz` reflects Redis health
-- [ ] Chaos test: kill Redis mid-run and verify configured behavior
+- [x] `context.WithTimeout` on every Redis call (default 50 ms)
+- [x] Fail-open / fail-closed policy from config
+- [x] Simple circuit breaker (closed, open, half-open) to stop hammering a dead Redis
+- [x] `/readyz` reflects Redis health
+- [x] Chaos test: kill Redis mid-run and verify configured behavior
 
 **Deliverables:** failure-handling layer wrapping the Redis limiter.
 

@@ -28,10 +28,12 @@ selects Redis explicitly. Supported Redis config fields:
 | `read_timeout`, `write_timeout`, `pool_timeout` | operation timeout | I/O and connection pool wait limits |
 
 All configured timeouts must be positive (zero selects defaults). Existing
-caller deadlines can shorten the operation timeout. An unreachable Redis fails
-startup. After startup, backend errors return 503 and readiness returns 503;
-process health remains independent. Fail-open/fail-closed policy enforcement and
-the circuit breaker remain Phase 5 work. Clients must not automatically retry
+caller deadlines can shorten the operation timeout. Redis unavailability logs a
+startup warning and the service applies its failure policy. Fail-open returns
+degraded allowed decisions; fail-closed returns 503. Readiness returns 503 when
+Redis is unreachable and process health stays independent. The circuit breaker
+limits calls during outages and automatically probes for recovery. See
+[resilience configuration and chaos tests](resilience.md). Clients must not automatically retry
 an ambiguous failed check: a lost response may follow a committed decision.
 
 The embedded script lives in
@@ -75,7 +77,8 @@ On Linux/macOS use
 The integration suite defaults to `localhost:6379` when that variable is absent,
 and fails if Redis is unavailable. Use a dedicated development instance. Tests
 use unique prefixes, clean up their own keys, and never run `FLUSHDB`,
-`FLUSHALL`, or `SCRIPT FLUSH`.
+`FLUSHALL`, or `SCRIPT FLUSH`. The separate opt-in `chaos` suite uses a dedicated
+container and deliberately kills/restarts only that Redis instance.
 
 The tests cover concurrent decisions across independent clients, Redis time,
 fractional refill, clock regression, capacity caps, key/rule isolation, TTL

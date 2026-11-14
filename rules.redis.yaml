@@ -5,6 +5,9 @@ redis:
   pool_size: 32
   dial_timeout: 1s
   operation_timeout: 50ms
+circuit_breaker:
+  failure_threshold: 5
+  open_timeout: 5s
 rules:
   api-default:
     algorithm: token_bucket

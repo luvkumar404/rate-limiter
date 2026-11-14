@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/ratelimiter/ratelimiter/internal/resilience"
 	"github.com/ratelimiter/ratelimiter/internal/store"
 	"gopkg.in/yaml.v3"
 )
@@ -18,10 +19,11 @@ type Rule struct {
 }
 
 type Config struct {
-	Rules         map[string]Rule    `yaml:"rules"`
-	FailurePolicy string             `yaml:"failure_policy"`
-	Backend       string             `yaml:"backend"`
-	Redis         store.RedisOptions `yaml:"redis"`
+	Rules          map[string]Rule    `yaml:"rules"`
+	FailurePolicy  string             `yaml:"failure_policy"`
+	Backend        string             `yaml:"backend"`
+	Redis          store.RedisOptions `yaml:"redis"`
+	CircuitBreaker resilience.Options `yaml:"circuit_breaker"`
 }
 
 func Load(path string) (Config, error) {
@@ -62,6 +64,11 @@ func Decode(r io.Reader) (Config, error) {
 		return Config{}, err
 	}
 	cfg.Redis = redisOptions
+	breakerOptions, err := cfg.CircuitBreaker.WithDefaults()
+	if err != nil {
+		return Config{}, err
+	}
+	cfg.CircuitBreaker = breakerOptions
 	if len(cfg.Rules) == 0 {
 		return Config{}, fmt.Errorf("at least one rule is required")
 	}

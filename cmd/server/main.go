@@ -17,6 +17,7 @@ import (
 	"github.com/ratelimiter/ratelimiter/internal/api"
 	"github.com/ratelimiter/ratelimiter/internal/config"
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/ratelimiter/ratelimiter/internal/resilience"
 	"github.com/ratelimiter/ratelimiter/internal/store"
 )
 
@@ -46,6 +47,7 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 		}
 	}()
 	var redisStore *store.Redis
+	var breaker *resilience.Breaker
 	var ready func(context.Context) error
 	if cfg.Backend == "redis" {
 		if password, ok := os.LookupEnv("REDIS_PASSWORD"); ok {
@@ -56,8 +58,12 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 			return err
 		}
 		buckets = append(buckets, redisStore)
+		breaker, err = resilience.NewBreaker(cfg.CircuitBreaker, logger)
+		if err != nil {
+			return err
+		}
 		if err := redisStore.Ping(ctx); err != nil {
-			return fmt.Errorf("redis startup ping: %w", err)
+			logger.Warn("redis unavailable at startup; serving with failure policy", "policy", cfg.FailurePolicy, "error", err)
 		}
 		ready = redisStore.Ping
 	}
@@ -68,6 +74,12 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 		}
 		if closer, ok := l.(io.Closer); ok {
 			buckets = append(buckets, closer)
+		}
+		if breaker != nil {
+			l, err = resilience.NewGuard(l, breaker, cfg.FailurePolicy, rule.Limit, name, logger)
+			if err != nil {
+				return err
+			}
 		}
 		rules[name] = l
 	}

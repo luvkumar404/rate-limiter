@@ -24,6 +24,7 @@ type checkResponse struct {
 	Limit        int   `json:"limit"`
 	Remaining    int   `json:"remaining"`
 	RetryAfterMS int64 `json:"retry_after_ms"`
+	Degraded     bool  `json:"degraded,omitempty"`
 }
 
 type settings struct {
@@ -108,7 +109,7 @@ func New(rules map[string]limiter.Limiter, logger *slog.Logger, options ...Optio
 		if result.RetryAfter > 0 && result.RetryAfter%time.Millisecond != 0 {
 			retry++
 		}
-		writeJSON(w, status, checkResponse{result.Allowed, result.Limit, result.Remaining, retry})
+		writeJSON(w, status, checkResponse{Allowed: result.Allowed, Limit: result.Limit, Remaining: result.Remaining, RetryAfterMS: retry, Degraded: result.Degraded})
 	})
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})

@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/ratelimiter/ratelimiter/internal/resilience"
 )
 
 func testHandler(t *testing.T) http.Handler {
@@ -168,5 +169,43 @@ func TestReadinessReflectsBackendHealth(t *testing.T) {
 				t.Fatalf("available=%t path=%s: %d %s", available, path, w.Code, w.Body.String())
 			}
 		}
+	}
+}
+
+func TestFailurePolicyHTTPResponses(t *testing.T) {
+	logger := slog.New(slog.NewJSONHandler(io.Discard, nil))
+	for _, policy := range []string{resilience.FailOpen, resilience.FailClosed} {
+		t.Run(policy, func(t *testing.T) {
+			b, err := resilience.NewBreaker(resilience.Options{FailureThreshold: 1}, logger)
+			if err != nil {
+				t.Fatal(err)
+			}
+			g, err := resilience.NewGuard(stubLimiter(func(context.Context, string) (limiter.Result, error) {
+				return limiter.Result{}, errors.New("private Redis failure")
+			}), b, policy, 7, "api", logger)
+			if err != nil {
+				t.Fatal(err)
+			}
+			h := New(map[string]limiter.Limiter{"api": g}, logger)
+			// Exercise both the original backend failure and the open circuit.
+			for i := 0; i < 2; i++ {
+				w := httptest.NewRecorder()
+				h.ServeHTTP(w, httptest.NewRequest("POST", "/check", strings.NewReader(`{"key":"a","rule":"api"}`)))
+				if strings.Contains(w.Body.String(), "private") {
+					t.Fatal("backend details leaked")
+				}
+				if policy == resilience.FailOpen {
+					var got checkResponse
+					if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+						t.Fatal(err)
+					}
+					if w.Code != 200 || !got.Allowed || !got.Degraded || got.Limit != 7 || got.Remaining != 0 || got.RetryAfterMS != 0 {
+						t.Fatalf("fail-open response: %d %+v", w.Code, got)
+					}
+				} else if w.Code != 503 || !strings.Contains(w.Body.String(), `"error"`) {
+					t.Fatalf("fail-closed response: %d %s", w.Code, w.Body.String())
+				}
+			}
+		})
 	}
 }

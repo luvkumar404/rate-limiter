@@ -62,14 +62,19 @@ memory costs, and the boundary bursts permitted by fixed windows. Restart the
 server after config changes. If port 8080 is occupied, select another address,
 for example `-addr :8082`, and use that port for requests.
 
-`failure_policy` accepts `fail_open` (default) or `fail_closed`; policy enforcement
-and the circuit breaker are scheduled for Phase 5. Currently Redis must be
-reachable at startup, and backend errors after startup return 503 regardless of
-this setting. Standard rate limit headers
-and Prometheus metrics are scheduled for Phase 6.
+`failure_policy` accepts `fail_open` (default) or `fail_closed`. During a Redis
+outage, fail-open returns 200 with `allowed: true`, `degraded: true`, and
+`remaining: 0` (quota unknown); fail-closed returns 503. Normal quota rejection
+remains 429. The service also starts during an outage, while `/readyz` reports
+503 and `/healthz` stays 200. A shared circuit breaker opens after five
+consecutive Redis failures by default, waits five seconds, and permits one
+recovery probe. YAML `circuit_breaker.failure_threshold` and `open_timeout`
+configure it. See [failure handling and chaos tests](docs/resilience.md).
+Standard rate limit headers and Prometheus metrics are scheduled for Phase 6.
 
 Make targets: `build`, `test` (race detector), `test-integration` (requires Redis),
-`lint` (go vet), `run`, and `bench`.
+`test-chaos` (requires the dedicated chaos container), `lint` (go vet), `run`,
+and `bench`.
 The race detector requires CGO and a compatible C compiler on Windows.
 
 The token bucket implements lazy refill, configurable burst, per-key isolation,
