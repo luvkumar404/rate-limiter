@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/api"
-	core "github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/pkg/limiter"
-	"github.com/ratelimiter/ratelimiter/pkg/middleware"
+	"github.com/luvkumar404/rate-limiter/internal/api"
+	core "github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/pkg/limiter"
+	"github.com/luvkumar404/rate-limiter/pkg/middleware"
 )
 
 type listeningHandler struct {
@@ -42,7 +42,7 @@ func TestDemoModes(t *testing.T) {
 				if err != nil {
 					t.Fatal(err)
 				}
-				defer bucket.Close()
+				defer func() { _ = bucket.Close() }()
 				service := httptest.NewServer(api.New(map[string]core.Limiter{"api": bucket}, slog.New(slog.NewJSONHandler(io.Discard, nil))))
 				defer service.Close()
 				baseURL = service.URL

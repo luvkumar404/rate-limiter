@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/requestid"
+	"github.com/luvkumar404/rate-limiter/internal/requestid"
 )
 
 type RemoteOptions struct {
@@ -82,7 +82,7 @@ func (l *RemoteLimiter) Allow(ctx context.Context, key string) (Result, error) {
 	if err != nil {
 		return Result{}, fmt.Errorf("remote rate limiter: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 	data, err := io.ReadAll(io.LimitReader(resp.Body, 8193))
 	if err != nil {
 		return Result{}, fmt.Errorf("read rate limit response: %w", err)
@@ -117,4 +117,3 @@ func (l *RemoteLimiter) Allow(ctx context.Context, key string) (Result, error) {
 	}
 	return Result{Allowed: *raw.Allowed, Limit: *raw.Limit, Remaining: *raw.Remaining, RetryAfter: time.Duration(*raw.RetryAfterMS) * time.Millisecond, Degraded: raw.Degraded}, nil
 }
-

@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/requestid"
+	"github.com/luvkumar404/rate-limiter/internal/requestid"
 )
 
 type State string

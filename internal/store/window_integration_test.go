@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/internal/limitertest"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/limitertest"
 	"github.com/redis/go-redis/v9"
 )
 

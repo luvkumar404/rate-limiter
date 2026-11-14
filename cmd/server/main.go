@@ -14,25 +14,52 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/api"
-	"github.com/ratelimiter/ratelimiter/internal/config"
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/internal/metrics"
-	"github.com/ratelimiter/ratelimiter/internal/resilience"
-	"github.com/ratelimiter/ratelimiter/internal/store"
+	"github.com/luvkumar404/rate-limiter/internal/api"
+	"github.com/luvkumar404/rate-limiter/internal/config"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/metrics"
+	"github.com/luvkumar404/rate-limiter/internal/resilience"
+	"github.com/luvkumar404/rate-limiter/internal/store"
 )
 
 func main() {
 	addr := flag.String("addr", ":8080", "HTTP listen address")
 	rules := flag.String("config", "rules.yaml", "YAML rules file")
+	healthcheck := flag.String("healthcheck", "", "probe an HTTP health URL and exit (for shell-free containers)")
 	flag.Parse()
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	if *healthcheck != "" {
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		defer cancel()
+		if err := probe(ctx, *healthcheck); err != nil {
+			logger.Error("healthcheck failed", "error", err)
+			os.Exit(1)
+		}
+		return
+	}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	if err := run(ctx, *addr, *rules, logger); err != nil {
 		logger.Error("server failed", "error", err)
 		os.Exit(1)
 	}
+}
+
+func probe(ctx context.Context, target string) error {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, target, nil)
+	if err != nil {
+		return err
+	}
+	client := http.Client{CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = resp.Body.Close() }()
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("health endpoint returned HTTP %d", resp.StatusCode)
+	}
+	return nil
 }
 
 func run(ctx context.Context, addr, path string, logger *slog.Logger) error {

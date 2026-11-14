@@ -1,6 +1,6 @@
 package store
 
-import "github.com/ratelimiter/ratelimiter/internal/limiter"
+import "github.com/luvkumar404/rate-limiter/internal/limiter"
 
 // NewLimiter builds a named rule. A nil Redis selects process-local memory.
 // Memory results implement Close; Redis results share the caller-owned pool.

@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/internal/metrics"
-	"github.com/ratelimiter/ratelimiter/internal/requestid"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/metrics"
+	"github.com/luvkumar404/rate-limiter/internal/requestid"
 )
 
 type checkRequest struct {
@@ -72,7 +72,7 @@ func New(rules map[string]limiter.Limiter, logger *slog.Logger, options ...Optio
 			}
 		}
 		r.Body = http.MaxBytesReader(w, r.Body, 4096)
-		defer r.Body.Close()
+		defer func() { _ = r.Body.Close() }()
 		d := json.NewDecoder(r.Body)
 		d.DisallowUnknownFields()
 		var req checkRequest

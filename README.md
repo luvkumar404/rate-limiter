@@ -1,10 +1,27 @@
 # ratelimiter
 
+[![CI](https://github.com/luvkumar404/rate-limiter/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/luvkumar404/rate-limiter/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A Go rate limiting service and middleware library under development. See [PRD.md](PRD.md) for the
 requirements and [implementation progress](docs/progress.md) for current scope.
 
 Requires Go 1.22 or later. YAML parsing uses `gopkg.in/yaml.v3`; Redis mode uses
 `github.com/redis/go-redis/v9` and Redis 7.
+
+Start the full local cluster with Docker Compose:
+
+```powershell
+docker compose up -d --build --wait
+go run -buildvcs=false ./cmd/smoke
+```
+
+The API is at `http://localhost:8090`; Prometheus is at
+`http://localhost:9090`. Three Go instances share Redis behind Nginx, and
+Prometheus scrapes each instance directly. Redis is private to the Docker
+network. No host Go installation is needed to run the cluster; the optional
+smoke command requires Go. See [deployment and CI](docs/deployment.md) for
+port overrides, configuration, and cleanup.
 
 ```sh
 go build ./...
@@ -79,7 +96,8 @@ Redis errors, and circuit state. Valid `/check` decisions return
 
 Make targets: `build`, `test` (race detector), `test-integration` (requires Redis),
 `test-chaos` (requires the dedicated chaos container), `test-prometheus` (Docker
-Desktop live scrape), `lint` (go vet), `run`, and `bench`.
+Desktop live scrape), `lint` (golangci-lint), `vet`, `run`, `bench`, `up`, `down`,
+and `smoke`.
 The race detector requires CGO and a compatible C compiler on Windows.
 
 The token bucket implements lazy refill, configurable burst, per-key isolation,
@@ -113,12 +131,13 @@ On this Windows workspace, elevated builds hit Git's ownership check. Add
 `-buildvcs=false` to Go commands if you encounter that error, for example
 `go test -buildvcs=false ./...`. This disables optional VCS metadata stamping.
 
-The module path `github.com/ratelimiter/ratelimiter` is a placeholder. Integration
+The module path is `github.com/luvkumar404/rate-limiter`. Integration
 tests verify all algorithms across two HTTP server instances: per 1,000 checks,
 token buckets allow 120 with limit 100/burst 20, while sliding and fixed windows
 allow 100 with limit 100/burst 0. All remaining checks are blocked with zero
-backend errors. The three-node
-cluster, throughput targets, and latency percentiles remain unmeasured.
+backend errors. The Docker smoke check verifies three upstream instances,
+a shared five-request sliding quota, and three healthy Prometheus targets.
+Throughput targets and latency percentiles remain unmeasured until Phase 9.
 
 See [benchmark notes](docs/benchmarks.md) for the measured local microbenchmark.
 

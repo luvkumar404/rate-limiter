@@ -1,0 +1,13 @@
+.git
+.github
+.aws
+.codex
+.agents
+.env
+.env.*
+bin
+coverage.out
+*.test
+docs
+dashboard
+loadtest

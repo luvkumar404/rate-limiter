@@ -20,7 +20,7 @@ func TestGracefulShutdownDrainsRequests(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer listener.Close()
+	defer func() { _ = listener.Close() }()
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	entered, release := make(chan struct{}), make(chan struct{})
@@ -43,7 +43,7 @@ func TestGracefulShutdownDrainsRequests(t *testing.T) {
 	go func() {
 		resp, err := client.Get("http://" + listener.Addr().String())
 		if err == nil {
-			defer resp.Body.Close()
+			defer func() { _ = resp.Body.Close() }()
 			var body []byte
 			body, err = io.ReadAll(resp.Body)
 			if string(body) != "finished" {

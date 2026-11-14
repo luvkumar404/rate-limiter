@@ -13,10 +13,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/api"
-	core "github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/pkg/limiter"
-	"github.com/ratelimiter/ratelimiter/pkg/middleware"
+	"github.com/luvkumar404/rate-limiter/internal/api"
+	core "github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/pkg/limiter"
+	"github.com/luvkumar404/rate-limiter/pkg/middleware"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -31,7 +31,7 @@ func TestMiddlewareRedisBackends(t *testing.T) {
 				prefix := fmt.Sprintf("ratelimiter-middleware-test:%s:%d", t.Name(), time.Now().UnixNano())
 				cleanup := redis.NewClient(&redis.Options{Addr: addr, MaxRetries: -1})
 				t.Cleanup(func() {
-					defer cleanup.Close()
+					defer func() { _ = cleanup.Close() }()
 					ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 					defer cancel()
 					iter := cleanup.Scan(ctx, 0, prefix+":*", 100).Iterator()

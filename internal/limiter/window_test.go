@@ -17,7 +17,7 @@ func TestWindowBoundaries(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			defer w.Close()
+			defer func() { _ = w.Close() }()
 			check := func(allowed bool, remaining int, retry time.Duration) {
 				t.Helper()
 				r, err := w.Allow(context.Background(), "a")
@@ -54,7 +54,7 @@ func TestWindowLifecycleAndEviction(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			defer w.Close()
+			defer func() { _ = w.Close() }()
 			ctx, cancel := context.WithCancel(context.Background())
 			cancel()
 			if _, err := w.Allow(ctx, "a"); !errors.Is(err, context.Canceled) {
@@ -119,7 +119,7 @@ func TestWindowBackgroundEviction(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			defer w.Close()
+			defer func() { _ = w.Close() }()
 			_, _ = w.Allow(context.Background(), "idle")
 			nanos.Add(int64(2 * time.Second))
 			deadline := time.NewTimer(2 * time.Second)

@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/internal/resilience"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/resilience"
 )
 
 func testHandler(t *testing.T) http.Handler {

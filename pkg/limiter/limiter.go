@@ -3,8 +3,8 @@
 package limiter
 
 import (
-	core "github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/internal/store"
+	core "github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/store"
 )
 
 type Result = core.Result

@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
 )
 
 func TestRedisOptions(t *testing.T) {
@@ -30,7 +30,7 @@ func TestRedisBucketValidationAndKeys(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer r.Close()
+	defer func() { _ = r.Close() }()
 	if r.client.Options().MaxRetries != 0 || !r.client.Options().ContextTimeoutEnabled {
 		t.Fatal("mutating retries must be disabled and context deadlines enabled")
 	}
@@ -66,7 +66,7 @@ func TestRedisOperationTimeout(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer listener.Close()
+	defer func() { _ = listener.Close() }()
 	release := make(chan struct{})
 	defer close(release)
 	go func() {
@@ -74,14 +74,14 @@ func TestRedisOperationTimeout(t *testing.T) {
 		if err != nil {
 			return
 		}
-		defer conn.Close()
+		defer func() { _ = conn.Close() }()
 		<-release // Simulate an endpoint that accepts TCP but never responds.
 	}()
 	r, err := NewRedis(RedisOptions{Addr: listener.Addr().String(), OperationTimeout: 20 * time.Millisecond})
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer r.Close()
+	defer func() { _ = r.Close() }()
 	b, _ := r.TokenBucket("api", limiter.TokenBucketConfig{Limit: 1, Window: time.Second})
 	start := time.Now()
 	if _, err := b.Allow(context.Background(), "a"); err == nil {

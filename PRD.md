@@ -316,14 +316,17 @@ Each phase ends with something runnable. Do not start a phase until the previous
 **Objective:** One-command cluster and automated quality gates.
 
 **Tasks**
-- [ ] Multi-stage Dockerfile producing a small static image
-- [ ] `docker-compose.yml`: 3 service instances, Redis, Nginx load balancer, Prometheus
-- [ ] GitHub Actions: `golangci-lint`, `go test -race`, integration tests, Docker build
-- [ ] Status badges in README
+- [x] Multi-stage Dockerfile producing a small static image
+- [x] `docker-compose.yml`: 3 service instances, Redis, Nginx load balancer, Prometheus
+- [x] GitHub Actions: `golangci-lint`, `go test -race`, integration tests, Docker build
+- [x] Status badges in README
 
 **Deliverables:** `deploy/` directory and `.github/workflows/ci.yml`.
 
 **Done when:** `docker compose up` starts the full cluster and CI is green on push.
+
+Local build, lint, race/integration tests, six-container health, and cluster
+smoke checks pass. Hosted CI verification remains pending a push of the workflow.
 
 ---
 

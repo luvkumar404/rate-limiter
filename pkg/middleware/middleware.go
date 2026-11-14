@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/requestid"
-	"github.com/ratelimiter/ratelimiter/pkg/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/requestid"
+	"github.com/luvkumar404/rate-limiter/pkg/limiter"
 )
 
 type Result = limiter.Result

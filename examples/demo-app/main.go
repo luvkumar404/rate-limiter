@@ -14,8 +14,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/pkg/limiter"
-	"github.com/ratelimiter/ratelimiter/pkg/middleware"
+	"github.com/luvkumar404/rate-limiter/pkg/limiter"
+	"github.com/luvkumar404/rate-limiter/pkg/middleware"
 )
 
 func main() {
@@ -41,7 +41,7 @@ func run(ctx context.Context, addr, baseURL, rule, policy, header string, logger
 		if err != nil {
 			return err
 		}
-		defer bucket.Close()
+		defer func() { _ = bucket.Close() }()
 		l = bucket
 	} else {
 		remote, err := middleware.NewRemote(baseURL, rule, middleware.RemoteOptions{})

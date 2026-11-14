@@ -1,4 +1,4 @@
-.PHONY: build test test-integration test-chaos test-prometheus lint run bench
+.PHONY: build test test-integration test-chaos test-prometheus lint vet run bench up down smoke
 
 build:
 	go build -o bin/ratelimiter ./cmd/server
@@ -16,6 +16,9 @@ test-prometheus:
 	go test -tags 'integration,prometheus' -run TestPrometheusLiveScrape -v ./cmd/server
 
 lint:
+	golangci-lint run
+
+vet:
 	go vet ./...
 
 run:
@@ -23,3 +26,12 @@ run:
 
 bench:
 	go test -run '^$$' -bench . -benchmem ./internal/limiter
+
+up:
+	docker compose up -d --build --wait
+
+down:
+	docker compose down
+
+smoke:
+	go run ./cmd/smoke

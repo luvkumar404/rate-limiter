@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/internal/resilience"
-	"github.com/ratelimiter/ratelimiter/internal/store"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/resilience"
+	"github.com/luvkumar404/rate-limiter/internal/store"
 	"gopkg.in/yaml.v3"
 )
 
@@ -31,7 +31,7 @@ func Load(path string) (Config, error) {
 	if err != nil {
 		return Config{}, fmt.Errorf("open rules: %w", err)
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 	return Decode(f)
 }
 
@@ -76,7 +76,7 @@ func Decode(r io.Reader) (Config, error) {
 		if strings.TrimSpace(name) == "" || strings.TrimSpace(name) != name || len(name) > 128 {
 			return Config{}, fmt.Errorf("rule names must be nonempty, at most 128 bytes, with no surrounding whitespace")
 		}
-		if err := rule.RuleConfig.Validate(); err != nil {
+		if err := rule.Validate(); err != nil {
 			return Config{}, fmt.Errorf("rule %q: %w", name, err)
 		}
 		if cfg.Backend == "redis" && rule.Window%time.Microsecond != 0 {

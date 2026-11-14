@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/pkg/limiter"
-	"github.com/ratelimiter/ratelimiter/pkg/middleware"
+	"github.com/luvkumar404/rate-limiter/pkg/limiter"
+	"github.com/luvkumar404/rate-limiter/pkg/middleware"
 )
 
 type limiterFunc func(context.Context, string) (middleware.Result, error)
@@ -155,7 +155,7 @@ func TestMiddlewareTimeoutAndValidation(t *testing.T) {
 		t.Fatal("nil limiter accepted")
 	}
 	l, _ := limiter.NewTokenBucket(limiter.TokenBucketConfig{Limit: 1, Window: time.Second})
-	defer l.Close()
+	defer func() { _ = l.Close() }()
 	for _, opts := range []middleware.Options{{Timeout: -1}, {FailurePolicy: "unknown"}} {
 		if _, err := middleware.New(l, opts); err == nil {
 			t.Fatal("invalid options accepted")

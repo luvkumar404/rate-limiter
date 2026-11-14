@@ -1,0 +1,27 @@
+backend: redis
+redis:
+  addr: redis:6379
+  prefix: ratelimiter-cluster
+  pool_size: 32
+  operation_timeout: 50ms
+circuit_breaker:
+  failure_threshold: 5
+  open_timeout: 5s
+rules:
+  api-default:
+    algorithm: token_bucket
+    limit: 100
+    window: 1m
+    burst: 20
+    scope: user
+  login:
+    algorithm: sliding_window
+    limit: 5
+    window: 1m
+    scope: ip
+  fixed-demo:
+    algorithm: fixed_window
+    limit: 10
+    window: 1m
+    scope: key
+failure_policy: fail_open

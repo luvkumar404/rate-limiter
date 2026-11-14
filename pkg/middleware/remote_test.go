@@ -13,10 +13,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/api"
-	core "github.com/ratelimiter/ratelimiter/internal/limiter"
-	"github.com/ratelimiter/ratelimiter/pkg/limiter"
-	"github.com/ratelimiter/ratelimiter/pkg/middleware"
+	"github.com/luvkumar404/rate-limiter/internal/api"
+	core "github.com/luvkumar404/rate-limiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/pkg/limiter"
+	"github.com/luvkumar404/rate-limiter/pkg/middleware"
 )
 
 func TestEmbeddedAndRemoteSharedEnforcement(t *testing.T) {
@@ -26,7 +26,7 @@ func TestEmbeddedAndRemoteSharedEnforcement(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			defer bucket.Close()
+			defer func() { _ = bucket.Close() }()
 			var bases []middleware.Limiter
 			if mode == "embedded" {
 				bases = []middleware.Limiter{bucket, bucket}
@@ -166,7 +166,7 @@ func TestRemoteTimeoutRedirectsAndIDs(t *testing.T) {
 	var redirected atomic.Int64
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/check" {
-			http.Redirect(w, r, "/redirected", 307)
+			http.Redirect(w, r, "/redirected", http.StatusTemporaryRedirect)
 		} else {
 			redirected.Add(1)
 			w.WriteHeader(500)
@@ -228,7 +228,7 @@ func TestRemoteConstructorValidation(t *testing.T) {
 
 func ExampleNew() {
 	bucket, _ := limiter.NewTokenBucket(limiter.TokenBucketConfig{Limit: 5, Window: time.Minute})
-	defer bucket.Close()
+	defer func() { _ = bucket.Close() }()
 	protect, _ := middleware.New(bucket, middleware.Options{Key: middleware.ClientIP()})
 	handler := protect(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { _, _ = fmt.Fprint(w, "hello") }))
 	w := httptest.NewRecorder()

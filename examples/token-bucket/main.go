@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
 )
 
 func main() {

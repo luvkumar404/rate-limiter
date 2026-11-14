@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
 )
 
 func Run(t *testing.T, create func(*testing.T, limiter.RuleConfig) limiter.Limiter) {

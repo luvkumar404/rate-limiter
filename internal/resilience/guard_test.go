@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
 )
 
 type limiterFunc func(context.Context, string) (limiter.Result, error)
@@ -25,7 +25,7 @@ func TestGuardPoliciesAndSharedCircuit(t *testing.T) {
 			calls := 0
 			next := limiterFunc(func(context.Context, string) (limiter.Result, error) {
 				calls++
-				return limiter.Result{}, backendFailure
+				return limiter.Result{}, errBackendFailure
 			})
 			logger := slog.New(slog.NewJSONHandler(io.Discard, nil))
 			for _, rule := range []string{"first", "other"} {

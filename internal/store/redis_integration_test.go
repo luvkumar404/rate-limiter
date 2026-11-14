@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -56,7 +56,7 @@ func TestRedisConcurrentSharedLimit(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer b.Close()
+	defer func() { _ = b.Close() }()
 	cfg := limiter.TokenBucketConfig{Limit: 100, Burst: 20, Window: 24 * time.Hour}
 	buckets := []*RedisTokenBucket{mustBucket(t, a, "api", cfg), mustBucket(t, b, "api", cfg)}
 	var allowed, failures atomic.Int64

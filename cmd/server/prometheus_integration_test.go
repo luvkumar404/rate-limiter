@@ -1,4 +1,3 @@
-
 //go:build integration && prometheus
 
 package main
@@ -96,7 +95,7 @@ func TestPrometheusLiveScrape(t *testing.T) {
 		if err != nil {
 			return 0, false
 		}
-		defer resp.Body.Close()
+		defer func() { _ = resp.Body.Close() }()
 		var body struct {
 			Status string `json:"status"`
 			Data   struct {

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
 	"github.com/redis/go-redis/v9"
 )
 

@@ -16,8 +16,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/luvkumar404/rate-limiter/internal/limiter"
 	"github.com/prometheus/common/expfmt"
-	"github.com/ratelimiter/ratelimiter/internal/limiter"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -69,7 +69,7 @@ func testRedisTwoInstances(t *testing.T, algorithm string, burst, wantAllowed in
 	prefix := fmt.Sprintf("ratelimiter-http-test:%d", time.Now().UnixNano())
 	client := redis.NewClient(&redis.Options{Addr: addr, MaxRetries: -1})
 	t.Cleanup(func() {
-		defer client.Close()
+		defer func() { _ = client.Close() }()
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		iter := client.Scan(ctx, 0, prefix+":*", 100).Iterator()

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ratelimiter/ratelimiter/pkg/middleware"
+	"github.com/luvkumar404/rate-limiter/pkg/middleware"
 )
 
 func TestClientIPTrustBoundary(t *testing.T) {

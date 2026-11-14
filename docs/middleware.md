@@ -7,13 +7,14 @@ code imports these public packages; it does not import `internal` packages.
 
 ```go
 import (
-    "github.com/ratelimiter/ratelimiter/pkg/limiter"
-    "github.com/ratelimiter/ratelimiter/pkg/middleware"
+    "github.com/luvkumar404/rate-limiter/pkg/limiter"
+    "github.com/luvkumar404/rate-limiter/pkg/middleware"
 )
 ```
 
-The module path is still a placeholder pending a chosen GitHub repository.
-Local consumer modules can use a Go module `replace` pointing at this checkout.
+The module path matches the repository: `github.com/luvkumar404/rate-limiter`.
+Local consumer modules can use a Go module `replace` pointing at this checkout
+while changes have not yet been pushed.
 The runnable [demo](../examples/demo-app/README.md) works directly from the repo.
 
 The core integration is construct, configure, wrap:

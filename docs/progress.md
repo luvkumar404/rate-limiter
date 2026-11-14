@@ -4,7 +4,8 @@ Development follows the phase gates in PRD.md. Optional dashboard work is deferr
 
 - Phase 0: skeleton, core contract, Makefile, license, documentation, and local
   Git initialization complete. Build and vet pass with `-buildvcs=false`.
-  GitHub push is pending a repository destination; no remote is configured.
+  The repository now has origin `luvkumar404/rate-limiter`; Phase 8 aligns the
+  module path and public imports with it.
 - Phase 1: token bucket, injected clock, cleanup worker, tests, runnable example,
   and benchmark implemented. All token bucket tests continue to pass.
   Race-detector validation passes in a Linux Go container.
@@ -39,9 +40,30 @@ Development follows the phase gates in PRD.md. Optional dashboard work is deferr
   trusted-proxy CIDRs, request correlation, deadlines, and failure policies.
   The [demo](../examples/demo-app/README.md) runs in both modes and the
   [middleware guide](middleware.md) documents setup and ownership.
-- Phases 8–11: pending.
+- Phase 8: implemented and locally verified. A non-root static Go image and
+  root Compose stack run three instances, Redis, Nginx, and Prometheus. The
+  image is built once and shared. Readiness, direct per-instance scrapes,
+  no-retry proxying, and a deployment smoke command are included. GitHub Actions
+  defines build/vet/format, race/integration, golangci-lint, image-build, and
+  cluster-smoke checks. README badges link to the repository. The hosted-CI
+  "green on push" gate remains pending a push of these workflow changes.
+- Phases 9–11: pending.
 
 Verification on 2026-11-14:
+
+- Phase 8: Windows build, module verification, formatting, and vet pass.
+  Golangci-lint 2.13.1 reports zero issues, including opt-in test files. The
+  complete unit/Redis integration suite passes with `-race` and coverage in
+  Linux using Go 1.26. Required cleanup error handling and static-analysis
+  findings were corrected without disabling those lint checks.
+- The complete six-container stack becomes healthy. Plain Compose startup
+  automatically builds the single shared image; the final rebuilt deployment
+  passes the smoke command: three upstream instances, five allowed/seven blocked
+  checks for one sliding-window key, and three healthy Prometheus targets.
+  Docker reports the final image size as 5,859,565 bytes with user 65532:65532.
+  Runtime Go filesystems are read-only. No cluster throughput claim is made.
+- CI configuration and local equivalents are verified; no hosted Actions run
+  for the new workflow has been observed. See [deployment](deployment.md).
 
 - Windows build, vet (including integration-tagged code), and integration tests
   pass. Coverage: API 97.8%, config 100%, limiter 91.2%, store 93.7%, resilience
@@ -101,7 +123,8 @@ Shutdown tests exercise context cancellation and request draining; the Windows
 console Ctrl+C event has not been automated. See [Redis testing](redis.md) for
 reproduction commands.
 
-The next milestone is Docker deployment and CI (Phase 8). Scope is supplied by the caller
+The next implementation milestone is load testing and benchmarks (Phase 9),
+after the hosted Phase 8 CI gate. Scope is supplied by the caller
 through the request key. Changing algorithms starts a new budget; restart
 instances with consistent rule settings. Nonzero burst is rejected for window
 algorithms. During Redis errors or circuit cooldown, fail-open returns an allowed
@@ -111,6 +134,6 @@ does not prevent HTTP startup. Readiness pings do not alter circuit state.
 Three-instance cluster performance remains unmeasured and is scheduled for
 Phase 9.
 
-The module path is a placeholder until a GitHub repository is chosen. Publishing,
-releases, portfolio changes, and performance claims require actual deployment
-and measured results.
+The canonical module path is `github.com/luvkumar404/rate-limiter`. Hosted CI
+activation is pending the next push. Releases, portfolio changes, and
+performance claims remain future work requiring actual measurements.

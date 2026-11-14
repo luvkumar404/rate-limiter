@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var backendFailure = errors.New("backend unavailable")
+var errBackendFailure = errors.New("backend unavailable")
 
 func testBreaker(t *testing.T, threshold int, clock func() time.Time) *Breaker {
 	t.Helper()
@@ -26,7 +26,7 @@ func TestBreakerTransitions(t *testing.T) {
 	now := time.Unix(100, 0)
 	b := testBreaker(t, 2, func() time.Time { return now })
 	var calls int
-	failed := func(context.Context) error { calls++; return backendFailure }
+	failed := func(context.Context) error { calls++; return errBackendFailure }
 	healthy := func(context.Context) error { calls++; return nil }
 	_ = b.Do(context.Background(), failed)
 	if b.State() != Closed {
@@ -64,7 +64,7 @@ func TestBreakerSingleConcurrentProbe(t *testing.T) {
 	var nanos atomic.Int64
 	nanos.Store(time.Unix(100, 0).UnixNano())
 	b := testBreaker(t, 1, func() time.Time { return time.Unix(0, nanos.Load()) })
-	_ = b.Do(context.Background(), func(context.Context) error { return backendFailure })
+	_ = b.Do(context.Background(), func(context.Context) error { return errBackendFailure })
 	nanos.Add(int64(time.Second))
 	entered, release := make(chan struct{}), make(chan struct{})
 	var once sync.Once
@@ -101,7 +101,7 @@ func TestBreakerSingleConcurrentProbe(t *testing.T) {
 }
 
 func TestBreakerIgnoresStaleCompletions(t *testing.T) {
-	for _, lateErr := range []error{nil, backendFailure} {
+	for _, lateErr := range []error{nil, errBackendFailure} {
 		t.Run(fmtError(lateErr), func(t *testing.T) {
 			var nanos atomic.Int64
 			nanos.Store(time.Unix(100, 0).UnixNano())
@@ -112,7 +112,7 @@ func TestBreakerIgnoresStaleCompletions(t *testing.T) {
 				done <- b.Do(context.Background(), func(context.Context) error { close(entered); <-release; return lateErr })
 			}()
 			<-entered
-			_ = b.Do(context.Background(), func(context.Context) error { return backendFailure })
+			_ = b.Do(context.Background(), func(context.Context) error { return errBackendFailure })
 			nanos.Add(int64(time.Second))
 			_ = b.Do(context.Background(), func(context.Context) error { return nil })
 			close(release)
@@ -146,7 +146,7 @@ func TestBreakerCancellation(t *testing.T) {
 	if b.State() != Closed {
 		t.Fatal("cancellation counted as failure")
 	}
-	_ = b.Do(context.Background(), func(context.Context) error { return backendFailure })
+	_ = b.Do(context.Background(), func(context.Context) error { return errBackendFailure })
 	now = now.Add(time.Second)
 	ctx, cancel = context.WithCancel(context.Background())
 	err := b.Do(ctx, func(context.Context) error { cancel(); return context.Canceled })
@@ -185,7 +185,7 @@ func TestOldSuccessCannotFinishActiveProbe(t *testing.T) {
 		oldDone <- b.Do(context.Background(), func(context.Context) error { close(oldEntered); <-oldRelease; return nil })
 	}()
 	<-oldEntered
-	_ = b.Do(context.Background(), func(context.Context) error { return backendFailure })
+	_ = b.Do(context.Background(), func(context.Context) error { return errBackendFailure })
 	nanos.Add(int64(time.Second))
 	probeEntered, probeRelease := make(chan struct{}), make(chan struct{})
 	probeDone := make(chan error, 1)
@@ -193,7 +193,7 @@ func TestOldSuccessCannotFinishActiveProbe(t *testing.T) {
 	unblock := func() { once.Do(func() { close(probeRelease) }) }
 	defer unblock()
 	go func() {
-		probeDone <- b.Do(context.Background(), func(context.Context) error { close(probeEntered); <-probeRelease; return backendFailure })
+		probeDone <- b.Do(context.Background(), func(context.Context) error { close(probeEntered); <-probeRelease; return errBackendFailure })
 	}()
 	<-probeEntered
 	close(oldRelease)
