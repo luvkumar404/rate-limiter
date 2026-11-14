@@ -70,11 +70,16 @@ remains 429. The service also starts during an outage, while `/readyz` reports
 consecutive Redis failures by default, waits five seconds, and permits one
 recovery probe. YAML `circuit_breaker.failure_threshold` and `open_timeout`
 configure it. See [failure handling and chaos tests](docs/resilience.md).
-Standard rate limit headers and Prometheus metrics are scheduled for Phase 6.
+`GET /metrics` exposes per-instance Prometheus check counts, a latency histogram,
+Redis errors, and circuit state. Valid `/check` decisions return
+`X-RateLimit-Limit` and `X-RateLimit-Remaining`; quota denials also return
+`Retry-After` rounded up to whole seconds. Every HTTP response includes
+`X-Request-ID`, which also appears in request-related logs. See
+[observability setup, semantics, and queries](docs/observability.md).
 
 Make targets: `build`, `test` (race detector), `test-integration` (requires Redis),
-`test-chaos` (requires the dedicated chaos container), `lint` (go vet), `run`,
-and `bench`.
+`test-chaos` (requires the dedicated chaos container), `test-prometheus` (Docker
+Desktop live scrape), `lint` (go vet), `run`, and `bench`.
 The race detector requires CGO and a compatible C compiler on Windows.
 
 The token bucket implements lazy refill, configurable burst, per-key isolation,

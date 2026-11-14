@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/ratelimiter/ratelimiter/internal/requestid"
 )
 
 const (
@@ -56,7 +57,7 @@ func (g *Guard) Allow(ctx context.Context, key string) (limiter.Result, error) {
 		return limiter.Result{}, parentErr
 	}
 	if !errors.Is(err, ErrCircuitOpen) {
-		g.logger.WarnContext(ctx, "redis check failed; applying failure policy", "rule", g.rule, "policy", g.policy, "error", err)
+		g.logger.WarnContext(ctx, "redis check failed; applying failure policy", "request_id", requestid.FromContext(ctx), "rule", g.rule, "policy", g.policy, "error", err)
 	}
 	if g.policy == FailOpen {
 		return limiter.Result{Allowed: true, Limit: g.limit, Remaining: 0, Degraded: true}, nil

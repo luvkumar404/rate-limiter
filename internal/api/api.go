@@ -8,10 +8,13 @@ import (
 	"log/slog"
 	"mime"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/ratelimiter/ratelimiter/internal/metrics"
+	"github.com/ratelimiter/ratelimiter/internal/requestid"
 )
 
 type checkRequest struct {
@@ -30,9 +33,12 @@ type checkResponse struct {
 type settings struct {
 	backend string
 	ready   func(context.Context) error
+	metrics *metrics.Metrics
 }
 
 type Option func(*settings)
+
+func WithMetrics(m *metrics.Metrics) Option { return func(s *settings) { s.metrics = m } }
 
 // WithBackend makes readiness probe the active backend on every request.
 func WithBackend(name string, ready func(context.Context) error) Option {
@@ -48,6 +54,9 @@ func New(rules map[string]limiter.Limiter, logger *slog.Logger, options ...Optio
 	cfg := settings{backend: "memory"}
 	for _, option := range options {
 		option(&cfg)
+	}
+	if cfg.metrics == nil {
+		cfg.metrics = metrics.New(nil)
 	}
 	owned := make(map[string]limiter.Limiter, len(rules))
 	for name, l := range rules {
@@ -95,22 +104,27 @@ func New(rules map[string]limiter.Limiter, logger *slog.Logger, options ...Optio
 			writeError(w, http.StatusBadRequest, "unknown rule")
 			return
 		}
+		start := time.Now()
 		result, err := l.Allow(r.Context(), req.Key)
+		cfg.metrics.ObserveCheck(r.Context(), result, err, time.Since(start))
 		if err != nil {
-			logger.ErrorContext(r.Context(), "rate limit check failed", "rule", req.Rule, "error", err)
+			logger.ErrorContext(r.Context(), "rate limit check failed", "request_id", requestid.FromContext(r.Context()), "rule", req.Rule, "error", err)
 			writeError(w, http.StatusServiceUnavailable, "rate limiter unavailable")
 			return
 		}
 		status := http.StatusOK
 		if !result.Allowed {
 			status = http.StatusTooManyRequests
+			if result.RetryAfter > 0 {
+				w.Header().Set("Retry-After", strconv.FormatInt(roundUp(result.RetryAfter, time.Second), 10))
+			}
 		}
-		retry := result.RetryAfter.Milliseconds()
-		if result.RetryAfter > 0 && result.RetryAfter%time.Millisecond != 0 {
-			retry++
-		}
+		w.Header().Set("X-RateLimit-Limit", strconv.Itoa(result.Limit))
+		w.Header().Set("X-RateLimit-Remaining", strconv.Itoa(result.Remaining))
+		retry := roundUp(result.RetryAfter, time.Millisecond)
 		writeJSON(w, status, checkResponse{Allowed: result.Allowed, Limit: result.Limit, Remaining: result.Remaining, RetryAfterMS: retry, Degraded: result.Degraded})
 	})
+	mux.Handle("GET /metrics", cfg.metrics.Handler())
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
@@ -125,11 +139,25 @@ func New(rules map[string]limiter.Limiter, logger *slog.Logger, options ...Optio
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
+		id := r.Header.Get("X-Request-ID")
+		if len(r.Header.Values("X-Request-ID")) != 1 || !requestid.Valid(id) {
+			id = requestid.New()
+		}
+		r = r.WithContext(requestid.WithContext(r.Context(), id))
+		w.Header().Set("X-Request-ID", id)
 		rec := &statusWriter{ResponseWriter: w, status: http.StatusOK}
 		mux.ServeHTTP(rec, r)
-		logger.InfoContext(r.Context(), "http request", "method", r.Method, "path", r.URL.Path,
+		logger.InfoContext(r.Context(), "http request", "request_id", id, "method", r.Method, "path", r.URL.Path,
 			"status", rec.status, "duration", time.Since(start))
 	})
+}
+
+func roundUp(d, unit time.Duration) int64 {
+	n := int64(d / unit)
+	if d > 0 && d%unit != 0 {
+		n++
+	}
+	return n
 }
 
 func writeError(w http.ResponseWriter, status int, message string) {

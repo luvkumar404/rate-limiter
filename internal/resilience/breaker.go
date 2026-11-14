@@ -7,6 +7,8 @@ import (
 	"log/slog"
 	"sync"
 	"time"
+
+	"github.com/ratelimiter/ratelimiter/internal/requestid"
 )
 
 type State string
@@ -70,16 +72,16 @@ func (b *Breaker) State() State {
 	return b.state
 }
 
-func (b *Breaker) changeLocked(next State) {
+func (b *Breaker) changeLocked(ctx context.Context, next State) {
 	prior := b.state
 	b.state = next
 	b.generation++
 	if prior != next {
-		b.logger.Info("redis circuit state changed", "from", prior, "to", next)
+		b.logger.InfoContext(ctx, "redis circuit state changed", "request_id", requestid.FromContext(ctx), "from", prior, "to", next)
 	}
 }
 
-func (b *Breaker) begin() (uint64, error) {
+func (b *Breaker) begin(ctx context.Context) (uint64, error) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	switch b.state {
@@ -87,14 +89,14 @@ func (b *Breaker) begin() (uint64, error) {
 		if b.opts.Clock().Before(b.until) {
 			return 0, ErrCircuitOpen
 		}
-		b.changeLocked(HalfOpen)
+		b.changeLocked(ctx, HalfOpen)
 	case HalfOpen:
 		return 0, ErrCircuitOpen
 	}
 	return b.generation, nil
 }
 
-func (b *Breaker) finish(generation uint64, err error, canceled bool) {
+func (b *Breaker) finish(ctx context.Context, generation uint64, err error, canceled bool) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	// A late result from before an open/probe transition must not change the
@@ -105,21 +107,21 @@ func (b *Breaker) finish(generation uint64, err error, canceled bool) {
 	if canceled {
 		if b.state == HalfOpen {
 			b.until = b.opts.Clock() // Release the canceled probe without a cooldown.
-			b.changeLocked(Open)
+			b.changeLocked(ctx, Open)
 		}
 		return
 	}
 	if err == nil {
 		b.failures = 0
 		if b.state == HalfOpen {
-			b.changeLocked(Closed)
+			b.changeLocked(ctx, Closed)
 		}
 		return
 	}
 	b.failures++
 	if b.state == HalfOpen || b.failures >= b.opts.FailureThreshold {
 		b.until = b.opts.Clock().Add(b.opts.OpenTimeout)
-		b.changeLocked(Open)
+		b.changeLocked(ctx, Open)
 	}
 }
 
@@ -129,15 +131,15 @@ func (b *Breaker) Do(ctx context.Context, call func(context.Context) error) erro
 	if err := ctx.Err(); err != nil {
 		return err
 	}
-	generation, err := b.begin()
+	generation, err := b.begin(ctx)
 	if err != nil {
 		return err
 	}
 	err = call(ctx)
 	if parentErr := ctx.Err(); parentErr != nil {
-		b.finish(generation, parentErr, true)
+		b.finish(ctx, generation, parentErr, true)
 		return parentErr
 	}
-	b.finish(generation, err, false)
+	b.finish(ctx, generation, err, false)
 	return err
 }

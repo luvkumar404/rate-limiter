@@ -1,4 +1,4 @@
-.PHONY: build test test-integration test-chaos lint run bench
+.PHONY: build test test-integration test-chaos test-prometheus lint run bench
 
 build:
 	go build -o bin/ratelimiter ./cmd/server
@@ -11,6 +11,9 @@ test-integration:
 
 test-chaos:
 	go test -tags 'integration,chaos' -run TestRedisKillAndRecovery -v ./cmd/server
+
+test-prometheus:
+	go test -tags 'integration,prometheus' -run TestPrometheusLiveScrape -v ./cmd/server
 
 lint:
 	go vet ./...

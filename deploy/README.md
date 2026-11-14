@@ -13,5 +13,7 @@ the container discards limiter state. No preexisting Redis is modified.
 docker compose -p ratelimiter-phase3 -f deploy/compose.redis.yaml down
 ```
 
-The complete service cluster, load balancer, and Prometheus deployment will be
-added in Phase 8. See [Redis testing](../docs/redis.md).
+`prometheus.yaml` is a standalone Docker Desktop scraper example targeting the
+service on port 8082. See [observability](../docs/observability.md) for the launch
+command and queries. The complete service cluster, load balancer, and integrated
+Prometheus deployment will be added in Phase 8. See [Redis testing](../docs/redis.md).

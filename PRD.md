@@ -282,10 +282,10 @@ Each phase ends with something runnable. Do not start a phase until the previous
 **Objective:** Make behavior visible.
 
 **Tasks**
-- [ ] Prometheus metrics: `checks_total{result}`, `check_duration_seconds` histogram, `redis_errors_total`, `circuit_state`
-- [ ] `/metrics` endpoint
-- [ ] Add `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After` headers
-- [ ] Request ID in logs
+- [x] Prometheus metrics: `checks_total{result}`, `check_duration_seconds` histogram, `redis_errors_total`, `circuit_state`
+- [x] `/metrics` endpoint
+- [x] Add `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After` headers
+- [x] Request ID in logs
 
 **Deliverables:** metrics package and headers.
 

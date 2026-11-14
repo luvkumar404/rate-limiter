@@ -16,6 +16,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/prometheus/common/expfmt"
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
 	"github.com/redis/go-redis/v9"
 )
@@ -129,5 +130,49 @@ func testRedisTwoInstances(t *testing.T, algorithm string, burst, wantAllowed in
 	if allowed.Load() != int64(wantAllowed) || blocked.Load() != int64(1000-wantAllowed) || failures.Load() != 0 {
 		t.Fatalf("across two HTTP instances: allowed=%d blocked=%d failures=%d", allowed.Load(), blocked.Load(), failures.Load())
 	}
-	t.Logf("1,000 HTTP checks across two server instances: %d allowed, %d blocked, zero errors", wantAllowed, 1000-wantAllowed)
+	var measuredAllowed, measuredBlocked float64
+	for _, server := range servers {
+		resp, err := httpClient.Get(server + "/metrics")
+		if err != nil {
+			t.Fatal(err)
+		}
+		var parser expfmt.TextParser
+		families, err := parser.TextToMetricFamilies(resp.Body)
+		_ = resp.Body.Close()
+		if err != nil || resp.StatusCode != 200 {
+			t.Fatalf("metrics scrape: %d %v", resp.StatusCode, err)
+		}
+		if families["checks_total"] == nil || families["check_duration_seconds"] == nil || families["redis_errors_total"] == nil || families["circuit_state"] == nil {
+			t.Fatal("missing service metrics")
+		}
+		var completed float64
+		for _, metric := range families["checks_total"].Metric {
+			n := metric.GetCounter().GetValue()
+			completed += n
+			for _, label := range metric.Label {
+				if label.GetName() == "result" {
+					switch label.GetValue() {
+					case "allowed":
+						measuredAllowed += n
+					case "blocked":
+						measuredBlocked += n
+					default:
+						if n != 0 {
+							t.Fatalf("unexpected check outcome: %s=%v", label.GetValue(), n)
+						}
+					}
+				}
+			}
+		}
+		if completed != 500 || families["check_duration_seconds"].Metric[0].GetHistogram().GetSampleCount() != 500 {
+			t.Fatalf("per-instance histogram/counters differ from 500 HTTP checks: %v", completed)
+		}
+		if families["redis_errors_total"].Metric[0].GetCounter().GetValue() != 0 || families["circuit_state"].Metric[0].GetGauge().GetValue() != 0 {
+			t.Fatal("healthy Redis reports errors or open circuit")
+		}
+	}
+	if measuredAllowed != float64(wantAllowed) || measuredBlocked != float64(1000-wantAllowed) {
+		t.Fatalf("metrics differ from observed HTTP traffic: allowed=%v blocked=%v", measuredAllowed, measuredBlocked)
+	}
+	t.Logf("1,000 HTTP checks across two server instances: %d allowed, %d blocked, zero errors; live metrics match", wantAllowed, 1000-wantAllowed)
 }

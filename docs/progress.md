@@ -27,13 +27,20 @@ Development follows the phase gates in PRD.md. Optional dashboard work is deferr
   seconds after five consecutive failures. Startup during Redis outages works,
   readiness reflects connectivity, and incoming checks recover automatically.
   [Failure handling](resilience.md) documents behavior and chaos-test commands.
-- Phases 6–11: pending.
+- Phase 6: implemented. Per-instance Prometheus registries expose `/metrics`,
+  decision counts, check latency histograms, actual Redis errors, circuit state,
+  and runtime/process metrics. Check responses include quota headers and rounded
+  Retry-After values. Request IDs propagate through HTTP responses, limiter
+  context, access logs, fallback logs, and circuit-transition logs.
+  [Observability](observability.md) includes setup, semantics, and PromQL.
+- Phases 7–11: pending.
 
 Verification on 2026-11-14:
 
 - Windows build, vet (including integration-tagged code), and integration tests
-  pass. Coverage: API 98.6%, config 100%, limiter 91.2%, store 93.7%, resilience
-  98.8% after Phase 5. Vet also covers the opt-in chaos-test code.
+  pass. Coverage: API 97.8%, config 100%, limiter 91.2%, store 93.7%, resilience
+  98.8%, metrics 100%, request IDs 92.3% after Phase 6. Vet also covers the
+  opt-in chaos and real-Prometheus test code.
 - The full suite passes with `-race -tags integration` inside
   `golang:1.26-bookworm`, including all earlier phases. Windows native race
   testing still requires a C compiler; Linux container verification resolves
@@ -44,6 +51,16 @@ Verification on 2026-11-14:
   window algorithms with burst 0 allow 100 and block 900. All runs have zero
   backend errors. The shared suite also verifies 1,000 concurrent checks per
   algorithm/backend pair without over-admission.
+- Phase 6 verifies both servers' exposed metrics against observed HTTP results:
+  500 counter increments and histogram observations per instance, with aggregate
+  allowed/blocked counts matching the 1,000 requests for each algorithm.
+- A real Prometheus 3.2.1 scraper ingests a temporary live memory-mode service:
+  up=1, allowed=2, blocked=1, histogram count=3, Redis errors=0, circuit=closed.
+  The test queries the Prometheus API and removes its own scraper afterward.
+- Metric tests verify all outcomes, isolated registries, actual Redis failures
+  versus circuit short-circuits, cancellation exclusions, and live
+  closed/open/half-open gauges. Header and log tests cover Retry-After rounding,
+  quota/body consistency, ID validation, and correlation through failure logs.
 - Tests verify Redis TIME, refill, fractional state, expiry, clock regression,
   script-cache fallback, key/rule isolation, and bounded Redis I/O. Phase 4 adds
   exact sliding cutoffs, staggered events, fixed boundary resets, aligned
@@ -65,7 +82,7 @@ Shutdown tests exercise context cancellation and request draining; the Windows
 console Ctrl+C event has not been automated. See [Redis testing](redis.md) for
 reproduction commands.
 
-The next milestone is observability (Phase 6). Scope is supplied by the caller
+The next milestone is the public middleware package (Phase 7). Scope is supplied by the caller
 through the request key. Changing algorithms starts a new budget; restart
 instances with consistent rule settings. Nonzero burst is rejected for window
 algorithms. During Redis errors or circuit cooldown, fail-open returns an allowed

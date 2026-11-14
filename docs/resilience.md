@@ -49,7 +49,7 @@ closes the circuit and restores normal enforcement; failure opens it for
 another full cooldown. A canceled probe releases its slot so a later caller
 can retry immediately. Recovery is driven by incoming checks and needs no
 background worker or service restart. Circuit transitions and actual backend
-failures are logged; metrics are scheduled for Phase 6.
+failures are logged and exposed through the Phase 6 metrics.
 
 Every Redis check and readiness ping has an overall context deadline, default
 50 ms, covering pool waits, connection initialization, and script-cache
@@ -105,3 +105,9 @@ real Redis kill/recovery test pass. The complete unit and ordinary integration
 suite also passes with `-race` in `golang:1.26-bookworm`. Resilience statement
 coverage is 98.8%. The Docker-controlling chaos test runs separately on Windows;
 the Linux race container does not receive access to the Docker socket.
+
+Phase 6 exposes `circuit_state`, Redis errors, and check outcomes through
+`/metrics`. Degraded decisions have their own outcome counter, and circuit
+short-circuits do not count as new Redis errors. Request IDs correlate HTTP
+access logs with backend failures and circuit transitions. See
+[observability](observability.md) for exact metric and header semantics.

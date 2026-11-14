@@ -17,6 +17,7 @@ import (
 	"github.com/ratelimiter/ratelimiter/internal/api"
 	"github.com/ratelimiter/ratelimiter/internal/config"
 	"github.com/ratelimiter/ratelimiter/internal/limiter"
+	"github.com/ratelimiter/ratelimiter/internal/metrics"
 	"github.com/ratelimiter/ratelimiter/internal/resilience"
 	"github.com/ratelimiter/ratelimiter/internal/store"
 )
@@ -50,6 +51,18 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 	var breaker *resilience.Breaker
 	var ready func(context.Context) error
 	if cfg.Backend == "redis" {
+		breaker, err = resilience.NewBreaker(cfg.CircuitBreaker, logger)
+		if err != nil {
+			return err
+		}
+	}
+	observation := metrics.New(func() resilience.State {
+		if breaker == nil {
+			return resilience.Closed
+		}
+		return breaker.State()
+	})
+	if cfg.Backend == "redis" {
 		if password, ok := os.LookupEnv("REDIS_PASSWORD"); ok {
 			cfg.Redis.Password = password
 		}
@@ -58,14 +71,10 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 			return err
 		}
 		buckets = append(buckets, redisStore)
-		breaker, err = resilience.NewBreaker(cfg.CircuitBreaker, logger)
-		if err != nil {
-			return err
-		}
-		if err := redisStore.Ping(ctx); err != nil {
+		if err := observation.RedisOperation(ctx, redisStore.Ping); err != nil {
 			logger.Warn("redis unavailable at startup; serving with failure policy", "policy", cfg.FailurePolicy, "error", err)
 		}
-		ready = redisStore.Ping
+		ready = func(ctx context.Context) error { return observation.RedisOperation(ctx, redisStore.Ping) }
 	}
 	for name, rule := range cfg.Rules {
 		l, err := store.NewLimiter(name, rule.RuleConfig, redisStore)
@@ -76,6 +85,7 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 			buckets = append(buckets, closer)
 		}
 		if breaker != nil {
+			l = observation.WrapRedis(l)
 			l, err = resilience.NewGuard(l, breaker, cfg.FailurePolicy, rule.Limit, name, logger)
 			if err != nil {
 				return err
@@ -88,7 +98,7 @@ func run(ctx context.Context, addr, path string, logger *slog.Logger) error {
 		return fmt.Errorf("listen: %w", err)
 	}
 	logger.Info("server listening", "address", listener.Addr().String(), "backend", cfg.Backend, "rules", len(rules))
-	return serve(ctx, listener, api.New(rules, logger, api.WithBackend(cfg.Backend, ready)), logger)
+	return serve(ctx, listener, api.New(rules, logger, api.WithBackend(cfg.Backend, ready), api.WithMetrics(observation)), logger)
 }
 
 func serve(ctx context.Context, listener net.Listener, handler http.Handler, logger *slog.Logger) error {
