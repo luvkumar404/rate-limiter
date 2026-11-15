@@ -88,13 +88,75 @@ The earlier Redis-only development stack uses a separate file and project.
   opt-in test files, but Docker-controlling chaos and standalone Prometheus
   tests are not part of the race command.
 - The containers job builds the image, starts the healthy cluster, runs the
-  smoke tool, prints diagnostics on failure, and removes its cluster and test
-  metrics volume. This tests real Prometheus scraping as part of deployment.
+  smoke tool, switches to benchmark rules, and runs the k6 100/minute shared-quota
+  correctness check. It preserves the k6 JSON artifact, prints diagnostics on
+  failure, and removes its cluster and test metrics volume. This tests real
+  Prometheus scraping as part of deployment.
 
 The workflow uses Go 1.26 and read-only repository permissions. It does not push
-images or deploy externally. The README badge links to the real workflow; its
-hosted result becomes available after these changes are pushed. Local checks
-do not establish a green hosted run.
+images or deploy externally. Both jobs pin `ubuntu-26.04`, the OS already used
+by the inspected hosted run. Checkout v6, setup-go v6 and golangci-lint-action v9
+already use Node.js 24. Upload-artifact is pinned to the verified v7.0.2 commit,
+which also uses Node.js 24 and preserves the existing archived artifact inputs.
+The README badge links to the real workflow; local checks do not establish a
+green hosted run for new changes.
+
+The complete logs of [run 43683313187](https://github.com/luvkumar404/rate-limiter/actions/runs/43683313187)
+show that quality, image build, startup and smoke all passed. The k6 step failed
+in `setup()` with `Expected 3 upstreams, saw 172.18.0.4:8080,172.18.0.3:8080`,
+then exited 107 without running quota iterations. The benchmark override
+recreated all three apps while Nginx stayed running. At 05:59:17 UTC its health
+probe timed out connecting to `172.18.0.5:8080`, and Nginx temporarily disabled
+that peer. k6's 30 discovery requests arrived at 05:59:25 UTC, during the
+[default ten-second upstream failure timeout](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server).
+Two healthy peers kept the proxy's overall health check green. This was a
+configuration-rollout race, not an image-build, artifact-permission or quota
+assertion failure.
+
+CI now stops Nginx **before** replacing app containers. The following Compose
+`up --wait` starts it again after all three backends are healthy, with fresh
+upstream state. No sleeps, quota checks, application behavior or proxy retry
+settings were changed. The artifact-action upgrade also removes the old
+Node 20 runtime declaration that caused the forced-Node-24 deprecation notice.
+
+To reproduce the corrected container sequence locally from PowerShell, use a
+separate project and free ports:
+
+```powershell
+$env:COMPOSE_PROJECT_NAME = 'ratelimiter-ci-check'
+$env:RATELIMITER_HTTP_PORT = '28090'
+$env:RATELIMITER_PROMETHEUS_PORT = '29090'
+New-Item -ItemType Directory -Force loadtest/results | Out-Null
+docker compose config --quiet
+docker compose up -d --build --wait --wait-timeout 120
+go run -buildvcs=false ./cmd/smoke -url http://localhost:28090 -prometheus http://localhost:29090
+docker compose stop nginx
+docker compose -f docker-compose.yml -f loadtest/compose.yaml up -d --no-build --wait --wait-timeout 120
+docker compose -f docker-compose.yml -f loadtest/compose.yaml run --rm --no-deps -e MODE=correctness -e OUTPUT=/results/correctness-ci-local.json k6 run /scripts/check.js
+docker compose -f docker-compose.yml -f loadtest/compose.yaml down --volumes
+Remove-Item Env:COMPOSE_PROJECT_NAME, Env:RATELIMITER_HTTP_PORT, Env:RATELIMITER_PROMETHEUS_PORT
+```
+
+On Linux, create `loadtest/results` and grant the k6 container write access as
+the workflow does (`chmod 777 loadtest/results`). The expected result is 100
+allowed, 900 blocked, zero invalid decisions and nonzero counts on all three
+upstreams. A local run of the corrected rollout produced upstream counts
+333/333/334 and zero dropped iterations; the image build and stock smoke also
+passed. Validate workflow syntax with:
+
+```sh
+go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12 .github/workflows/ci.yml
+```
+
+`.github/actionlint.yaml` adds the official `ubuntu-26.04` label to actionlint's
+allowlist because v1.7.12 predates that hosted image. Its configuration key is
+named `self-hosted-runner`, but this only extends static label validation; the
+jobs still run on GitHub-hosted Ubuntu. Other workflow checks remain enabled.
+
+Push the corrected workflow on your branch or open a pull request to execute
+the new revision. Re-running the old failed run uses its old workflow revision.
+Verify both jobs are green, the k6 artifact contains the counts above, and the
+upload step no longer reports Node 20, `punycode` or `url.parse()` deprecations.
 
 Local Make targets include `lint` (golangci-lint installed), `vet`, `test`,
 `test-integration`, `up`, `down`, and `smoke`. The pinned linter also runs in
@@ -114,4 +176,6 @@ Local verification on 2026-11-14 passed build, vet, module verification,
 formatting, golangci-lint (zero issues), and race-enabled Redis integration
 tests. All six containers were healthy, and the final rebuilt cluster passed
 the smoke command. Docker reported an image size of 5,859,565 bytes and runtime
-user 65532:65532. Hosted CI verification remains pending workflow publication.
+user 65532:65532. The later hosted Phase 8 run succeeded; the inspected Phase 9
+run passed quality and smoke but failed k6 setup as described above. Hosted
+verification of the corrected workflow still requires a new push or PR run.
