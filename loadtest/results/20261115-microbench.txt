@@ -1,0 +1,27 @@
+goos: windows
+goarch: amd64
+pkg: github.com/luvkumar404/rate-limiter/internal/limiter
+cpu: Intel(R) Core(TM) i5-8350U CPU @ 1.70GHz
+BenchmarkAlgorithms/token_bucket/allowed-8         	 1000000	       222.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/token_bucket/allowed-8         	 1372034	       167.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/token_bucket/allowed-8         	 1000000	       238.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/token_bucket/denied-8          	 1000000	       207.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/token_bucket/denied-8          	 1239694	       250.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/token_bucket/denied-8          	 1000000	       259.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/sliding_window/allowed-8       	  453986	       998.6 ns/op	     143 B/op	       0 allocs/op
+BenchmarkAlgorithms/sliding_window/allowed-8       	  540649	       559.8 ns/op	     120 B/op	       0 allocs/op
+BenchmarkAlgorithms/sliding_window/allowed-8       	  597177	       520.1 ns/op	     136 B/op	       0 allocs/op
+BenchmarkAlgorithms/sliding_window/denied-8        	  891134	       275.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/sliding_window/denied-8        	  910711	       256.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/sliding_window/denied-8        	  734101	       308.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/fixed_window/allowed-8         	  809524	       303.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/fixed_window/allowed-8         	  871174	       305.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/fixed_window/allowed-8         	  797156	       298.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/fixed_window/denied-8          	  773071	       353.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/fixed_window/denied-8          	  696034	       374.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAlgorithms/fixed_window/denied-8          	  738007	       342.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTokenBucket-8                             	 1472223	       186.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTokenBucket-8                             	 1000000	       211.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTokenBucket-8                             	 1000000	       201.8 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/luvkumar404/rate-limiter/internal/limiter	8.644s

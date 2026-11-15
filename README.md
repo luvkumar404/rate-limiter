@@ -137,9 +137,25 @@ token buckets allow 120 with limit 100/burst 20, while sliding and fixed windows
 allow 100 with limit 100/burst 0. All remaining checks are blocked with zero
 backend errors. The Docker smoke check verifies three upstream instances,
 a shared five-request sliding quota, and three healthy Prometheus targets.
-Throughput targets and latency percentiles remain unmeasured until Phase 9.
+Phase 9 measurements sustain an offered 100 checks/s for 20 seconds without
+invalid decisions or dropped iterations on the local Docker cluster:
 
-See [benchmark notes](docs/benchmarks.md) for the measured local microbenchmark.
+| Algorithm | Offered checks/s | p50 ms | p95 ms | p99 ms |
+|---|---:|---:|---:|---:|
+| Token bucket | 100 | 1.98 | 5.98 | 8.64 |
+| Sliding window | 100 | 1.90 | 5.69 | 10.35 |
+| Fixed window | 100 | 2.20 | 6.05 | 11.38 |
+
+These are short, single-run local measurements. The 1k/5k/10k offered-rate tests
+hit Redis timeouts and dropped load; **10k checks/s with p99 under 10 ms is not
+demonstrated**. A separate load-balancer correctness test admits exactly 100 of
+1,000 shared-key sliding-window checks across all three instances. See
+[raw results, methodology and limitations](docs/benchmarks.md), and run
+`./loadtest/run.ps1` to reproduce the suite.
+
+The benchmark report also includes allowed/denied microbenchmarks for all three
+in-memory algorithms. Run `make loadtest` with PowerShell 7 and Docker for the
+cluster suite, or follow the [load-test instructions](loadtest/README.md).
 
 Use `pkg/middleware` to protect another Go app with an embedded limiter or the
 remote service. Public constructors and contracts are in `pkg/limiter`; no

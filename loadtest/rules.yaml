@@ -1,0 +1,20 @@
+backend: redis
+redis:
+  addr: redis:6379
+  prefix: ratelimiter-benchmark
+  pool_size: 32
+  operation_timeout: 50ms
+failure_policy: fail_closed
+rules:
+  token_bucket:
+    algorithm: token_bucket
+    limit: 100
+    window: 1m
+  sliding_window:
+    algorithm: sliding_window
+    limit: 100
+    window: 1m
+  fixed_window:
+    algorithm: fixed_window
+    limit: 100
+    window: 1m

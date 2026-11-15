@@ -1,0 +1,14 @@
+CONTAINER ID   NAME                             CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O     PIDS
+736485ab32e2   ratelimiter-bench-nginx-1        6.58%     11.29MiB / 7.677GiB   0.14%     192MB / 223MB     0B / 0B       15
+5a5f4b39c395   ratelimiter-bench-prometheus-1   0.27%     23.75MiB / 7.677GiB   0.30%     1.31MB / 257kB    0B / 385kB    13
+7fd6bd1d9402   ratelimiter-bench-limiter-3-1    16.32%    17.6MiB / 7.677GiB    0.22%     34.9MB / 44.3MB   0B / 0B       20
+4f40fad7ea38   ratelimiter-bench-limiter-2-1    0.16%     17.61MiB / 7.677GiB   0.22%     34.8MB / 44.9MB   0B / 0B       18
+97e221143b4a   ratelimiter-bench-limiter-1-1    11.57%    17.68MiB / 7.677GiB   0.22%     34MB / 40.3MB     0B / 0B       18
+0b338855a99b   ratelimiter-bench-redis-1        13.36%    6.547MiB / 7.677GiB   0.08%     31MB / 7.66MB     0B / 0B       6
+a8c51667e9ee   rate-limit-nginx-1               0.03%     7.621MiB / 7.677GiB   0.10%     662kB / 595kB     0B / 0B       9
+59ff1b7cdce3   rate-limit-prometheus-1          1.59%     26.63MiB / 7.677GiB   0.34%     33.3MB / 6.77MB   0B / 11.7MB   13
+4a91e2abdd11   rate-limit-limiter-2-1           0.00%     11.43MiB / 7.677GiB   0.15%     2.58MB / 11.5MB   0B / 0B       14
+6a0ff80589d7   rate-limit-limiter-3-1           0.38%     10.66MiB / 7.677GiB   0.14%     2.58MB / 11.5MB   0B / 0B       13
+caeccbc2795b   rate-limit-limiter-1-1           7.04%     13.78MiB / 7.677GiB   0.18%     2.58MB / 11.5MB   0B / 0B       13
+3970d61d2d5d   rate-limit-redis-1               9.74%     4.199MiB / 7.677GiB   0.05%     722kB / 362kB     168kB / 0B    6
+09267adb5c4f   ratelimiter-phase3-redis-1       25.03%    6.391MiB / 7.677GiB   0.08%     31.1kB / 29kB     2.78MB / 0B   6

@@ -1,4 +1,4 @@
-.PHONY: build test test-integration test-chaos test-prometheus lint vet run bench up down smoke
+.PHONY: build test test-integration test-chaos test-prometheus lint vet run bench loadtest up down smoke
 
 build:
 	go build -o bin/ratelimiter ./cmd/server
@@ -26,6 +26,9 @@ run:
 
 bench:
 	go test -run '^$$' -bench . -benchmem ./internal/limiter
+
+loadtest:
+	pwsh -File loadtest/run.ps1
 
 up:
 	docker compose up -d --build --wait

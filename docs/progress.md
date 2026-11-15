@@ -47,7 +47,29 @@ Development follows the phase gates in PRD.md. Optional dashboard work is deferr
   defines build/vet/format, race/integration, golangci-lint, image-build, and
   cluster-smoke checks. README badges link to the repository. The hosted-CI
   "green on push" gate remains pending a push of these workflow changes.
-- Phases 9–11: pending.
+- Phase 9: load scripts, shared-quota correctness, per-algorithm throughput and
+  latency measurements, and raw artifacts are implemented. The 1,000-request
+  three-instance correctness check passes (100 allowed, 900 blocked, no invalid
+  decisions). The 1k/5k/10k offered-rate sweeps miss the performance targets;
+  failures and dropped iterations are preserved rather than counted as capacity.
+  See [measurements and limitations](benchmarks.md). The k6 correctness check is
+  included in CI; hosted verification remains pending. The caller authorized
+  starting this phase while the hosted Phase 8 gate was still pending.
+  At 100 offered checks/s, all three algorithms have zero invalid decisions and
+  drops; p99 is 8.64/10.35/11.38 ms for token/sliding/fixed respectively.
+  Allowed/denied Go microbenchmarks run for all three algorithms with raw output.
+- Phases 10–11: pending; dashboard remains optional.
+
+Verification on 2026-11-15:
+
+- Unit tests and vet pass with `-buildvcs=false`; golangci-lint 2.13.1 reports
+  zero issues, including the integration/chaos/Prometheus build tags.
+- Both final k6 correctness runs pass. Nine higher-rate and three baseline
+  performance cases preserve all results, including failed latency, error and
+  dropped-iteration thresholds. Benchmark containers and their volume are removed.
+- All three algorithms' allowed/denied microbenchmarks pass for three samples
+  each. Raw output and summary tables are linked from the benchmark report.
+- Hosted CI has not been run or pushed from this session.
 
 Verification on 2026-11-14:
 
@@ -123,17 +145,19 @@ Shutdown tests exercise context cancellation and request draining; the Windows
 console Ctrl+C event has not been automated. See [Redis testing](redis.md) for
 reproduction commands.
 
-The next implementation milestone is load testing and benchmarks (Phase 9),
-after the hosted Phase 8 CI gate. Scope is supplied by the caller
+The next planned milestone is optional dashboard work (Phase 10), followed by
+polish and shipping (Phase 11). Hosted CI and the performance targets remain
+outstanding. Scope is supplied by the caller
 through the request key. Changing algorithms starts a new budget; restart
 instances with consistent rule settings. Nonzero burst is rejected for window
 algorithms. During Redis errors or circuit cooldown, fail-open returns an allowed
 decision marked degraded with unknown remaining quota represented by zero;
 fail-closed returns 503. Ordinary quota denials remain 429. Redis availability
 does not prevent HTTP startup. Readiness pings do not alter circuit state.
-Three-instance cluster performance remains unmeasured and is scheduled for
-Phase 9.
+Three-instance measurements are recorded in Phase 9; 10k checks/s with p99 under
+10 ms has not been demonstrated on this workstation.
 
 The canonical module path is `github.com/luvkumar404/rate-limiter`. Hosted CI
-activation is pending the next push. Releases, portfolio changes, and
-performance claims remain future work requiring actual measurements.
+activation is pending the next push. Releases and portfolio changes remain future
+work. Performance statements must retain the measured error/drop rates and local
+environment limitations.

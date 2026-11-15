@@ -63,6 +63,19 @@ jobs:
         run: docker compose up -d --build --wait --wait-timeout 120
       - name: Verify distributed enforcement and Prometheus targets
         run: go run ./cmd/smoke
+      - name: Verify 100/minute quota with k6 across three instances
+        run: |
+          mkdir -p loadtest/results
+          chmod 777 loadtest/results
+          docker compose -f docker-compose.yml -f loadtest/compose.yaml up -d --no-build --wait --wait-timeout 120
+          docker compose -f docker-compose.yml -f loadtest/compose.yaml run --rm --no-deps -e MODE=correctness -e OUTPUT=/results/correctness-ci.json k6 run /scripts/check.js
+      - name: Preserve k6 correctness result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-correctness
+          path: loadtest/results/correctness-ci.json
+          if-no-files-found: ignore
       - name: Container diagnostics
         if: failure()
         run: |

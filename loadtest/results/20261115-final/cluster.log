@@ -1,0 +1,429 @@
+prometheus-1  | time=2026-11-15T05:14:32.410Z level=INFO source=main.go:640 msg="No time or size retention was set so using the default time retention" duration=15d
+prometheus-1  | time=2026-11-15T05:14:32.411Z level=INFO source=main.go:687 msg="Starting Prometheus Server" mode=server version="(version=3.2.1, branch=HEAD, revision=804c49d58f3f3784c77c9c8ec17c9062092cae27)"
+prometheus-1  | time=2026-11-15T05:14:32.411Z level=INFO source=main.go:692 msg="operational information" build_context="(go=go1.23.6, platform=linux/amd64, user=root@42fd9529152a, date=20250226-09:19:49, tags=netgo,builtinassets,stringlabels)" host_details="(Linux 6.18.58.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026 x86_64 5a5f4b39c395 localdomain)" fd_limits="(soft=1048576, hard=1048576)" vm_limits="(soft=unlimited, hard=unlimited)"
+prometheus-1  | time=2026-11-15T05:14:32.414Z level=INFO source=main.go:768 msg="Leaving GOMAXPROCS=8: CPU quota undefined" component=automaxprocs
+prometheus-1  | time=2026-11-15T05:14:32.422Z level=INFO source=web.go:654 msg="Start listening for connections" component=web address=0.0.0.0:9090
+prometheus-1  | time=2026-11-15T05:14:32.423Z level=INFO source=main.go:1228 msg="Starting TSDB ..."
+prometheus-1  | time=2026-11-15T05:14:32.429Z level=INFO source=tls_config.go:347 msg="Listening on" component=web address=[::]:9090
+prometheus-1  | time=2026-11-15T05:14:32.429Z level=INFO source=tls_config.go:350 msg="TLS is disabled." component=web http2=false address=[::]:9090
+prometheus-1  | time=2026-11-15T05:14:32.437Z level=INFO source=head.go:628 msg="Replaying on-disk memory mappable chunks if any" component=tsdb
+prometheus-1  | time=2026-11-15T05:14:32.438Z level=INFO source=head.go:715 msg="On-disk memory mappable chunks replay completed" component=tsdb duration=5.014µs
+prometheus-1  | time=2026-11-15T05:14:32.439Z level=INFO source=head.go:723 msg="Replaying WAL, this may take a while" component=tsdb
+prometheus-1  | time=2026-11-15T05:14:32.441Z level=INFO source=head.go:795 msg="WAL segment loaded" component=tsdb segment=0 maxSegment=0
+prometheus-1  | time=2026-11-15T05:14:32.441Z level=INFO source=head.go:832 msg="WAL replay completed" component=tsdb checkpoint_replay_duration=452.7µs wal_replay_duration=1.621128ms wbl_replay_duration=218ns chunk_snapshot_load_duration=0s mmap_chunk_replay_duration=5.014µs total_replay_duration=3.2912ms
+prometheus-1  | time=2026-11-15T05:14:32.445Z level=INFO source=main.go:1249 msg="filesystem information" fs_type=EXT4_SUPER_MAGIC
+prometheus-1  | time=2026-11-15T05:14:32.445Z level=INFO source=main.go:1252 msg="TSDB started"
+prometheus-1  | time=2026-11-15T05:14:32.445Z level=INFO source=main.go:1437 msg="Loading configuration file" filename=/etc/prometheus/prometheus.yml
+prometheus-1  | time=2026-11-15T05:14:32.448Z level=INFO source=main.go:1476 msg="updated GOGC" old=100 new=75
+prometheus-1  | time=2026-11-15T05:14:32.448Z level=INFO source=main.go:1486 msg="Completed loading of configuration file" db_storage=2.181µs remote_storage=1.853µs web_handler=654ns query_engine=2.071µs scrape=615.227µs scrape_sd=65.948µs notify=2.18µs notify_sd=1.199µs rules=2.071µs tracing=11.664µs filename=/etc/prometheus/prometheus.yml totalDuration=3.326082ms
+prometheus-1  | time=2026-11-15T05:14:32.448Z level=INFO source=main.go:1213 msg="Server is ready to receive web requests."
+prometheus-1  | time=2026-11-15T05:14:32.449Z level=INFO source=manager.go:175 msg="Starting rule manager..." component="rule manager"
+prometheus-1  | time=2026-11-15T05:15:15.913Z level=WARN source=scrape.go:1881 msg="Error on ingesting out-of-order samples" component="scrape manager" scrape_pool=ratelimiter target=http://limiter-2:8080/metrics num_dropped=67
+prometheus-1  | time=2026-11-15T05:15:15.924Z level=WARN source=scrape.go:1881 msg="Error on ingesting out-of-order samples" component="scrape manager" scrape_pool=ratelimiter target=http://limiter-3:8080/metrics num_dropped=67
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:19:28 +0000] "POST /check HTTP/1.1" 503 37 "-" "Grafana k6/1.0.0"
+nginx-1       | 127.0.0.1 - - [15/Nov/2026:05:19:30 +0000] "GET /healthz HTTP/1.1" 200 16 "-" "Wget"
+nginx-1       | 127.0.0.1 - - [15/Nov/2026:05:19:35 +0000] "GET /healthz HTTP/1.1" 200 16 "-" "Wget"
+limiter-2-1   | {"time":"2026-11-15T05:19:28.53253134Z","level":"ERROR","msg":"rate limit check failed","request_id":"3eb3edccc9ef24d7545880a808a36260","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.532629214Z","level":"ERROR","msg":"rate limit check failed","request_id":"e28189252bbd5c123b562ade4dd6a39c","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.532674641Z","level":"ERROR","msg":"rate limit check failed","request_id":"670725f9b1a4beaba5c26e7446bff909","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.532714322Z","level":"ERROR","msg":"rate limit check failed","request_id":"d28af5fceae1098ea980c135b306a958","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.53275677Z","level":"ERROR","msg":"rate limit check failed","request_id":"17d3a168f56f3a875f8e9986e2bec9f8","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.532800282Z","level":"ERROR","msg":"rate limit check failed","request_id":"3456b47e91fa5b417188e0e381931d39","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.5328389Z","level":"ERROR","msg":"rate limit check failed","request_id":"057d09dac25992a8e3bcf60e99993f0f","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.532879007Z","level":"ERROR","msg":"rate limit check failed","request_id":"f47af19083867ac06f9f07b868d46485","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.532933902Z","level":"ERROR","msg":"rate limit check failed","request_id":"d13d2a6df42943e9e0d8358d74f8ebb1","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.532976881Z","level":"INFO","msg":"http request","request_id":"e00f8b9eb7d6b382e417228f696963b1","method":"POST","path":"/check","status":503,"duration":11747064}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.532995286Z","level":"INFO","msg":"http request","request_id":"64f12b659e559f1cb10eb31a89ceb502","method":"POST","path":"/check","status":503,"duration":6328010}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533008903Z","level":"INFO","msg":"http request","request_id":"6024ddfe70eda4b13b0b096437e56598","method":"POST","path":"/check","status":503,"duration":43301366}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533022095Z","level":"INFO","msg":"http request","request_id":"3966037f17b40ef1252c28ea39dca598","method":"POST","path":"/check","status":503,"duration":13985304}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533034117Z","level":"INFO","msg":"http request","request_id":"acf3288829a199efef97dbc14144bd61","method":"POST","path":"/check","status":503,"duration":13017304}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533045819Z","level":"INFO","msg":"http request","request_id":"f9d26fd9aa1ebc9e319d857536d86145","method":"POST","path":"/check","status":503,"duration":43130830}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533056245Z","level":"INFO","msg":"http request","request_id":"ca84f1c3ea9a390beccd9104434ce3f7","method":"POST","path":"/check","status":503,"duration":12832193}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.53306699Z","level":"INFO","msg":"http request","request_id":"58ce97ad425f06641c176519755c9be2","method":"POST","path":"/check","status":503,"duration":12785171}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533078266Z","level":"INFO","msg":"http request","request_id":"0aff6f16a58c56ebdcfd828dec35060a","method":"POST","path":"/check","status":503,"duration":12247181}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533089862Z","level":"INFO","msg":"http request","request_id":"bef72a2909802301ddd49f498f1e43d0","method":"POST","path":"/check","status":503,"duration":12153987}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533101033Z","level":"INFO","msg":"http request","request_id":"117256fe1a7292c44b9a184e9b809b9f","method":"POST","path":"/check","status":503,"duration":12114731}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533111459Z","level":"INFO","msg":"http request","request_id":"0f13909340a715af3a04aecbcf668e8f","method":"POST","path":"/check","status":503,"duration":12072390}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533122842Z","level":"INFO","msg":"http request","request_id":"f3998324a90417cb2578617c86f32945","method":"POST","path":"/check","status":503,"duration":12027389}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533134331Z","level":"INFO","msg":"http request","request_id":"4d5268b742a2cf2d576c351dc1c7ebde","method":"POST","path":"/check","status":503,"duration":11970685}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533146672Z","level":"INFO","msg":"http request","request_id":"2d7f54b0335450d4c030587e43b6f3cc","method":"POST","path":"/check","status":503,"duration":11465249}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533158375Z","level":"INFO","msg":"http request","request_id":"4ded5d205b54988acfd0595bf8fca8f2","method":"POST","path":"/check","status":503,"duration":11886322}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533169439Z","level":"INFO","msg":"http request","request_id":"01e45fdabfc8ee6a90b803a9b21910a1","method":"POST","path":"/check","status":503,"duration":11842385}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533180503Z","level":"INFO","msg":"http request","request_id":"38fd2c47712303f4c3b9112265c46b6e","method":"POST","path":"/check","status":503,"duration":11799937}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533191035Z","level":"INFO","msg":"http request","request_id":"ccd119db1c4d86371bd995e6333bb906","method":"POST","path":"/check","status":503,"duration":11762915}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533201886Z","level":"INFO","msg":"http request","request_id":"a066de576a9316148bfd84929a08f044","method":"POST","path":"/check","status":503,"duration":11723339}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533212737Z","level":"INFO","msg":"http request","request_id":"33a63b7ad446bae629bb5a97d9385071","method":"POST","path":"/check","status":503,"duration":11683233}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.53322827Z","level":"INFO","msg":"http request","request_id":"d3ff35ec35a2532d86f1e13f0df2b8cf","method":"POST","path":"/check","status":503,"duration":11647700}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533239015Z","level":"INFO","msg":"http request","request_id":"111c1c84e9ce7acd949bf6335a5e0269","method":"POST","path":"/check","status":503,"duration":11599507}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533251462Z","level":"INFO","msg":"http request","request_id":"77c67730d73bd7ffa9dcf4a45366625d","method":"POST","path":"/check","status":503,"duration":2486011}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533390933Z","level":"INFO","msg":"http request","request_id":"f72c81ce6a5737e4e1420d387492d1b0","method":"POST","path":"/check","status":503,"duration":8118474}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533403699Z","level":"INFO","msg":"http request","request_id":"95198b38469c6693b8715b9c4992dd16","method":"POST","path":"/check","status":503,"duration":3408478}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.53341455Z","level":"INFO","msg":"http request","request_id":"4550948a83d7111e54877017f5b67612","method":"POST","path":"/check","status":503,"duration":2781975}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533428061Z","level":"INFO","msg":"http request","request_id":"b66f54068b2439972dc0c4d19ffe988e","method":"POST","path":"/check","status":503,"duration":3319434}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533442955Z","level":"INFO","msg":"http request","request_id":"078d57a2aed1d9d59d0821aa02841f9d","method":"POST","path":"/check","status":503,"duration":2681122}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533453806Z","level":"INFO","msg":"http request","request_id":"8c2266035f6eb99778ae77e42f26bbaf","method":"POST","path":"/check","status":503,"duration":2602396}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533464658Z","level":"INFO","msg":"http request","request_id":"f47190e378ebdf2acf5d1e949492bc88","method":"POST","path":"/check","status":503,"duration":2543672}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533476573Z","level":"INFO","msg":"http request","request_id":"104f90a175a69b6c71a023efc777b418","method":"POST","path":"/check","status":503,"duration":2457394}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533487424Z","level":"INFO","msg":"http request","request_id":"288c7f345b58b625b92ec51ec29af08e","method":"POST","path":"/check","status":503,"duration":2513459}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533499127Z","level":"INFO","msg":"http request","request_id":"bd71b531550803554c00fce745494c8d","method":"POST","path":"/check","status":503,"duration":2409414}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533511255Z","level":"INFO","msg":"http request","request_id":"9c89fe1369804f0508b717f47b2d0af0","method":"POST","path":"/check","status":503,"duration":2450905}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533522531Z","level":"INFO","msg":"http request","request_id":"6e8ae06b5f2641a400a49dc11cf1d66f","method":"POST","path":"/check","status":503,"duration":1969298}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533533276Z","level":"INFO","msg":"http request","request_id":"24eeae124d26685d158981315470462b","method":"POST","path":"/check","status":503,"duration":1899190}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.531261525Z","level":"ERROR","msg":"rate limit check failed","request_id":"1b97a65202cb967c56edf2e6a12094fa","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533813282Z","level":"INFO","msg":"http request","request_id":"dcb86135612c2465272adabc4e571297","method":"POST","path":"/check","status":503,"duration":2026427}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533829559Z","level":"INFO","msg":"http request","request_id":"a406fd08d5629d45bd42957d0efd49c3","method":"POST","path":"/check","status":503,"duration":2136429}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.533841687Z","level":"INFO","msg":"http request","request_id":"9c7bd91fdfcb9850b31047735a2aff20","method":"POST","path":"/check","status":503,"duration":2102599}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535682046Z","level":"INFO","msg":"http request","request_id":"17d3a168f56f3a875f8e9986e2bec9f8","method":"POST","path":"/check","status":503,"duration":2931447}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535759495Z","level":"INFO","msg":"http request","request_id":"052a88783b9dd793de0a669ab6a3d471","method":"POST","path":"/check","status":503,"duration":3924766}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535779814Z","level":"INFO","msg":"http request","request_id":"b26a7e02308777ac221a710599acaa37","method":"POST","path":"/check","status":503,"duration":3905511}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535795879Z","level":"INFO","msg":"http request","request_id":"55af38c1cd7fccc5efbe282351abdcee","method":"POST","path":"/check","status":503,"duration":3873276}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535817156Z","level":"INFO","msg":"http request","request_id":"9b5204e23b316e315b177c2fcd048403","method":"POST","path":"/check","status":503,"duration":3849232}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535830241Z","level":"INFO","msg":"http request","request_id":"e656f74e587bd55a90c7f69cd8b93c2f","method":"POST","path":"/check","status":503,"duration":3823487}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535845454Z","level":"INFO","msg":"http request","request_id":"a54958f33e31bab9d9e7d77548389d8e","method":"POST","path":"/check","status":503,"duration":3779337}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.53585854Z","level":"INFO","msg":"http request","request_id":"6a0e6e6059dc97cd019d56fee7662dd2","method":"POST","path":"/check","status":503,"duration":3747848}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535871306Z","level":"INFO","msg":"http request","request_id":"7b0359412527047c292ff7d7aecd34fc","method":"POST","path":"/check","status":503,"duration":3718485}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535885455Z","level":"INFO","msg":"http request","request_id":"17cbc4a7fd03899895ca18701ca0bc05","method":"POST","path":"/check","status":503,"duration":3688165}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535899923Z","level":"INFO","msg":"http request","request_id":"de3781d377f7af8e4c27e358632a4ded","method":"POST","path":"/check","status":503,"duration":3661994}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535913966Z","level":"INFO","msg":"http request","request_id":"d10557c3e7be521e99651d7d40ebfff9","method":"POST","path":"/check","status":503,"duration":3633483}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535928222Z","level":"INFO","msg":"http request","request_id":"93e5653155e6907573c389852baebcbc","method":"POST","path":"/check","status":503,"duration":3605078}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535941733Z","level":"INFO","msg":"http request","request_id":"81e250edb593866c9ed219f3d0ed568a","method":"POST","path":"/check","status":503,"duration":3569333}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535960989Z","level":"INFO","msg":"http request","request_id":"ca68918a8b98749e54e0b51116ffe86e","method":"POST","path":"/check","status":503,"duration":3535077}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535973117Z","level":"INFO","msg":"http request","request_id":"634a170a568339b11cc4a4da53754c2a","method":"POST","path":"/check","status":503,"duration":3502949}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535985244Z","level":"INFO","msg":"http request","request_id":"3eb3edccc9ef24d7545880a808a36260","method":"POST","path":"/check","status":503,"duration":3466671}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.535999606Z","level":"INFO","msg":"http request","request_id":"e28189252bbd5c123b562ade4dd6a39c","method":"POST","path":"/check","status":503,"duration":3390606}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.536013968Z","level":"INFO","msg":"http request","request_id":"670725f9b1a4beaba5c26e7446bff909","method":"POST","path":"/check","status":503,"duration":3352839}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.536027799Z","level":"INFO","msg":"http request","request_id":"d28af5fceae1098ea980c135b306a958","method":"POST","path":"/check","status":503,"duration":3326030}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.536178334Z","level":"INFO","msg":"http request","request_id":"3456b47e91fa5b417188e0e381931d39","method":"POST","path":"/check","status":503,"duration":3391350}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.536195887Z","level":"INFO","msg":"http request","request_id":"057d09dac25992a8e3bcf60e99993f0f","method":"POST","path":"/check","status":503,"duration":3370073}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.536211207Z","level":"INFO","msg":"http request","request_id":"f47af19083867ac06f9f07b868d46485","method":"POST","path":"/check","status":503,"duration":3344647}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.536226633Z","level":"INFO","msg":"http request","request_id":"d13d2a6df42943e9e0d8358d74f8ebb1","method":"POST","path":"/check","status":503,"duration":3320710}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.543671369Z","level":"ERROR","msg":"rate limit check failed","request_id":"be77374ec254752842e9817fac6c515c","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.543803393Z","level":"INFO","msg":"http request","request_id":"be77374ec254752842e9817fac6c515c","method":"POST","path":"/check","status":503,"duration":170429}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.545436301Z","level":"INFO","msg":"http request","request_id":"1b97a65202cb967c56edf2e6a12094fa","method":"POST","path":"/check","status":503,"duration":14191052}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.545823862Z","level":"ERROR","msg":"rate limit check failed","request_id":"5dd8eda4d1d4ea3e43a2f25df431030c","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.547076336Z","level":"INFO","msg":"http request","request_id":"5dd8eda4d1d4ea3e43a2f25df431030c","method":"POST","path":"/check","status":503,"duration":1286517}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.545972483Z","level":"ERROR","msg":"rate limit check failed","request_id":"9d26de28524f61191eef9bc0d7447010","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.545438535Z","level":"ERROR","msg":"rate limit check failed","request_id":"4abd8d88c495b828c2f3ac6b9d5eb5bb","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.546061314Z","level":"ERROR","msg":"rate limit check failed","request_id":"cdb52d6b3f5d982e8033153d0a328f21","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.552788694Z","level":"INFO","msg":"http request","request_id":"cdb52d6b3f5d982e8033153d0a328f21","method":"POST","path":"/check","status":503,"duration":6744083}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.553238811Z","level":"ERROR","msg":"rate limit check failed","request_id":"2cf4c3498f6dbef1212396fb4e000968","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.55329828Z","level":"INFO","msg":"http request","request_id":"2cf4c3498f6dbef1212396fb4e000968","method":"POST","path":"/check","status":503,"duration":116917}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.55344456Z","level":"INFO","msg":"http request","request_id":"9d26de28524f61191eef9bc0d7447010","method":"POST","path":"/check","status":503,"duration":7505801}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.553586159Z","level":"INFO","msg":"http request","request_id":"4abd8d88c495b828c2f3ac6b9d5eb5bb","method":"POST","path":"/check","status":503,"duration":8775191}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.555824611Z","level":"ERROR","msg":"rate limit check failed","request_id":"a27630d9cc860c4b0139c65872c84f1a","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.555895358Z","level":"INFO","msg":"http request","request_id":"a27630d9cc860c4b0139c65872c84f1a","method":"POST","path":"/check","status":503,"duration":133726}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.565073429Z","level":"ERROR","msg":"rate limit check failed","request_id":"3fcfbbcd946ba9310e6359715eae6903","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.565448225Z","level":"INFO","msg":"http request","request_id":"3fcfbbcd946ba9310e6359715eae6903","method":"POST","path":"/check","status":503,"duration":1678334}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.650276875Z","level":"ERROR","msg":"rate limit check failed","request_id":"6c6d0a5e9806e6f09f6bb42b3502c986","rule":"fixed_window","error":"redis circuit is open"}
+limiter-2-1   | {"time":"2026-11-15T05:19:28.650426559Z","level":"INFO","msg":"http request","request_id":"6c6d0a5e9806e6f09f6bb42b3502c986","method":"POST","path":"/check","status":503,"duration":305645}
+limiter-2-1   | {"time":"2026-11-15T05:19:30.258013913Z","level":"INFO","msg":"http request","request_id":"d51333dbd7ca2e0ae62b0e65b7610284","method":"GET","path":"/metrics","status":200,"duration":4877447}
+limiter-2-1   | {"time":"2026-11-15T05:19:30.755130984Z","level":"INFO","msg":"http request","request_id":"b22b99c5fcb282f53a8fffe8cf99c936","method":"GET","path":"/readyz","status":200,"duration":469266}
+limiter-2-1   | {"time":"2026-11-15T05:19:32.260139515Z","level":"INFO","msg":"http request","request_id":"54c6276d5cdb89a8ea8c755e6ec06a60","method":"GET","path":"/metrics","status":200,"duration":6421948}
+limiter-2-1   | {"time":"2026-11-15T05:19:34.255441351Z","level":"INFO","msg":"http request","request_id":"c78edffb4e7d5feb224bb6243688be34","method":"GET","path":"/metrics","status":200,"duration":2873786}
+limiter-2-1   | {"time":"2026-11-15T05:19:35.978711323Z","level":"INFO","msg":"http request","request_id":"81cab27f3b4b6b3cfad19c79dec3cf64","method":"GET","path":"/healthz","status":200,"duration":208940}
+limiter-2-1   | {"time":"2026-11-15T05:19:36.032960054Z","level":"INFO","msg":"http request","request_id":"98acf5730d5aa6e843a8c32da26d11b0","method":"GET","path":"/readyz","status":200,"duration":2052704}
+limiter-2-1   | {"time":"2026-11-15T05:19:36.264730725Z","level":"INFO","msg":"http request","request_id":"dac90fad711d2a84c803d5f3db831860","method":"GET","path":"/metrics","status":200,"duration":12009410}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.449466132Z","level":"INFO","msg":"http request","request_id":"36ac6e30b03e08b487c167dedc34a780","method":"POST","path":"/check","status":503,"duration":5087558}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.44962071Z","level":"INFO","msg":"http request","request_id":"da649ce4899c4b8d2ba0ec7c0af5e46d","method":"POST","path":"/check","status":503,"duration":5173411}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.449778904Z","level":"INFO","msg":"http request","request_id":"5bf6f1971948e22d30428a1410a8524c","method":"POST","path":"/check","status":503,"duration":5259583}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.45219768Z","level":"INFO","msg":"http request","request_id":"e6e7b5e01b1af0ab7d1c9ba41f5d1b22","method":"POST","path":"/check","status":503,"duration":7593463}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.452421728Z","level":"INFO","msg":"http request","request_id":"3c8874ff27baeb51bc117ad9763b03bd","method":"POST","path":"/check","status":503,"duration":7713040}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.452654286Z","level":"INFO","msg":"http request","request_id":"f055133363f405a4089ddb9b9daa6cc7","method":"POST","path":"/check","status":503,"duration":7886022}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.452852588Z","level":"INFO","msg":"http request","request_id":"ab25cf08dd98ca06ea8aa99733cc1ec0","method":"POST","path":"/check","status":503,"duration":56264307}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.453064189Z","level":"INFO","msg":"http request","request_id":"7e1de591a08d35098534c7b90e2c004f","method":"POST","path":"/check","status":503,"duration":60342161}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.453258767Z","level":"INFO","msg":"http request","request_id":"2e10c1d88ec5fc15d6dec60dc8226a45","method":"POST","path":"/check","status":503,"duration":60427695}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.453455686Z","level":"INFO","msg":"http request","request_id":"85f108590d005a1f111677999bfda9f4","method":"POST","path":"/check","status":503,"duration":60550038}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.453629946Z","level":"INFO","msg":"http request","request_id":"4184b8a347003c820a7f6dc42a5014b3","method":"POST","path":"/check","status":503,"duration":60588018}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.453835588Z","level":"INFO","msg":"http request","request_id":"e84a3798e3d5dbbe4359df99aa0c48b3","method":"POST","path":"/check","status":503,"duration":57534972}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.454020486Z","level":"INFO","msg":"http request","request_id":"1d87f73cdfabb2742f635ee8d5338153","method":"POST","path":"/check","status":503,"duration":57934131}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.454211448Z","level":"INFO","msg":"http request","request_id":"70914cf21ec83c2f96ca3be4fb59dbf7","method":"POST","path":"/check","status":503,"duration":44413199}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.454482836Z","level":"INFO","msg":"http request","request_id":"d9c112912a26d4f0c6137af0defc0c76","method":"POST","path":"/check","status":503,"duration":44922465}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.454738799Z","level":"INFO","msg":"http request","request_id":"4e49047e24df18e94b35f27630ef8aff","method":"POST","path":"/check","status":503,"duration":45075766}
+redis-1       | 1:C 15 Nov 2026 05:14:23.767 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis-1       | 1:C 15 Nov 2026 05:14:23.768 * Redis version=7.4.9, bits=64, commit=00000000, modified=0, pid=1, just started
+redis-1       | 1:C 15 Nov 2026 05:14:23.772 * Configuration loaded
+redis-1       | 1:M 15 Nov 2026 05:14:23.773 * monotonic clock: POSIX clock_gettime
+redis-1       | 1:M 15 Nov 2026 05:14:23.775 * Running mode=standalone, port=6379.
+redis-1       | 1:M 15 Nov 2026 05:14:23.776 * Server initialized
+limiter-1-1   | {"time":"2026-11-15T05:19:28.455002635Z","level":"INFO","msg":"http request","request_id":"ec79b4a1c64462c877a15a839b665c35","method":"POST","path":"/check","status":503,"duration":45270026}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.455286258Z","level":"INFO","msg":"http request","request_id":"267db0d9c48459526e886432fb7c48a4","method":"POST","path":"/check","status":503,"duration":45257153}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.455625734Z","level":"INFO","msg":"http request","request_id":"beb46724a0c3de25a57b8bcda9c3c671","method":"POST","path":"/check","status":503,"duration":45766952}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.447418534Z","level":"INFO","msg":"http request","request_id":"95b18accd44c8e6c321d8f4697edc0e6","method":"POST","path":"/check","status":503,"duration":36861864}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.462603651Z","level":"ERROR","msg":"rate limit check failed","request_id":"c4c570218441eaa8424532d5ae5f280e","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.462660674Z","level":"INFO","msg":"http request","request_id":"c4c570218441eaa8424532d5ae5f280e","method":"POST","path":"/check","status":503,"duration":115002}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493004311Z","level":"ERROR","msg":"rate limit check failed","request_id":"41a3830c7eeabccdf27ebca27cacbe9e","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.49435083Z","level":"INFO","msg":"http request","request_id":"41a3830c7eeabccdf27ebca27cacbe9e","method":"POST","path":"/check","status":503,"duration":1410669}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494389554Z","level":"ERROR","msg":"rate limit check failed","request_id":"b4c54c54d04deec23815b2b14fe5acd1","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494427214Z","level":"INFO","msg":"http request","request_id":"b4c54c54d04deec23815b2b14fe5acd1","method":"POST","path":"/check","status":503,"duration":80960}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493246338Z","level":"ERROR","msg":"rate limit check failed","request_id":"8baf217d1453153351fa96b593b87eb1","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494497854Z","level":"INFO","msg":"http request","request_id":"8baf217d1453153351fa96b593b87eb1","method":"POST","path":"/check","status":503,"duration":1282687}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493309637Z","level":"ERROR","msg":"rate limit check failed","request_id":"01e28ab5902b262655a006ae91dfa55e","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494636687Z","level":"INFO","msg":"http request","request_id":"01e28ab5902b262655a006ae91dfa55e","method":"POST","path":"/check","status":503,"duration":1342050}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493362404Z","level":"ERROR","msg":"rate limit check failed","request_id":"b021e5ebf0fd81c11a8a54892d6a7f3f","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494775626Z","level":"INFO","msg":"http request","request_id":"b021e5ebf0fd81c11a8a54892d6a7f3f","method":"POST","path":"/check","status":503,"duration":1424605}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493412299Z","level":"ERROR","msg":"rate limit check failed","request_id":"44e399dbf15461d437618382f83da86c","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494994674Z","level":"INFO","msg":"http request","request_id":"44e399dbf15461d437618382f83da86c","method":"POST","path":"/check","status":503,"duration":1520991}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493469215Z","level":"ERROR","msg":"rate limit check failed","request_id":"91ec200b43e3d9ae68e0188b87fb48e9","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493516875Z","level":"ERROR","msg":"rate limit check failed","request_id":"2ebe4b43a0061b0ca6a9586e37ac448b","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493578792Z","level":"ERROR","msg":"rate limit check failed","request_id":"c387e500f3cdae84e09d50f6dcee69e6","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493637729Z","level":"ERROR","msg":"rate limit check failed","request_id":"5bb4583b99ab8a269938357faf889271","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493697092Z","level":"ERROR","msg":"rate limit check failed","request_id":"5c11b029b77028c19aba72774447a1b8","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493748583Z","level":"ERROR","msg":"rate limit check failed","request_id":"ddb145a3c158c37cb4b3347e0915b441","rule":"fixed_window","error":"redis circuit is open"}
+redis-1       | 1:M 15 Nov 2026 05:14:23.776 * Ready to accept connections tcp
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493796562Z","level":"ERROR","msg":"rate limit check failed","request_id":"4846950dc3c1e304fdc1be837d36874f","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493843478Z","level":"ERROR","msg":"rate limit check failed","request_id":"25233e352afbf993b0a3f0c95df4ca8e","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.49389316Z","level":"ERROR","msg":"rate limit check failed","request_id":"48488f1729e723df7723dc5097fecb91","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.493939757Z","level":"ERROR","msg":"rate limit check failed","request_id":"ca55161397889222ab50688f47c5ad57","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494043908Z","level":"ERROR","msg":"rate limit check failed","request_id":"06e81d056290850ad0ab8097bbb98936","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494105824Z","level":"ERROR","msg":"rate limit check failed","request_id":"3733f07cce6ec92b79973fd9c573e474","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494154123Z","level":"ERROR","msg":"rate limit check failed","request_id":"ff1ac05ce04c1c9d901eface63b4db90","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494199656Z","level":"ERROR","msg":"rate limit check failed","request_id":"945c88fe9d332777a34a208d3d50f25c","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.494250402Z","level":"ERROR","msg":"rate limit check failed","request_id":"f55ce8f7abe782b21552a478e3f80dc0","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.495115527Z","level":"ERROR","msg":"rate limit check failed","request_id":"6b20fece758e7b815b5647f4f617e90a","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.495254998Z","level":"INFO","msg":"http request","request_id":"91ec200b43e3d9ae68e0188b87fb48e9","method":"POST","path":"/check","status":503,"duration":1804401}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.495270743Z","level":"INFO","msg":"http request","request_id":"2ebe4b43a0061b0ca6a9586e37ac448b","method":"POST","path":"/check","status":503,"duration":1767591}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.497700264Z","level":"INFO","msg":"http request","request_id":"c387e500f3cdae84e09d50f6dcee69e6","method":"POST","path":"/check","status":503,"duration":4145197}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.430980411Z","level":"ERROR","msg":"rate limit check failed","request_id":"31b7f5009ffecd1dbfff16e0a42c08d9","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431264779Z","level":"INFO","msg":"http request","request_id":"e29302c5d0e7acf22aa68f41dcc59196","method":"POST","path":"/check","status":503,"duration":57342}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.43127446Z","level":"INFO","msg":"http request","request_id":"31b7f5009ffecd1dbfff16e0a42c08d9","method":"POST","path":"/check","status":503,"duration":327348}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.429612509Z","level":"ERROR","msg":"rate limit check failed","request_id":"cfdbd38bb51d2c97fb3cf0ece7790813","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431389675Z","level":"INFO","msg":"http request","request_id":"cfdbd38bb51d2c97fb3cf0ece7790813","method":"POST","path":"/check","status":503,"duration":1791316}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431452762Z","level":"ERROR","msg":"rate limit check failed","request_id":"ce879e1e38823df8cdba568c9339de7b","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.43147989Z","level":"INFO","msg":"http request","request_id":"ce879e1e38823df8cdba568c9339de7b","method":"POST","path":"/check","status":503,"duration":52661}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431526061Z","level":"ERROR","msg":"rate limit check failed","request_id":"9f0b020f0eef752e7cd59a03dde687ad","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431546913Z","level":"INFO","msg":"http request","request_id":"9f0b020f0eef752e7cd59a03dde687ad","method":"POST","path":"/check","status":503,"duration":48086}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.43105637Z","level":"ERROR","msg":"rate limit check failed","request_id":"ad734027a1377d20264444bd8438bc86","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431592552Z","level":"INFO","msg":"http request","request_id":"ad734027a1377d20264444bd8438bc86","method":"POST","path":"/check","status":503,"duration":558735}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431688618Z","level":"ERROR","msg":"rate limit check failed","request_id":"293cb56fb38aa00896c9f7174d578f42","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431708406Z","level":"INFO","msg":"http request","request_id":"293cb56fb38aa00896c9f7174d578f42","method":"POST","path":"/check","status":503,"duration":40533}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431757237Z","level":"ERROR","msg":"rate limit check failed","request_id":"6adbab088643294499bdcf5f4b37b684","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431786493Z","level":"INFO","msg":"http request","request_id":"6adbab088643294499bdcf5f4b37b684","method":"POST","path":"/check","status":503,"duration":53086}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.431976922Z","level":"ERROR","msg":"rate limit check failed","request_id":"0596dcd4047b3af2f283ee0c515f82ee","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.432008944Z","level":"INFO","msg":"http request","request_id":"0596dcd4047b3af2f283ee0c515f82ee","method":"POST","path":"/check","status":503,"duration":895019}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.429562827Z","level":"ERROR","msg":"rate limit check failed","request_id":"7e4f13c10e3ad3977a8d82aed3c348a1","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.432193735Z","level":"INFO","msg":"http request","request_id":"7e4f13c10e3ad3977a8d82aed3c348a1","method":"POST","path":"/check","status":503,"duration":2647398}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.46149618Z","level":"ERROR","msg":"rate limit check failed","request_id":"847f2927b856f33c40df42ab99bb1cd5","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.461555543Z","level":"INFO","msg":"http request","request_id":"847f2927b856f33c40df42ab99bb1cd5","method":"POST","path":"/check","status":503,"duration":250218}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.4663082Z","level":"ERROR","msg":"rate limit check failed","request_id":"f61d441dd74ae21fc6994f9625cd8853","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.467235879Z","level":"INFO","msg":"http request","request_id":"f61d441dd74ae21fc6994f9625cd8853","method":"POST","path":"/check","status":503,"duration":1255028}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.468113026Z","level":"ERROR","msg":"rate limit check failed","request_id":"cb04e5c3b5962928f76a39bbe7edcbbf","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.468816977Z","level":"INFO","msg":"http request","request_id":"cb04e5c3b5962928f76a39bbe7edcbbf","method":"POST","path":"/check","status":503,"duration":883317}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.469875617Z","level":"ERROR","msg":"rate limit check failed","request_id":"485be86ba77e803e01de59ec51254c26","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.470493929Z","level":"INFO","msg":"http request","request_id":"485be86ba77e803e01de59ec51254c26","method":"POST","path":"/check","status":503,"duration":731399}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.495433406Z","level":"ERROR","msg":"rate limit check failed","request_id":"ed19b8d43b589b1f9c21108338b23bfa","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.495536175Z","level":"INFO","msg":"http request","request_id":"ed19b8d43b589b1f9c21108338b23bfa","method":"POST","path":"/check","status":503,"duration":148408}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.495552452Z","level":"ERROR","msg":"rate limit check failed","request_id":"335686b6092f59b388bce8e36690ffa9","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.495578303Z","level":"INFO","msg":"http request","request_id":"335686b6092f59b388bce8e36690ffa9","method":"POST","path":"/check","status":503,"duration":56916}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.49574852Z","level":"ERROR","msg":"rate limit check failed","request_id":"86b6e550bd17fe298f470ff4eabc03c4","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.495773095Z","level":"INFO","msg":"http request","request_id":"86b6e550bd17fe298f470ff4eabc03c4","method":"POST","path":"/check","status":503,"duration":55427}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.495921502Z","level":"ERROR","msg":"rate limit check failed","request_id":"ccbca288c3d4486260b4f17c214b9281","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.495942035Z","level":"INFO","msg":"http request","request_id":"ccbca288c3d4486260b4f17c214b9281","method":"POST","path":"/check","status":503,"duration":44894}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496095655Z","level":"ERROR","msg":"rate limit check failed","request_id":"5d875c298a901ec8afe55ffaea17ccff","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496119379Z","level":"INFO","msg":"http request","request_id":"5d875c298a901ec8afe55ffaea17ccff","method":"POST","path":"/check","status":503,"duration":47235}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.49626768Z","level":"ERROR","msg":"rate limit check failed","request_id":"192217faacad0f7e883ef0ced940efd4","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496288531Z","level":"INFO","msg":"http request","request_id":"192217faacad0f7e883ef0ced940efd4","method":"POST","path":"/check","status":503,"duration":43299}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496436939Z","level":"ERROR","msg":"rate limit check failed","request_id":"300cc28d00275d18d164f956857a453a","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496457258Z","level":"INFO","msg":"http request","request_id":"300cc28d00275d18d164f956857a453a","method":"POST","path":"/check","status":503,"duration":47554}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496629071Z","level":"ERROR","msg":"rate limit check failed","request_id":"2d326af3062368d1d100ad0893797bc6","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496648752Z","level":"INFO","msg":"http request","request_id":"2d326af3062368d1d100ad0893797bc6","method":"POST","path":"/check","status":503,"duration":46810}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496797585Z","level":"ERROR","msg":"rate limit check failed","request_id":"66900411709ed4404f496457386c8900","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.496817266Z","level":"INFO","msg":"http request","request_id":"66900411709ed4404f496457386c8900","method":"POST","path":"/check","status":503,"duration":47235}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.49702376Z","level":"ERROR","msg":"rate limit check failed","request_id":"47a584ade865feeefeac897f785e93d6","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497046207Z","level":"INFO","msg":"http request","request_id":"47a584ade865feeefeac897f785e93d6","method":"POST","path":"/check","status":503,"duration":46916}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497250254Z","level":"ERROR","msg":"rate limit check failed","request_id":"a8b75a8f617593ae4ba3cf16a791248e","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497273872Z","level":"INFO","msg":"http request","request_id":"a8b75a8f617593ae4ba3cf16a791248e","method":"POST","path":"/check","status":503,"duration":49682}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497424514Z","level":"ERROR","msg":"rate limit check failed","request_id":"7b569fc504f4b6a4ba13641e05a3dd4b","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497443237Z","level":"INFO","msg":"http request","request_id":"7b569fc504f4b6a4ba13641e05a3dd4b","method":"POST","path":"/check","status":503,"duration":38937}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497580581Z","level":"ERROR","msg":"rate limit check failed","request_id":"33aaecc6846da3cb672b96a2c77592ea","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497599092Z","level":"INFO","msg":"http request","request_id":"33aaecc6846da3cb672b96a2c77592ea","method":"POST","path":"/check","status":503,"duration":42448}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497735159Z","level":"ERROR","msg":"rate limit check failed","request_id":"f8809201a41ba9893ecc20e86938851c","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.497799947Z","level":"INFO","msg":"http request","request_id":"f8809201a41ba9893ecc20e86938851c","method":"POST","path":"/check","status":503,"duration":82130}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.498023569Z","level":"ERROR","msg":"rate limit check failed","request_id":"06c6929f9c329dca5859067c25269389","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.498046336Z","level":"INFO","msg":"http request","request_id":"06c6929f9c329dca5859067c25269389","method":"POST","path":"/check","status":503,"duration":52660}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.498984441Z","level":"ERROR","msg":"rate limit check failed","request_id":"262f994a82a6bc06b1000b3d08da65dc","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.499017527Z","level":"INFO","msg":"http request","request_id":"262f994a82a6bc06b1000b3d08da65dc","method":"POST","path":"/check","status":503,"duration":121599}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.503395281Z","level":"ERROR","msg":"rate limit check failed","request_id":"cc67bc51634cde1a7a273894a527e2c2","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.503587094Z","level":"INFO","msg":"http request","request_id":"cc67bc51634cde1a7a273894a527e2c2","method":"POST","path":"/check","status":503,"duration":289049}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.506083106Z","level":"ERROR","msg":"rate limit check failed","request_id":"187587eaa3f87928cf9d33a865a66ce9","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.506314387Z","level":"INFO","msg":"http request","request_id":"187587eaa3f87928cf9d33a865a66ce9","method":"POST","path":"/check","status":503,"duration":461073}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.50955999Z","level":"ERROR","msg":"rate limit check failed","request_id":"6c7f42ac661397a449f916b675b7432c","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.509784463Z","level":"INFO","msg":"http request","request_id":"6c7f42ac661397a449f916b675b7432c","method":"POST","path":"/check","status":503,"duration":2931873}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.51082023Z","level":"ERROR","msg":"rate limit check failed","request_id":"912c2a7990d9b6a8cb908112595f81b2","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.510918104Z","level":"INFO","msg":"http request","request_id":"912c2a7990d9b6a8cb908112595f81b2","method":"POST","path":"/check","status":503,"duration":15226075}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.53390488Z","level":"ERROR","msg":"rate limit check failed","request_id":"50598d3c91c638fc7f1f77f777c3d4c7","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.534175631Z","level":"INFO","msg":"http request","request_id":"50598d3c91c638fc7f1f77f777c3d4c7","method":"POST","path":"/check","status":503,"duration":320645}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.53448202Z","level":"ERROR","msg":"rate limit check failed","request_id":"48213f6f7379b1e52c555c62d03b5589","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.534509574Z","level":"INFO","msg":"http request","request_id":"48213f6f7379b1e52c555c62d03b5589","method":"POST","path":"/check","status":503,"duration":62448}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.534701812Z","level":"ERROR","msg":"rate limit check failed","request_id":"590df550097d79cc6e473ce0c379fd26","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.534726706Z","level":"INFO","msg":"http request","request_id":"590df550097d79cc6e473ce0c379fd26","method":"POST","path":"/check","status":503,"duration":52874}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.534824262Z","level":"ERROR","msg":"rate limit check failed","request_id":"c4c14b3df69b23e58c5997fb569701db","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.534945647Z","level":"ERROR","msg":"rate limit check failed","request_id":"467544590f9fd737bc04b980ddc6ece9","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.534970648Z","level":"INFO","msg":"http request","request_id":"467544590f9fd737bc04b980ddc6ece9","method":"POST","path":"/check","status":503,"duration":51064}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.535050331Z","level":"INFO","msg":"http request","request_id":"c4c14b3df69b23e58c5997fb569701db","method":"POST","path":"/check","status":503,"duration":316070}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.54009044Z","level":"ERROR","msg":"rate limit check failed","request_id":"72587647f4a00c1762d14866c52733c7","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.542176124Z","level":"ERROR","msg":"rate limit check failed","request_id":"97faa4da7bd3df16fdb30b0bf030e2d2","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.542707412Z","level":"INFO","msg":"http request","request_id":"97faa4da7bd3df16fdb30b0bf030e2d2","method":"POST","path":"/check","status":503,"duration":682036}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.543440938Z","level":"ERROR","msg":"rate limit check failed","request_id":"9e6d1d030fcce8f93c6ce44cac464db4","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.544113719Z","level":"INFO","msg":"http request","request_id":"9e6d1d030fcce8f93c6ce44cac464db4","method":"POST","path":"/check","status":503,"duration":710016}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.545635135Z","level":"ERROR","msg":"rate limit check failed","request_id":"3ec96c787cc50a4ed4a2e76b723c83cf","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.545997058Z","level":"INFO","msg":"http request","request_id":"3ec96c787cc50a4ed4a2e76b723c83cf","method":"POST","path":"/check","status":503,"duration":649908}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.546854097Z","level":"INFO","msg":"http request","request_id":"72587647f4a00c1762d14866c52733c7","method":"POST","path":"/check","status":503,"duration":6866320}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.548695308Z","level":"ERROR","msg":"rate limit check failed","request_id":"11fe76da1e619515fc0a69db7ab45417","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.54897542Z","level":"INFO","msg":"http request","request_id":"11fe76da1e619515fc0a69db7ab45417","method":"POST","path":"/check","status":503,"duration":385008}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.554437347Z","level":"ERROR","msg":"rate limit check failed","request_id":"8951a4cf8e9fcd0e0b7dad03a9e7a9f1","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.554559903Z","level":"INFO","msg":"http request","request_id":"8951a4cf8e9fcd0e0b7dad03a9e7a9f1","method":"POST","path":"/check","status":503,"duration":178834}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.56356712Z","level":"ERROR","msg":"rate limit check failed","request_id":"ed822ff39370d5eb6efd48087d2652a2","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.563898404Z","level":"INFO","msg":"http request","request_id":"ed822ff39370d5eb6efd48087d2652a2","method":"POST","path":"/check","status":503,"duration":441499}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.564303838Z","level":"ERROR","msg":"rate limit check failed","request_id":"57fdf32e30fddc2a1287030c29abbaed","rule":"fixed_window","error":"redis circuit is open"}
+limiter-3-1   | {"time":"2026-11-15T05:19:28.564480331Z","level":"INFO","msg":"http request","request_id":"57fdf32e30fddc2a1287030c29abbaed","method":"POST","path":"/check","status":503,"duration":260218}
+limiter-3-1   | {"time":"2026-11-15T05:19:29.995827156Z","level":"INFO","msg":"http request","request_id":"ec4a8c711ea514f31fa99a22e448e937","method":"GET","path":"/readyz","status":200,"duration":2805486}
+limiter-3-1   | {"time":"2026-11-15T05:19:30.278685426Z","level":"INFO","msg":"http request","request_id":"f75b7caeb326f102a17deb4b70ab9e3c","method":"GET","path":"/metrics","status":200,"duration":3244432}
+limiter-3-1   | {"time":"2026-11-15T05:19:30.445419897Z","level":"INFO","msg":"http request","request_id":"074e80cbf56d1339505bb6e0bd7e9554","method":"GET","path":"/healthz","status":200,"duration":33512}
+limiter-3-1   | {"time":"2026-11-15T05:19:32.280623576Z","level":"INFO","msg":"http request","request_id":"12cf1e62c4cce0a73b1ca81b2c24d11c","method":"GET","path":"/metrics","status":200,"duration":6331946}
+limiter-3-1   | {"time":"2026-11-15T05:19:34.287337576Z","level":"INFO","msg":"http request","request_id":"d37fdde547e9796d53e43c36c2f93c10","method":"GET","path":"/metrics","status":200,"duration":13201776}
+limiter-3-1   | {"time":"2026-11-15T05:19:35.257582473Z","level":"INFO","msg":"http request","request_id":"95ab9cb9a950daa2b4ebc84969dbe4d3","method":"GET","path":"/readyz","status":200,"duration":627035}
+limiter-3-1   | {"time":"2026-11-15T05:19:36.278520493Z","level":"INFO","msg":"http request","request_id":"c5b854f88cdaa023a01e67ce1f3ad746","method":"GET","path":"/metrics","status":200,"duration":3395925}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.498100911Z","level":"INFO","msg":"http request","request_id":"5bb4583b99ab8a269938357faf889271","method":"POST","path":"/check","status":503,"duration":4476905}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.498528048Z","level":"INFO","msg":"http request","request_id":"5c11b029b77028c19aba72774447a1b8","method":"POST","path":"/check","status":503,"duration":4844148}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.498961249Z","level":"INFO","msg":"http request","request_id":"ddb145a3c158c37cb4b3347e0915b441","method":"POST","path":"/check","status":503,"duration":5221816}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.49938945Z","level":"INFO","msg":"http request","request_id":"4846950dc3c1e304fdc1be837d36874f","method":"POST","path":"/check","status":503,"duration":5602674}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.499887971Z","level":"INFO","msg":"http request","request_id":"25233e352afbf993b0a3f0c95df4ca8e","method":"POST","path":"/check","status":503,"duration":6054174}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.500403514Z","level":"INFO","msg":"http request","request_id":"48488f1729e723df7723dc5097fecb91","method":"POST","path":"/check","status":503,"duration":6520886}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.500840226Z","level":"INFO","msg":"http request","request_id":"ca55161397889222ab50688f47c5ad57","method":"POST","path":"/check","status":503,"duration":6910150}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.501148531Z","level":"INFO","msg":"http request","request_id":"06e81d056290850ad0ab8097bbb98936","method":"POST","path":"/check","status":503,"duration":7124836}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.501463963Z","level":"INFO","msg":"http request","request_id":"3733f07cce6ec92b79973fd9c573e474","method":"POST","path":"/check","status":503,"duration":7369415}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.501759608Z","level":"INFO","msg":"http request","request_id":"ff1ac05ce04c1c9d901eface63b4db90","method":"POST","path":"/check","status":503,"duration":7616442}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.502120467Z","level":"INFO","msg":"http request","request_id":"945c88fe9d332777a34a208d3d50f25c","method":"POST","path":"/check","status":503,"duration":7932087}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.502737608Z","level":"INFO","msg":"http request","request_id":"f55ce8f7abe782b21552a478e3f80dc0","method":"POST","path":"/check","status":503,"duration":8498802}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.503194958Z","level":"INFO","msg":"http request","request_id":"6b20fece758e7b815b5647f4f617e90a","method":"POST","path":"/check","status":503,"duration":8905725}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.525543741Z","level":"ERROR","msg":"rate limit check failed","request_id":"268cd28663838a99a0a3390b92c6e59a","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.525630339Z","level":"ERROR","msg":"rate limit check failed","request_id":"25a84c1c170a44e6becaddb4e3cf8333","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.525644807Z","level":"INFO","msg":"http request","request_id":"268cd28663838a99a0a3390b92c6e59a","method":"POST","path":"/check","status":503,"duration":140961}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.525658424Z","level":"INFO","msg":"http request","request_id":"25a84c1c170a44e6becaddb4e3cf8333","method":"POST","path":"/check","status":503,"duration":52235}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.525543847Z","level":"ERROR","msg":"rate limit check failed","request_id":"49157cd3e6d5e1f11bf01fa7aa6b94d2","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.525882791Z","level":"ERROR","msg":"rate limit check failed","request_id":"b53a1ce8f67a573fba4349e59c073785","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.531342271Z","level":"INFO","msg":"http request","request_id":"b53a1ce8f67a573fba4349e59c073785","method":"POST","path":"/check","status":503,"duration":5491077}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.525924813Z","level":"INFO","msg":"http request","request_id":"49157cd3e6d5e1f11bf01fa7aa6b94d2","method":"POST","path":"/check","status":503,"duration":419158}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.556360474Z","level":"ERROR","msg":"rate limit check failed","request_id":"7a7bee69c12705e01274c7024296b38d","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.525925026Z","level":"ERROR","msg":"rate limit check failed","request_id":"6c89f3bf7d1b09dcb82221915cd42852","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.539070311Z","level":"ERROR","msg":"rate limit check failed","request_id":"ece8353dfcd0445032619f916b410dd9","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.54007544Z","level":"ERROR","msg":"rate limit check failed","request_id":"84c2f4131b985b412bafda3a16cd4db5","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.556690056Z","level":"INFO","msg":"http request","request_id":"6c89f3bf7d1b09dcb82221915cd42852","method":"POST","path":"/check","status":503,"duration":30804073}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.556778887Z","level":"INFO","msg":"http request","request_id":"84c2f4131b985b412bafda3a16cd4db5","method":"POST","path":"/check","status":503,"duration":16806961}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.543121995Z","level":"ERROR","msg":"rate limit check failed","request_id":"04d5b70a2b8d17799797692cde08288e","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.556926763Z","level":"INFO","msg":"http request","request_id":"04d5b70a2b8d17799797692cde08288e","method":"POST","path":"/check","status":503,"duration":13852322}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.543617219Z","level":"ERROR","msg":"rate limit check failed","request_id":"4b12a49e7e7aaa387f1189708cc8345c","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.557044319Z","level":"INFO","msg":"http request","request_id":"4b12a49e7e7aaa387f1189708cc8345c","method":"POST","path":"/check","status":503,"duration":13471037}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.554383942Z","level":"ERROR","msg":"rate limit check failed","request_id":"fe7c338061d17b0fdec27c68a5a537d7","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.557161662Z","level":"INFO","msg":"http request","request_id":"fe7c338061d17b0fdec27c68a5a537d7","method":"POST","path":"/check","status":503,"duration":2841657}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.557137299Z","level":"INFO","msg":"http request","request_id":"ece8353dfcd0445032619f916b410dd9","method":"POST","path":"/check","status":503,"duration":18230290}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.5566508Z","level":"INFO","msg":"http request","request_id":"7a7bee69c12705e01274c7024296b38d","method":"POST","path":"/check","status":503,"duration":350965}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.541540684Z","level":"ERROR","msg":"rate limit check failed","request_id":"9392e8ccedae1b52688266611512c22e","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.55737422Z","level":"INFO","msg":"http request","request_id":"9392e8ccedae1b52688266611512c22e","method":"POST","path":"/check","status":503,"duration":15900558}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.563982661Z","level":"ERROR","msg":"rate limit check failed","request_id":"54eded4d31bb5a843f783c2724dde1fe","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.564099366Z","level":"INFO","msg":"http request","request_id":"54eded4d31bb5a843f783c2724dde1fe","method":"POST","path":"/check","status":503,"duration":185536}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.651528817Z","level":"ERROR","msg":"rate limit check failed","request_id":"ce544ae7c80f6073d90461366f9c023f","rule":"fixed_window","error":"redis circuit is open"}
+limiter-1-1   | {"time":"2026-11-15T05:19:28.651656267Z","level":"INFO","msg":"http request","request_id":"ce544ae7c80f6073d90461366f9c023f","method":"POST","path":"/check","status":503,"duration":224899}
+limiter-1-1   | {"time":"2026-11-15T05:19:29.573963953Z","level":"INFO","msg":"http request","request_id":"d9fa586cac0b4934a6750c90ab90be2b","method":"GET","path":"/metrics","status":200,"duration":7373352}
+limiter-1-1   | {"time":"2026-11-15T05:19:30.598373112Z","level":"INFO","msg":"http request","request_id":"0efe6a8ff86a16c6eb0e7531bcaebe49","method":"GET","path":"/readyz","status":200,"duration":506394}
+limiter-1-1   | {"time":"2026-11-15T05:19:31.58086402Z","level":"INFO","msg":"http request","request_id":"82e0e0ca61a27476c867db9e0f08288e","method":"GET","path":"/metrics","status":200,"duration":10442142}
+limiter-1-1   | {"time":"2026-11-15T05:19:33.577887809Z","level":"INFO","msg":"http request","request_id":"cfcf8ed9770d29970e935ddaed17e84c","method":"GET","path":"/metrics","status":200,"duration":12213882}
+limiter-1-1   | {"time":"2026-11-15T05:19:35.566609183Z","level":"INFO","msg":"http request","request_id":"0a7136ff86f05dc54685dc52b9bcf59f","method":"GET","path":"/metrics","status":200,"duration":2119302}
+limiter-1-1   | {"time":"2026-11-15T05:19:35.801768439Z","level":"INFO","msg":"http request","request_id":"9f2e43b76b23ac9998b1ffe3db163cd8","method":"GET","path":"/readyz","status":200,"duration":759910}

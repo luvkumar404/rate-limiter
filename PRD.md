@@ -336,15 +336,19 @@ smoke checks pass. Hosted CI verification remains pending a push of the workflow
 **Objective:** Back every claim with numbers.
 
 **Tasks**
-- [ ] k6 or vegeta scripts targeting the load balancer
-- [ ] Correctness test: limit 100/min, send 1000 requests across 3 instances, confirm about 100 allowed
-- [ ] Measure throughput and p50 / p95 / p99 latency per algorithm
-- [ ] `go test -bench` results for algorithm internals
-- [ ] Save raw results and a summary table in `docs/benchmarks.md`
+- [x] k6 or vegeta scripts targeting the load balancer
+- [x] Correctness test: limit 100/min, send 1000 requests across 3 instances, confirm about 100 allowed
+- [x] Measure throughput and p50 / p95 / p99 latency per algorithm
+- [x] `go test -bench` results for algorithm internals
+- [x] Save raw results and a summary table in `docs/benchmarks.md`
 
 **Deliverables:** reproducible scripts and a results table.
 
 **Done when:** README can cite real throughput and latency numbers and the correctness claim is verified.
+
+Shared sliding-window correctness is verified locally (100 allowed, 900 blocked).
+The 1k/5k/10k offered-rate sweeps are measured, but the 10k/s and p99 <10ms targets
+remain unmet; see `docs/benchmarks.md` for errors, dropped iterations and limits.
 
 ---
 

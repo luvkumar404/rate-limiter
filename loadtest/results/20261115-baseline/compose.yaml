@@ -1,0 +1,195 @@
+name: ratelimiter-bench
+services:
+  limiter-1:
+    build:
+      context: C:\Users\my\Desktop\rate-limit
+      dockerfile: deploy/Dockerfile
+    cap_drop:
+      - ALL
+    depends_on:
+      redis:
+        condition: service_healthy
+        required: true
+    image: ratelimiter:local
+    networks:
+      default: null
+    pull_policy: build
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 15s
+    volumes:
+      - type: bind
+        source: C:\Users\my\Desktop\rate-limit\loadtest\rules.yaml
+        target: /etc/ratelimiter/rules.yaml
+        read_only: true
+        bind: {}
+  limiter-2:
+    cap_drop:
+      - ALL
+    depends_on:
+      redis:
+        condition: service_healthy
+        required: true
+    image: ratelimiter:local
+    networks:
+      default: null
+    pull_policy: never
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 15s
+    volumes:
+      - type: bind
+        source: C:\Users\my\Desktop\rate-limit\loadtest\rules.yaml
+        target: /etc/ratelimiter/rules.yaml
+        read_only: true
+        bind: {}
+  limiter-3:
+    cap_drop:
+      - ALL
+    depends_on:
+      redis:
+        condition: service_healthy
+        required: true
+    image: ratelimiter:local
+    networks:
+      default: null
+    pull_policy: never
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 15s
+    volumes:
+      - type: bind
+        source: C:\Users\my\Desktop\rate-limit\loadtest\rules.yaml
+        target: /etc/ratelimiter/rules.yaml
+        read_only: true
+        bind: {}
+  nginx:
+    depends_on:
+      limiter-1:
+        condition: service_healthy
+        required: true
+      limiter-2:
+        condition: service_healthy
+        required: true
+      limiter-3:
+        condition: service_healthy
+        required: true
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -q
+        - -O
+        - /dev/null
+        - http://127.0.0.1:8080/healthz
+      timeout: 3s
+      interval: 5s
+      retries: 10
+    image: nginx:1.28-alpine
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8080
+        published: "18090"
+        protocol: tcp
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    volumes:
+      - type: bind
+        source: C:\Users\my\Desktop\rate-limit\deploy\nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+        bind: {}
+  prometheus:
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+    depends_on:
+      limiter-1:
+        condition: service_healthy
+        required: true
+      limiter-2:
+        condition: service_healthy
+        required: true
+      limiter-3:
+        condition: service_healthy
+        required: true
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -q
+        - -O
+        - /dev/null
+        - http://127.0.0.1:9090/-/ready
+      timeout: 3s
+      interval: 5s
+      retries: 10
+    image: prom/prometheus:v3.2.1
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 9090
+        published: "19090"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: C:\Users\my\Desktop\rate-limit\deploy\prometheus.cluster.yaml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
+        bind: {}
+      - type: volume
+        source: prometheus-data
+        target: /prometheus
+        volume: {}
+  redis:
+    command:
+      - redis-server
+      - --save
+      - ""
+      - --appendonly
+      - "no"
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      timeout: 1s
+      interval: 2s
+      retries: 20
+    image: redis:7-alpine
+    networks:
+      default: null
+networks:
+  default:
+    name: ratelimiter-bench_default
+volumes:
+  prometheus-data:
+    name: ratelimiter-bench_prometheus-data
+x-benchmark:
+  volumes:
+    - ./loadtest/rules.yaml:/etc/ratelimiter/rules.yaml:ro
+x-limiter:
+  cap_drop:
+    - ALL
+  depends_on:
+    redis:
+      condition: service_healthy
+  image: ratelimiter:local
+  pull_policy: never
+  read_only: true
+  security_opt:
+    - no-new-privileges:true
+  stop_grace_period: 15s
+  volumes:
+    - ./deploy/rules.cluster.yaml:/etc/ratelimiter/rules.yaml:ro

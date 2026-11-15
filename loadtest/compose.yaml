@@ -1,0 +1,21 @@
+# Merge with the root Compose file; use a separate project and host ports.
+x-benchmark: &benchmark
+  volumes:
+    - ./loadtest/rules.yaml:/etc/ratelimiter/rules.yaml:ro
+
+services:
+  limiter-1:
+    <<: *benchmark
+  limiter-2:
+    <<: *benchmark
+  limiter-3:
+    <<: *benchmark
+  k6:
+    image: grafana/k6:1.0.0
+    profiles: [loadtest]
+    volumes:
+      - ./loadtest:/scripts:ro
+      - ./loadtest/results:/results
+    depends_on:
+      nginx:
+        condition: service_healthy

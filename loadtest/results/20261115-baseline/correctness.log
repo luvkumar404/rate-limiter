@@ -1,0 +1,50 @@
+docker.exe :  Container ratelimiter-bench-k6-run-3950f6ff8003 Creating 
+At C:\Users\my\Desktop\rate-limit\loadtest\run.ps1:46 char:9
++         & docker @compose run --rm --no-deps -e "MODE=$($case.Mode)"  ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( Container rate...f8003 Creating :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ Container ratelimiter-bench-k6-run-3950f6ff8003 Created 
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: /scripts/check.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 8 max VUs, 25s max duration (incl. graceful stop):
+              * checks: 1000 iterations shared among 8 VUs (maxDuration: 20s, gracefulStop: 5s)
+
+
+Run      [ 100% ] setup()
+checks   [   0% ]
+
+Run      [ 100% ] setup()
+checks   [   0% ]
+
+Run      [ 100% ] setup()
+checks   [   0% ]
+
+Run      [ 100% ] setup()
+checks   [   0% ]
+
+Run      [ 100% ] setup()
+checks   [   0% ]
+
+Run      [ 100% ] setup()
+checks   [   0% ]
+
+Run      [ 100% ] setup()
+checks   [   0% ]
+
+Run      [ 100% ] setup()
+checks   [   0% ]
+{"metadata":{"mode":"correctness","rule":"sliding_window","requested_rate":null,"keys":1,"duration":"1000 iterations, 20s maximum","timestamp":"2026-11-15T05:30:44.101Z","base_url":"http://nginx:8080"},"options":{"summaryTrendStats":["avg","med","p(95)","p(99)","max"],"summaryTimeUnit":"","noColor":false},"state":{"isStdOutTTY":false,"isStdErrTTY":false,"testRunDurationMs":6585.848117},"metrics":{"data_received":{"type":"counter","contains":"data","values":{"count":431340,"rate":65494.98141121495}},"upstream_1":{"contains":"default","values":{"count":333,"rate":50.56296381029948},"thresholds":{"count>0":{"ok":true}},"type":"counter"},"vus":{"contains":"default","values":{"value":0,"min":0,"max":0},"type":"gauge"},"blocked":{"type":"counter","contains":"default","values":{"count":900,"rate":136.65665894675536},"thresholds":{"count==900":{"ok":true}}},"http_req_connecting":{"contains":"time","values":{"avg":0.003334392452830188,"med":0,"p(95)":0,"p(99)":0,"max":0.676303},"type":"trend"},"iteration_duration":{"type":"trend","contains":"time","values":{"avg":3.027204571999997,"med":2.5445705,"p(95)":6.261502449999999,"p(99)":9.505181819999997,"max":12.847618}},"http_req_duration{expected_response:true}":{"type":"trend","contains":"time","values":{"avg":2.569749168867925,"med":2.129562,"p(95)":5.447483599999998,"p(99)":8.50285286000001,"max":12.677528}},"upstream_2":{"type":"counter","contains":"default","values":{"count":334,"rate":50.714804542462545},"thresholds":{"count>0":{"ok":true}}},"allowed":{"contains":"default","values":{"count":100,"rate":15.184073216306151},"thresholds":{"count==100":{"ok":true}},"type":"counter"},"http_req_waiting":{"type":"trend","contains":"time","values":{"p(95)":5.0371318999999986,"p(99)":7.778699570000011,"max":12.574705,"avg":2.3970541226415127,"med":2.0035495}},"data_sent":{"type":"counter","contains":"data","values":{"count":205530,"rate":31207.82568147403}},"dropped_iterations":{"values":{"count":0,"rate":0},"thresholds":{"count==0":{"ok":true}},"type":"counter","contains":"default"},"upstream_0":{"type":"counter","contains":"default","values":{"count":333,"rate":50.56296381029948},"thresholds":{"count>0":{"ok":true}}},"vus_max":{"type":"gauge","contains":"default","values":{"value":8,"min":8,"max":8}},"invalid_decisions":{"values":{"rate":0,"passes":0,"fails":1000},"thresholds":{"rate==0":{"ok":true}},"type":"rate","contains":"default"},"http_reqs":{"values":{"count":1060,"rate":160.9511760928452},"type":"counter","contains":"default"},"iterations":{"type":"counter","contains":"default","values":{"count":1000,"rate":151.84073216306152}},"http_req_blocked":{"type":"trend","contains":"time","values":{"p(95)":0.011709099999999986,"p(99)":0.32034399000000213,"max":2.290686,"avg":0.013923744339622601,"med":0.004485}},"http_req_tls_handshaking":{"type":"trend","contains":"time","values":{"avg":0,"med":0,"p(95)":0,"p(99)":0,"max":0}},"http_req_failed":{"type":"rate","contains":"default","values":{"rate":0,"passes":0,"fails":1060}},"http_req_duration":{"values":{"avg":2.569749168867925,"med":2.129562,"p(95)":5.447483599999998,"p(99)":8.50285286000001,"max":12.677528},"type":"trend","contains":"time"},"http_req_receiving":{"type":"trend","contains":"time","values":{"avg":0.13459416886792452,"med":0.058779,"p(95)":0.41729169999999965,"p(99)":1.3763385400000283,"max":7.692064}},"http_req_duration{phase:load}":{"type":"trend","contains":"time","values":{"avg":2.603251532,"med":2.1469994999999997,"p(95)":5.51226335,"p(99)":8.56931507,"max":12.677528},"thresholds":{"p(99)>=0":{"ok":true}}},"http_req_sending":{"type":"trend","contains":"time","values":{"max":2.09404,"avg":0.038100877358490534,"med":0.017511,"p(95)":0.1022364999999999,"p(99)":0.3125010200000061}}},"setup_data":{"instances":["172.26.0.4:8080","172.26.0.3:8080","172.26.0.5:8080"],"nonce":"1794720643714-45478a2be7b7f4"},"root_group":{"id":"d41d8cd98f00b204e9800998ecf8427e","groups":[],"checks":[],"name":"","path":""}}
+
+running (06.6s), 0/8 VUs, 1000 complete and 0 interrupted iterations
+checks ✓ [ 100% ] 8 VUs  00.4s/20s  1000/1000 shared iters

@@ -1,0 +1,431 @@
+redis-1  | 1:C 15 Nov 2026 05:30:20.814 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis-1  | 1:C 15 Nov 2026 05:30:20.814 * Redis version=7.4.9, bits=64, commit=00000000, modified=0, pid=1, just started
+redis-1  | 1:C 15 Nov 2026 05:30:20.814 * Configuration loaded
+redis-1  | 1:M 15 Nov 2026 05:30:20.815 * monotonic clock: POSIX clock_gettime
+redis-1  | 1:M 15 Nov 2026 05:30:20.819 * Running mode=standalone, port=6379.
+redis-1  | 1:M 15 Nov 2026 05:30:20.820 * Server initialized
+redis-1  | 1:M 15 Nov 2026 05:30:20.820 * Ready to accept connections tcp
+prometheus-1  | time=2026-11-15T05:30:29.150Z level=INFO source=main.go:640 msg="No time or size retention was set so using the default time retention" duration=15d
+prometheus-1  | time=2026-11-15T05:30:29.150Z level=INFO source=main.go:687 msg="Starting Prometheus Server" mode=server version="(version=3.2.1, branch=HEAD, revision=804c49d58f3f3784c77c9c8ec17c9062092cae27)"
+prometheus-1  | time=2026-11-15T05:30:29.150Z level=INFO source=main.go:692 msg="operational information" build_context="(go=go1.23.6, platform=linux/amd64, user=root@42fd9529152a, date=20250226-09:19:49, tags=netgo,builtinassets,stringlabels)" host_details="(Linux 6.18.58.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026 x86_64 676552f38591 localdomain)" fd_limits="(soft=1048576, hard=1048576)" vm_limits="(soft=unlimited, hard=unlimited)"
+prometheus-1  | time=2026-11-15T05:30:29.151Z level=INFO source=main.go:768 msg="Leaving GOMAXPROCS=8: CPU quota undefined" component=automaxprocs
+prometheus-1  | time=2026-11-15T05:30:29.155Z level=INFO source=web.go:654 msg="Start listening for connections" component=web address=0.0.0.0:9090
+prometheus-1  | time=2026-11-15T05:30:29.156Z level=INFO source=main.go:1228 msg="Starting TSDB ..."
+prometheus-1  | time=2026-11-15T05:30:29.162Z level=INFO source=tls_config.go:347 msg="Listening on" component=web address=[::]:9090
+prometheus-1  | time=2026-11-15T05:30:29.162Z level=INFO source=tls_config.go:350 msg="TLS is disabled." component=web http2=false address=[::]:9090
+prometheus-1  | time=2026-11-15T05:30:29.166Z level=INFO source=head.go:628 msg="Replaying on-disk memory mappable chunks if any" component=tsdb
+prometheus-1  | time=2026-11-15T05:30:29.166Z level=INFO source=head.go:715 msg="On-disk memory mappable chunks replay completed" component=tsdb duration=49.004µs
+prometheus-1  | time=2026-11-15T05:30:29.166Z level=INFO source=head.go:723 msg="Replaying WAL, this may take a while" component=tsdb
+prometheus-1  | time=2026-11-15T05:30:29.167Z level=INFO source=head.go:795 msg="WAL segment loaded" component=tsdb segment=0 maxSegment=0
+prometheus-1  | time=2026-11-15T05:30:29.167Z level=INFO source=head.go:832 msg="WAL replay completed" component=tsdb checkpoint_replay_duration=109.513µs wal_replay_duration=617.768µs wbl_replay_duration=214ns chunk_snapshot_load_duration=0s mmap_chunk_replay_duration=49.004µs total_replay_duration=975.71µs
+prometheus-1  | time=2026-11-15T05:30:29.171Z level=INFO source=main.go:1249 msg="filesystem information" fs_type=EXT4_SUPER_MAGIC
+prometheus-1  | time=2026-11-15T05:30:29.172Z level=INFO source=main.go:1252 msg="TSDB started"
+prometheus-1  | time=2026-11-15T05:30:29.172Z level=INFO source=main.go:1437 msg="Loading configuration file" filename=/etc/prometheus/prometheus.yml
+prometheus-1  | time=2026-11-15T05:30:29.177Z level=INFO source=main.go:1476 msg="updated GOGC" old=100 new=75
+prometheus-1  | time=2026-11-15T05:30:29.177Z level=INFO source=main.go:1486 msg="Completed loading of configuration file" db_storage=2.557µs remote_storage=2.77µs web_handler=959ns query_engine=2.237µs scrape=1.49238ms scrape_sd=74.464µs notify=144.775µs notify_sd=3.196µs rules=2.237µs tracing=176.627µs filename=/etc/prometheus/prometheus.yml totalDuration=5.37551ms
+prometheus-1  | time=2026-11-15T05:30:29.177Z level=INFO source=main.go:1213 msg="Server is ready to receive web requests."
+prometheus-1  | time=2026-11-15T05:30:29.177Z level=INFO source=manager.go:175 msg="Starting rule manager..." component="rule manager"
+prometheus-1  | time=2026-11-15T05:31:08.543Z level=WARN source=scrape.go:1881 msg="Error on ingesting out-of-order samples" component="scrape manager" scrape_pool=ratelimiter target=http://limiter-1:8080/metrics num_dropped=67
+prometheus-1  | time=2026-11-15T05:31:09.831Z level=WARN source=scrape.go:1881 msg="Error on ingesting out-of-order samples" component="scrape manager" scrape_pool=ratelimiter target=http://limiter-3:8080/metrics num_dropped=67
+prometheus-1  | time=2026-11-15T05:32:04.557Z level=WARN source=scrape.go:1881 msg="Error on ingesting out-of-order samples" component="scrape manager" scrape_pool=ratelimiter target=http://limiter-1:8080/metrics num_dropped=67
+prometheus-1  | time=2026-11-15T05:32:05.833Z level=WARN source=scrape.go:1881 msg="Error on ingesting out-of-order samples" component="scrape manager" scrape_pool=ratelimiter target=http://limiter-3:8080/metrics num_dropped=67
+limiter-3-1   | {"time":"2026-11-15T05:32:08.936460998Z","level":"INFO","msg":"http request","request_id":"f3fbd9c0ccb40e80021021631a452851","method":"POST","path":"/check","status":200,"duration":624205}
+limiter-3-1   | {"time":"2026-11-15T05:32:08.968306326Z","level":"INFO","msg":"http request","request_id":"9d1ce8fcbc6dbd4b39d0912f627ee865","method":"POST","path":"/check","status":200,"duration":852121}
+limiter-3-1   | {"time":"2026-11-15T05:32:08.997229356Z","level":"INFO","msg":"http request","request_id":"14be1da31b9bc2e84bedd002669cf009","method":"POST","path":"/check","status":200,"duration":1134715}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.028226054Z","level":"INFO","msg":"http request","request_id":"0b2a0cf462326a7a4ab9875249e91f87","method":"POST","path":"/check","status":200,"duration":675605}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.057569063Z","level":"INFO","msg":"http request","request_id":"ae11f7ec1798e83868f2037c74b9d441","method":"POST","path":"/check","status":200,"duration":868091}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.077218288Z","level":"INFO","msg":"http request","request_id":"9c7354721c5881b9db168f90f51d0901","method":"GET","path":"/readyz","status":200,"duration":680787}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.078789376Z","level":"INFO","msg":"http request","request_id":"0b2c85221933e769493d0549b31eeb02","method":"POST","path":"/check","status":200,"duration":1866797}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.107676659Z","level":"INFO","msg":"http request","request_id":"fce49a458f96fa12077a58df080eb214","method":"POST","path":"/check","status":200,"duration":527010}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.136951135Z","level":"INFO","msg":"http request","request_id":"8674abc540cbc61969d8ea0bf1b6f638","method":"POST","path":"/check","status":200,"duration":690200}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.166716564Z","level":"INFO","msg":"http request","request_id":"462be59c2f3361d6b9751304dea7cb6f","method":"POST","path":"/check","status":200,"duration":574949}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.197038728Z","level":"INFO","msg":"http request","request_id":"1e67ab9b8405860d71d4a7178379581c","method":"POST","path":"/check","status":200,"duration":852987}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.226674857Z","level":"INFO","msg":"http request","request_id":"ef79db959dd9a74b4a8f5b41b2d5c58f","method":"POST","path":"/check","status":200,"duration":639391}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.256680595Z","level":"INFO","msg":"http request","request_id":"f3b110d7b62b58f86f824488c409e80b","method":"POST","path":"/check","status":200,"duration":575699}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.286474454Z","level":"INFO","msg":"http request","request_id":"4e8d468c7b638837344ecda2314af420","method":"POST","path":"/check","status":200,"duration":549751}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.316187035Z","level":"INFO","msg":"http request","request_id":"714625b99fb54dd7519695443752638b","method":"POST","path":"/check","status":200,"duration":510720}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.346516275Z","level":"INFO","msg":"http request","request_id":"60fd7aed1a9454d31d3e9890b969aedf","method":"POST","path":"/check","status":200,"duration":663518}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.376746975Z","level":"INFO","msg":"http request","request_id":"ac3bfbc1865456ffa07ea05601440c48","method":"POST","path":"/check","status":200,"duration":615909}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.407001586Z","level":"INFO","msg":"http request","request_id":"01f5b7f3084f9dbea07e1feff56fe986","method":"POST","path":"/check","status":200,"duration":767098}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.436228217Z","level":"INFO","msg":"http request","request_id":"e3837d4a85cf52551c27ea8967c079f6","method":"POST","path":"/check","status":200,"duration":612478}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.466718619Z","level":"INFO","msg":"http request","request_id":"9c5cb4459164fee539f5929ac2643cda","method":"POST","path":"/check","status":200,"duration":1029053}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.496635895Z","level":"INFO","msg":"http request","request_id":"85f6278a1354cb020b26ecf217f632d2","method":"POST","path":"/check","status":200,"duration":762273}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.527704249Z","level":"INFO","msg":"http request","request_id":"643e0b4c66ed7b35d63d664e548f4b5d","method":"POST","path":"/check","status":200,"duration":845053}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.557595576Z","level":"INFO","msg":"http request","request_id":"bb1f12744f6b28ab01ce73192f23511d","method":"POST","path":"/check","status":200,"duration":751443}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.587250469Z","level":"INFO","msg":"http request","request_id":"08140822c2cf4d61197494dcc9058480","method":"POST","path":"/check","status":200,"duration":712413}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.616245383Z","level":"INFO","msg":"http request","request_id":"294e59351a6cc4a9191ca6938d612816","method":"POST","path":"/check","status":200,"duration":489168}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.651071491Z","level":"INFO","msg":"http request","request_id":"701bf845f6697f214f8f981297c72402","method":"POST","path":"/check","status":200,"duration":2348475}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.677332449Z","level":"INFO","msg":"http request","request_id":"33e16c28f237b99318472fd317b0bd25","method":"POST","path":"/check","status":200,"duration":1160512}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.707902735Z","level":"INFO","msg":"http request","request_id":"2570f46de65880dc0020a706ba94a3d7","method":"POST","path":"/check","status":200,"duration":1534412}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.739809707Z","level":"INFO","msg":"http request","request_id":"83c7a3e80022bd5fc5c7742355c6fea6","method":"POST","path":"/check","status":200,"duration":1582985}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.767729246Z","level":"INFO","msg":"http request","request_id":"10eee4688c17070e7cf855ff0ac345a9","method":"POST","path":"/check","status":200,"duration":856740}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.796760295Z","level":"INFO","msg":"http request","request_id":"4f3a30318e97deffbd1e40f581985053","method":"POST","path":"/check","status":200,"duration":444347}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.827148511Z","level":"INFO","msg":"http request","request_id":"5c37b9111d9c7e490b98b34fe9ecbb3b","method":"POST","path":"/check","status":200,"duration":678530}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.831484216Z","level":"INFO","msg":"http request","request_id":"6d203831b0df6e7455664aedd8ef76f8","method":"GET","path":"/metrics","status":200,"duration":1513610}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.859417801Z","level":"INFO","msg":"http request","request_id":"6a2cad84ddde1b42ff26b9d1f4db6bb5","method":"POST","path":"/check","status":200,"duration":2004064}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.88910572Z","level":"INFO","msg":"http request","request_id":"c7bf68d1790d9015a1c01bf59b4af32c","method":"POST","path":"/check","status":200,"duration":1773098}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.916851552Z","level":"INFO","msg":"http request","request_id":"f9dea500b077dd895b1aa0283b96c20a","method":"POST","path":"/check","status":200,"duration":930190}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.946785556Z","level":"INFO","msg":"http request","request_id":"59446b7d8b082fc0281ac207126099a0","method":"POST","path":"/check","status":200,"duration":763989}
+limiter-3-1   | {"time":"2026-11-15T05:32:09.977522043Z","level":"INFO","msg":"http request","request_id":"de96ccf5a34efd3daafde34e4667b0d5","method":"POST","path":"/check","status":200,"duration":896200}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.007591688Z","level":"INFO","msg":"http request","request_id":"05ce8be021722e2ff81c41d2f6cb5825","method":"POST","path":"/check","status":200,"duration":802161}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.036793978Z","level":"INFO","msg":"http request","request_id":"b4a28b4d9cf8f728f4f892e84c7d5565","method":"POST","path":"/check","status":200,"duration":780288}
+limiter-1-1   | {"time":"2026-11-15T05:32:08.916665399Z","level":"INFO","msg":"http request","request_id":"789e89fd590e1d90d9851dd4e412e996","method":"POST","path":"/check","status":200,"duration":555671}
+limiter-1-1   | {"time":"2026-11-15T05:32:08.946752019Z","level":"INFO","msg":"http request","request_id":"cf3711f8d65caf4e3c218c357fec6d1e","method":"POST","path":"/check","status":200,"duration":646308}
+limiter-1-1   | {"time":"2026-11-15T05:32:08.976638854Z","level":"INFO","msg":"http request","request_id":"d693ff18781a6844c3de573e83f14814","method":"POST","path":"/check","status":200,"duration":758944}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.007043393Z","level":"INFO","msg":"http request","request_id":"8984192f5b13ddd45d45c7c3a0cd3956","method":"POST","path":"/check","status":200,"duration":617647}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.036893317Z","level":"INFO","msg":"http request","request_id":"069b1e6bb2fd97a441bcae914904ff3f","method":"POST","path":"/check","status":200,"duration":699930}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.059593974Z","level":"INFO","msg":"http request","request_id":"0d9a5c709e54d56a435c3a1e113edbb1","method":"GET","path":"/healthz","status":200,"duration":37651}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.066690774Z","level":"INFO","msg":"http request","request_id":"cc6b212365560d6d3161f19c41283457","method":"POST","path":"/check","status":200,"duration":783504}
+limiter-2-1   | {"time":"2026-11-15T05:32:08.926640722Z","level":"INFO","msg":"http request","request_id":"cbbde33007bc99d2f5bc33534cd7c14e","method":"POST","path":"/check","status":200,"duration":589937}
+limiter-2-1   | {"time":"2026-11-15T05:32:08.962696945Z","level":"INFO","msg":"http request","request_id":"a4d2b44b1694b623f6a4331a1cd5a0d0","method":"POST","path":"/check","status":200,"duration":939163}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.087893011Z","level":"INFO","msg":"http request","request_id":"5f661b650e982e595da0fde2f9a0bb6f","method":"POST","path":"/check","status":200,"duration":701940}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.0966429Z","level":"INFO","msg":"http request","request_id":"ce9591dc00ddc792075d5e051ab9723a","method":"POST","path":"/check","status":200,"duration":706837}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.116378507Z","level":"INFO","msg":"http request","request_id":"d3f81c944787e17cd4b3da052aca27dd","method":"POST","path":"/check","status":200,"duration":691680}
+limiter-2-1   | {"time":"2026-11-15T05:32:08.986808143Z","level":"INFO","msg":"http request","request_id":"7ec7ac7f281cb7d1faf272ed03767de7","method":"POST","path":"/check","status":200,"duration":590150}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.147579112Z","level":"INFO","msg":"http request","request_id":"c670cb98a613b5c422247aaca1bdddd1","method":"POST","path":"/check","status":200,"duration":995639}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.016538452Z","level":"INFO","msg":"http request","request_id":"9855c3ff52f487caec7422ec703356d0","method":"POST","path":"/check","status":200,"duration":660057}
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+limiter-2-1   | {"time":"2026-11-15T05:32:09.046381291Z","level":"INFO","msg":"http request","request_id":"94298f65f11233a93212b7444e759811","method":"POST","path":"/check","status":200,"duration":634040}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.066995589Z","level":"INFO","msg":"http request","request_id":"34abf7508fb2e4e1f56ba8435cc5de6e","method":"POST","path":"/check","status":200,"duration":568997}
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+limiter-1-1   | {"time":"2026-11-15T05:32:09.177271516Z","level":"INFO","msg":"http request","request_id":"2c31573ead95b092b8e111cc04006e5c","method":"POST","path":"/check","status":200,"duration":764096}
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:10 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+limiter-3-1   | {"time":"2026-11-15T05:32:10.127400403Z","level":"INFO","msg":"http request","request_id":"58861c02f561cbcb1fd5f6267f6c2acb","method":"POST","path":"/check","status":200,"duration":667914}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.15718504Z","level":"INFO","msg":"http request","request_id":"49fb250d59d02ed00d6e0d9ba3fb74a8","method":"POST","path":"/check","status":200,"duration":747047}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.187013962Z","level":"INFO","msg":"http request","request_id":"cbb79a4a8e91f64a34ab32d6983d8477","method":"POST","path":"/check","status":200,"duration":603792}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.217192014Z","level":"INFO","msg":"http request","request_id":"debbd788335621c5953e5bfa7da15ffb","method":"POST","path":"/check","status":200,"duration":854274}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.247160437Z","level":"INFO","msg":"http request","request_id":"daa07d8ef523b4fbc6b358dc001b8762","method":"POST","path":"/check","status":200,"duration":681853}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.277887488Z","level":"INFO","msg":"http request","request_id":"e21924abb0793770eb4d6b998f830e19","method":"POST","path":"/check","status":200,"duration":851486}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.308101461Z","level":"INFO","msg":"http request","request_id":"fe070459c45af21a38101adbf4f4a391","method":"POST","path":"/check","status":200,"duration":914107}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.337502012Z","level":"INFO","msg":"http request","request_id":"59d017126936f19f0d60dc86130e67fe","method":"POST","path":"/check","status":200,"duration":808595}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.366652941Z","level":"INFO","msg":"http request","request_id":"53d60254a578f657d63334a60b356b11","method":"POST","path":"/check","status":200,"duration":725924}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.397113534Z","level":"INFO","msg":"http request","request_id":"511e5329023231906bc8e55ce6b9ac96","method":"POST","path":"/check","status":200,"duration":814814}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.427187147Z","level":"INFO","msg":"http request","request_id":"b66ee8ad70dd5db46d6b1486e859090f","method":"POST","path":"/check","status":200,"duration":721956}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.457327026Z","level":"INFO","msg":"http request","request_id":"599e4d619629a1e79cd41575f6260fba","method":"POST","path":"/check","status":200,"duration":635103}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.486624747Z","level":"INFO","msg":"http request","request_id":"ef8b1b8ccae6532bcab1d3490530bfa5","method":"POST","path":"/check","status":200,"duration":412394}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.516550709Z","level":"INFO","msg":"http request","request_id":"8e755e316064938313004929e5ecf69d","method":"POST","path":"/check","status":200,"duration":406174}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.546320549Z","level":"INFO","msg":"http request","request_id":"e7921c3d2b08de9303313a8bfb3077fa","method":"POST","path":"/check","status":200,"duration":530128}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.576606792Z","level":"INFO","msg":"http request","request_id":"b0065d861f971fdc0a8d4dd4622a2b14","method":"POST","path":"/check","status":200,"duration":437913}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.606046052Z","level":"INFO","msg":"http request","request_id":"e7242090aa35cd722171effac84f20b6","method":"POST","path":"/check","status":200,"duration":609904}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.636294873Z","level":"INFO","msg":"http request","request_id":"54af9bd9b7dab25b8c87cb7bf1c27ec2","method":"POST","path":"/check","status":200,"duration":426977}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.666007669Z","level":"INFO","msg":"http request","request_id":"c7cbd3cecd511a2b4397c5f1b1325e62","method":"POST","path":"/check","status":200,"duration":502570}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.696981984Z","level":"INFO","msg":"http request","request_id":"2026d8d54dc97503514576d6a361a292","method":"POST","path":"/check","status":200,"duration":425153}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.72702686Z","level":"INFO","msg":"http request","request_id":"e43cbbfbf059fefb581ab0016a23654f","method":"POST","path":"/check","status":200,"duration":520906}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.757027774Z","level":"INFO","msg":"http request","request_id":"17eae7194b2fcac4c87289019dd41007","method":"POST","path":"/check","status":200,"duration":706408}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.78699491Z","level":"INFO","msg":"http request","request_id":"0fe4a8ad4c4b1b8c13d04e0c053c66ba","method":"POST","path":"/check","status":200,"duration":512007}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.816418301Z","level":"INFO","msg":"http request","request_id":"9bf3bf41ea989f2c79d5e228c0a2baa8","method":"POST","path":"/check","status":200,"duration":477587}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.847003063Z","level":"INFO","msg":"http request","request_id":"ad4d3d0123915d3a3255efe62ecc2f32","method":"POST","path":"/check","status":200,"duration":504286}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.876729905Z","level":"INFO","msg":"http request","request_id":"7a2a5fee70826b3253c42c1b9ef35e89","method":"POST","path":"/check","status":200,"duration":485200}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.906765024Z","level":"INFO","msg":"http request","request_id":"e2927cab949cdefbc887e6177c50c053","method":"POST","path":"/check","status":200,"duration":693327}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.939725604Z","level":"INFO","msg":"http request","request_id":"bc2e7b1f0e4ad4da69868cf9f4cec77f","method":"POST","path":"/check","status":200,"duration":1561540}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.966499641Z","level":"INFO","msg":"http request","request_id":"4f8111b0b4d2825135ded227c78e06e5","method":"POST","path":"/check","status":200,"duration":690218}
+limiter-3-1   | {"time":"2026-11-15T05:32:10.999495499Z","level":"INFO","msg":"http request","request_id":"3d9041697dcab1c143e2750aad94a46c","method":"POST","path":"/check","status":200,"duration":1803443}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.028371927Z","level":"INFO","msg":"http request","request_id":"4585fb3c355b9fa00d132360ef203cc3","method":"POST","path":"/check","status":200,"duration":1581699}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.057131693Z","level":"INFO","msg":"http request","request_id":"355fb5181d78e6bea7370e90083095c3","method":"POST","path":"/check","status":200,"duration":668986}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.088287651Z","level":"INFO","msg":"http request","request_id":"eee6c13b3728e85b627c8de7da3ba7dd","method":"POST","path":"/check","status":200,"duration":1392444}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.115978261Z","level":"INFO","msg":"http request","request_id":"4ff509fb7554fa06def7f2aad6b01759","method":"POST","path":"/check","status":200,"duration":472761}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.148365608Z","level":"INFO","msg":"http request","request_id":"b906c36719581021c92588d77879fa8f","method":"POST","path":"/check","status":200,"duration":1542025}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.177820523Z","level":"INFO","msg":"http request","request_id":"1fe70280693399e272abff63ebfe4acc","method":"POST","path":"/check","status":200,"duration":974261}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.206358974Z","level":"INFO","msg":"http request","request_id":"0e688e355c9134f62ceae820bcbfc9e2","method":"POST","path":"/check","status":200,"duration":773747}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.236480731Z","level":"INFO","msg":"http request","request_id":"5abdc56bfcc1a9c0a14f7ddf0254fcab","method":"POST","path":"/check","status":200,"duration":574198}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.266915805Z","level":"INFO","msg":"http request","request_id":"6719754360ba80af6b405e7161b02714","method":"POST","path":"/check","status":200,"duration":524982}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.297071875Z","level":"INFO","msg":"http request","request_id":"8fb0444564dceed268b72997290fb9f1","method":"POST","path":"/check","status":200,"duration":657298}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.327090373Z","level":"INFO","msg":"http request","request_id":"4150aca81195f146c7d76777c6d62511","method":"POST","path":"/check","status":200,"duration":560473}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.356631928Z","level":"INFO","msg":"http request","request_id":"7275e7f5c534e12c9e15545c3fc4f99e","method":"POST","path":"/check","status":200,"duration":1168447}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.38632939Z","level":"INFO","msg":"http request","request_id":"4894b5347295ba5abb3d5678df0ddb6f","method":"POST","path":"/check","status":200,"duration":807202}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.416576388Z","level":"INFO","msg":"http request","request_id":"d92f21d210d5ed8235de875a6c74ca2c","method":"POST","path":"/check","status":200,"duration":699224}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.446916566Z","level":"INFO","msg":"http request","request_id":"a730799b6b6f5d5c21c8d638dad3cae0","method":"POST","path":"/check","status":200,"duration":395237}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.476694126Z","level":"INFO","msg":"http request","request_id":"f131d80d856eb12f28f42d2e23a8c41c","method":"POST","path":"/check","status":200,"duration":488739}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.507270095Z","level":"INFO","msg":"http request","request_id":"3b6a5b3553a7416d93a4f22c932b7852","method":"POST","path":"/check","status":200,"duration":769565}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.536532646Z","level":"INFO","msg":"http request","request_id":"7175078011af3f86a2df3bd7fdf60fce","method":"POST","path":"/check","status":200,"duration":547499}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.566627168Z","level":"INFO","msg":"http request","request_id":"6baabf5b79e24e5cb3ad830d5f4abe95","method":"POST","path":"/check","status":200,"duration":553182}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.597156279Z","level":"INFO","msg":"http request","request_id":"b5f321b6ce43291b67ec1c31918f6920","method":"POST","path":"/check","status":200,"duration":512114}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.626849667Z","level":"INFO","msg":"http request","request_id":"651c10a21783effdeffe393b9f602640","method":"POST","path":"/check","status":200,"duration":587601}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.656859694Z","level":"INFO","msg":"http request","request_id":"c2554bfa311a1601c246f76719c62d6f","method":"POST","path":"/check","status":200,"duration":717882}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.686197733Z","level":"INFO","msg":"http request","request_id":"7af3b06b6d7803209bcaf15e60c2e7c9","method":"POST","path":"/check","status":200,"duration":710590}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.716841147Z","level":"INFO","msg":"http request","request_id":"e65109d4994e7cf651baf8a1e52aba94","method":"POST","path":"/check","status":200,"duration":452389}
+limiter-3-1   | {"time":"2026-11-15T05:32:11.832239206Z","level":"INFO","msg":"http request","request_id":"2612e4764554c4077cd02c5f072816a1","method":"GET","path":"/metrics","status":200,"duration":2400052}
+limiter-3-1   | {"time":"2026-11-15T05:32:13.83673919Z","level":"INFO","msg":"http request","request_id":"1433629c6e28f01276c992ba266fc1a5","method":"GET","path":"/metrics","status":200,"duration":2650104}
+limiter-3-1   | {"time":"2026-11-15T05:32:14.480015319Z","level":"INFO","msg":"http request","request_id":"0231f0f39f95fc09d87744340340c95d","method":"GET","path":"/readyz","status":200,"duration":2398872}
+limiter-3-1   | {"time":"2026-11-15T05:32:15.836064206Z","level":"INFO","msg":"http request","request_id":"dcf243c1e5b7b05d9db71bd9e712ff8f","method":"GET","path":"/metrics","status":200,"duration":3716686}
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 172.26.0.8 - - [15/Nov/2026:05:32:11 +0000] "POST /check HTTP/1.1" 200 63 "-" "Grafana k6/1.0.0"
+nginx-1       | 127.0.0.1 - - [15/Nov/2026:05:32:14 +0000] "GET /healthz HTTP/1.1" 200 16 "-" "Wget"
+limiter-1-1   | {"time":"2026-11-15T05:32:09.206550687Z","level":"INFO","msg":"http request","request_id":"48ac4e59271f62a1fb7c704eba2c8964","method":"POST","path":"/check","status":200,"duration":707374}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.236202578Z","level":"INFO","msg":"http request","request_id":"a9693c617eaf078d705054231ee9a6fd","method":"POST","path":"/check","status":200,"duration":598324}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.267108697Z","level":"INFO","msg":"http request","request_id":"911f33e388b474b7b307a94665026b87","method":"POST","path":"/check","status":200,"duration":605294}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.296637492Z","level":"INFO","msg":"http request","request_id":"8d12182e8ae8711a6a86638f26bc1b20","method":"POST","path":"/check","status":200,"duration":505251}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.326924379Z","level":"INFO","msg":"http request","request_id":"70e7896e6a47fc41c2e7c125e102932a","method":"POST","path":"/check","status":200,"duration":747584}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.356794475Z","level":"INFO","msg":"http request","request_id":"78d7da6c6c2bc845043b669f1e379c8f","method":"POST","path":"/check","status":200,"duration":511899}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.386244137Z","level":"INFO","msg":"http request","request_id":"2672aa9180d26f556e7c519ac9c6bad4","method":"POST","path":"/check","status":200,"duration":710590}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.416845733Z","level":"INFO","msg":"http request","request_id":"dbf8cfd8d5c8ad16fa1bde2127cf751b","method":"POST","path":"/check","status":200,"duration":728283}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.447275552Z","level":"INFO","msg":"http request","request_id":"7650b72bd07c14be325b45bd9198fd0d","method":"POST","path":"/check","status":200,"duration":687644}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.477433767Z","level":"INFO","msg":"http request","request_id":"e3ab702051c4de7f4100b4ebe79df03d","method":"POST","path":"/check","status":200,"duration":993454}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.507587799Z","level":"INFO","msg":"http request","request_id":"9c91e17fddda45e29fe54cc4b6af7bfe","method":"POST","path":"/check","status":200,"duration":758521}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.536800598Z","level":"INFO","msg":"http request","request_id":"07b12bb4aaad5e5b6b09d13eff50e773","method":"POST","path":"/check","status":200,"duration":585672}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.566243825Z","level":"INFO","msg":"http request","request_id":"bb4ec424abc612fa2d5773e0f775497f","method":"POST","path":"/check","status":200,"duration":465578}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.596107381Z","level":"INFO","msg":"http request","request_id":"9662b198aa80fec0bfefe4a9eb5cd81d","method":"POST","path":"/check","status":200,"duration":501284}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.629244671Z","level":"INFO","msg":"http request","request_id":"19be6bb4ddcbbf9cb93d31c2573abe26","method":"POST","path":"/check","status":200,"duration":1453456}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.660577981Z","level":"INFO","msg":"http request","request_id":"29cee0bf143b2890f55c4c31901df793","method":"POST","path":"/check","status":200,"duration":2226881}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.687584593Z","level":"INFO","msg":"http request","request_id":"d21cb1329408dbc4a476423255c6809d","method":"POST","path":"/check","status":200,"duration":638749}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.718941707Z","level":"INFO","msg":"http request","request_id":"d47bf168cdd795ce5ddccafd91fd7e66","method":"POST","path":"/check","status":200,"duration":1425899}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.749184095Z","level":"INFO","msg":"http request","request_id":"b8a119b4074483dfd595a794ec169c90","method":"POST","path":"/check","status":200,"duration":1841187}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.777391858Z","level":"INFO","msg":"http request","request_id":"565097e4addbed67cbf7f5fd19575423","method":"POST","path":"/check","status":200,"duration":717560}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.805839166Z","level":"INFO","msg":"http request","request_id":"27cc9843876dd2d31d4fe1869f885890","method":"POST","path":"/check","status":200,"duration":469116}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.836459956Z","level":"INFO","msg":"http request","request_id":"161e18f1679b45d42d3bef71f7b61b53","method":"POST","path":"/check","status":200,"duration":461824}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.870023149Z","level":"INFO","msg":"http request","request_id":"6fcf129882f3ea59d48eca8295b795af","method":"POST","path":"/check","status":200,"duration":1616118}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.899842313Z","level":"INFO","msg":"http request","request_id":"5327d5cbcbbc1f31a32af7f2dce9a7a5","method":"POST","path":"/check","status":200,"duration":1199436}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.930934257Z","level":"INFO","msg":"http request","request_id":"2c4ec780cd976c3cc5df1a6e9c45a0f3","method":"POST","path":"/check","status":200,"duration":1873248}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.96017622Z","level":"INFO","msg":"http request","request_id":"24310ac7614a165892eada5707925c0a","method":"POST","path":"/check","status":200,"duration":1864455}
+limiter-1-1   | {"time":"2026-11-15T05:32:09.987130077Z","level":"INFO","msg":"http request","request_id":"b7e09c01068c3a8b52171c170c5eae8c","method":"POST","path":"/check","status":200,"duration":685606}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.015946995Z","level":"INFO","msg":"http request","request_id":"32b46c349a1b7d06571f4dca15ef1122","method":"POST","path":"/check","status":200,"duration":586100}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.047252855Z","level":"INFO","msg":"http request","request_id":"a90f8908344e21f80443655cd60b253c","method":"POST","path":"/check","status":200,"duration":698796}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.077241115Z","level":"INFO","msg":"http request","request_id":"60747fd591d76cf7ceaa4b61e0ad90fc","method":"POST","path":"/check","status":200,"duration":641858}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.107142415Z","level":"INFO","msg":"http request","request_id":"6ef7aed3734844afd99e75a6b40725ce","method":"POST","path":"/check","status":200,"duration":709518}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.136798488Z","level":"INFO","msg":"http request","request_id":"e5878de0de3ce760c4424689a8cd8a34","method":"POST","path":"/check","status":200,"duration":731500}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.167009243Z","level":"INFO","msg":"http request","request_id":"e165a322eb666855fe780d70a8277e3c","method":"POST","path":"/check","status":200,"duration":884404}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.197343309Z","level":"INFO","msg":"http request","request_id":"c0b94ce8bb7b793c5b68fca23410b0df","method":"POST","path":"/check","status":200,"duration":753266}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.226685637Z","level":"INFO","msg":"http request","request_id":"a66694cceff6f2bed3644fb6b1aa0552","method":"POST","path":"/check","status":200,"duration":1020904}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.257566129Z","level":"INFO","msg":"http request","request_id":"ca50bb2aa3546c3fc21bb09f863ed19c","method":"POST","path":"/check","status":200,"duration":652795}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.287238179Z","level":"INFO","msg":"http request","request_id":"6b4e77a8ea8c2e8f0f783288a56e22db","method":"POST","path":"/check","status":200,"duration":609261}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.316914088Z","level":"INFO","msg":"http request","request_id":"03bd65db86d13ee1aa1813df9b5c7429","method":"POST","path":"/check","status":200,"duration":829719}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.346780539Z","level":"INFO","msg":"http request","request_id":"52a50db63502ed97ae726f21c58bce13","method":"POST","path":"/check","status":200,"duration":689681}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.377058311Z","level":"INFO","msg":"http request","request_id":"7385412f42a66ee82c10601d264f207c","method":"POST","path":"/check","status":200,"duration":673489}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.407613478Z","level":"INFO","msg":"http request","request_id":"1f80b0957b40f33ec1671331a64bc5cb","method":"POST","path":"/check","status":200,"duration":803234}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.437490974Z","level":"INFO","msg":"http request","request_id":"0ee46e3209f557a1d8d1d990da243451","method":"POST","path":"/check","status":200,"duration":756269}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.467200445Z","level":"INFO","msg":"http request","request_id":"ca0d80a1135114d2d5bd431d6e037a76","method":"POST","path":"/check","status":200,"duration":826502}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.49696353Z","level":"INFO","msg":"http request","request_id":"16f0d28dab1bbd8cddbe38f1c875f451","method":"POST","path":"/check","status":200,"duration":433732}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.526173218Z","level":"INFO","msg":"http request","request_id":"3c3d5e11c5c0e65f1f88c92ff09f3c26","method":"POST","path":"/check","status":200,"duration":595643}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.551316984Z","level":"INFO","msg":"http request","request_id":"011f915121da10551e075f8ab88c6ce1","method":"GET","path":"/metrics","status":200,"duration":2359413}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.556544385Z","level":"INFO","msg":"http request","request_id":"bffe1404579c7322018a73d2b3939834","method":"POST","path":"/check","status":200,"duration":588459}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.586937533Z","level":"INFO","msg":"http request","request_id":"5fdfcb6f6caf721709a7cd773fec02f6","method":"POST","path":"/check","status":200,"duration":662017}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.615919794Z","level":"INFO","msg":"http request","request_id":"5dd3cb7344a4ed392a1a105ce308013f","method":"POST","path":"/check","status":200,"duration":530664}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.646395506Z","level":"INFO","msg":"http request","request_id":"9e016d56e4c81cacf5c496afa567d9cc","method":"POST","path":"/check","status":200,"duration":544925}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.676283831Z","level":"INFO","msg":"http request","request_id":"16063a7549a681b9000033258ed5c222","method":"POST","path":"/check","status":200,"duration":616338}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.706566643Z","level":"INFO","msg":"http request","request_id":"2b9f0716e45acbde9ebb4df83d7b4be7","method":"POST","path":"/check","status":200,"duration":664376}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.736562945Z","level":"INFO","msg":"http request","request_id":"bff3244479d39f399897ccd34b96b974","method":"POST","path":"/check","status":200,"duration":545783}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.76720829Z","level":"INFO","msg":"http request","request_id":"06df098fd94c5670c83c07ae1e19f33e","method":"POST","path":"/check","status":200,"duration":610762}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.796239661Z","level":"INFO","msg":"http request","request_id":"b790c14566268368e9b121b1e45129ad","method":"POST","path":"/check","status":200,"duration":409391}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.826448164Z","level":"INFO","msg":"http request","request_id":"c3a2ee1edf3519d929cf0f63360a7dca","method":"POST","path":"/check","status":200,"duration":414323}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.856651092Z","level":"INFO","msg":"http request","request_id":"cde75b51660c83de8ff99bf293a4a7c4","method":"POST","path":"/check","status":200,"duration":505359}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.886865708Z","level":"INFO","msg":"http request","request_id":"c7a73362802d456ac278a9e27636c38e","method":"POST","path":"/check","status":200,"duration":421615}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.919397168Z","level":"INFO","msg":"http request","request_id":"680167b6b02b0e886e6f2fe32454b87a","method":"POST","path":"/check","status":200,"duration":1515969}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.948570935Z","level":"INFO","msg":"http request","request_id":"e9f7b84783aef453d06d439b1a72c0c7","method":"POST","path":"/check","status":200,"duration":1036559}
+limiter-1-1   | {"time":"2026-11-15T05:32:10.976502591Z","level":"INFO","msg":"http request","request_id":"35d70a6143a9661d7899e76c535b79ef","method":"POST","path":"/check","status":200,"duration":587494}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.009499199Z","level":"INFO","msg":"http request","request_id":"f42c48b54e580cbbb650f63430b2cd84","method":"POST","path":"/check","status":200,"duration":1691391}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.038165249Z","level":"INFO","msg":"http request","request_id":"67b1e6bc15a5cec18036812e2d196034","method":"POST","path":"/check","status":200,"duration":1160084}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.066298919Z","level":"INFO","msg":"http request","request_id":"02e4a992ec0320ff97f823116e88ce16","method":"POST","path":"/check","status":200,"duration":568622}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.096690566Z","level":"INFO","msg":"http request","request_id":"71f11db1e59299e84c3ffdc94ddf3104","method":"POST","path":"/check","status":200,"duration":695686}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.125762682Z","level":"INFO","msg":"http request","request_id":"0023518ed90d4fe205e47f6d07e06708","method":"POST","path":"/check","status":200,"duration":505359}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.160830693Z","level":"INFO","msg":"http request","request_id":"ba9a24f469c95bfb6c41f1401320844a","method":"POST","path":"/check","status":200,"duration":2102819}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.187321974Z","level":"INFO","msg":"http request","request_id":"b65e61ec37b3337daf40428685b5e735","method":"POST","path":"/check","status":200,"duration":775033}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.216543243Z","level":"INFO","msg":"http request","request_id":"c4363fd2b1175e325eb926f100527d63","method":"POST","path":"/check","status":200,"duration":523587}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.245935431Z","level":"INFO","msg":"http request","request_id":"f0e01aea944c2b6cca0ff5a12b106970","method":"POST","path":"/check","status":200,"duration":429335}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.278902767Z","level":"INFO","msg":"http request","request_id":"b2272753610c8978f8e6f69918ab2166","method":"POST","path":"/check","status":200,"duration":1685815}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.306720011Z","level":"INFO","msg":"http request","request_id":"327386ae274cfd1a75c7f56208c9368e","method":"POST","path":"/check","status":200,"duration":710161}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.336744729Z","level":"INFO","msg":"http request","request_id":"2cdecc370bc6fdc014583d1b31fef334","method":"POST","path":"/check","status":200,"duration":565619}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.36745398Z","level":"INFO","msg":"http request","request_id":"d4cac9162b476bddd334c83bc5fa737e","method":"POST","path":"/check","status":200,"duration":749621}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.39658668Z","level":"INFO","msg":"http request","request_id":"21707a72b6d95ef9ee65e30ee074a796","method":"POST","path":"/check","status":200,"duration":667486}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.426523579Z","level":"INFO","msg":"http request","request_id":"2e0be33c515d707d70c9bb536f3386d2","method":"POST","path":"/check","status":200,"duration":549107}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.457134826Z","level":"INFO","msg":"http request","request_id":"e85c4b228d8f2c85fd27fb51a2e3ad27","method":"POST","path":"/check","status":200,"duration":538599}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.486134779Z","level":"INFO","msg":"http request","request_id":"9eb905e685b16bc249538f9d6de79974","method":"POST","path":"/check","status":200,"duration":682604}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.516166681Z","level":"INFO","msg":"http request","request_id":"dc230f41b7598ecc93a596a05fdef3cf","method":"POST","path":"/check","status":200,"duration":555755}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.54650139Z","level":"INFO","msg":"http request","request_id":"98330870edb83bf380b15bf12ecaa0ac","method":"POST","path":"/check","status":200,"duration":634888}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.576322377Z","level":"INFO","msg":"http request","request_id":"88a0eedef81e3776ea84238480c72e14","method":"POST","path":"/check","status":200,"duration":733323}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.606228288Z","level":"INFO","msg":"http request","request_id":"ffb1add31d66acc2e9e5621333f2f8a8","method":"POST","path":"/check","status":200,"duration":532702}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.636296539Z","level":"INFO","msg":"http request","request_id":"3b5685d390ac6c95bdfcc5cd7518837e","method":"POST","path":"/check","status":200,"duration":533023}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.667377116Z","level":"INFO","msg":"http request","request_id":"1487ae28768e217cf1e4064982af88ce","method":"POST","path":"/check","status":200,"duration":645611}
+limiter-1-1   | {"time":"2026-11-15T05:32:11.696946872Z","level":"INFO","msg":"http request","request_id":"78e22e5715bc69e003a405f18ae0afc8","method":"POST","path":"/check","status":200,"duration":656119}
+limiter-1-1   | {"time":"2026-11-15T05:32:12.557799694Z","level":"INFO","msg":"http request","request_id":"0f53381360803de640200a8e8d93d37c","method":"GET","path":"/metrics","status":200,"duration":6192547}
+limiter-1-1   | {"time":"2026-11-15T05:32:13.778523972Z","level":"INFO","msg":"http request","request_id":"ff8c3281b6dfc14ff6ee4ce029b8bc1e","method":"GET","path":"/readyz","status":200,"duration":667914}
+limiter-1-1   | {"time":"2026-11-15T05:32:14.422684506Z","level":"INFO","msg":"http request","request_id":"eb3d04d167748367736f0646d82b5f86","method":"GET","path":"/healthz","status":200,"duration":40639}
+limiter-1-1   | {"time":"2026-11-15T05:32:14.55206276Z","level":"INFO","msg":"http request","request_id":"639faf8eff357a3800a8372c553dd72e","method":"GET","path":"/metrics","status":200,"duration":2596812}
+limiter-1-1   | {"time":"2026-11-15T05:32:16.552761992Z","level":"INFO","msg":"http request","request_id":"1f7ad53b78076a9e4ece8b04ee6be660","method":"GET","path":"/metrics","status":200,"duration":2585982}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.096944718Z","level":"INFO","msg":"http request","request_id":"12db2e56ee4d5b98d4bfdbaff28f0120","method":"POST","path":"/check","status":200,"duration":566670}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.127078613Z","level":"INFO","msg":"http request","request_id":"8c826db19d476e04df3f7759311500a0","method":"POST","path":"/check","status":200,"duration":748051}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.138878745Z","level":"INFO","msg":"http request","request_id":"822f0181ea84367b37ab5e9cc1b32345","method":"GET","path":"/readyz","status":200,"duration":1418579}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.156438862Z","level":"INFO","msg":"http request","request_id":"0ba55b45d07ca520192beab66d660d4f","method":"POST","path":"/check","status":200,"duration":644723}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.191333526Z","level":"INFO","msg":"http request","request_id":"020cbc9f5a7021997010302c8e52367c","method":"POST","path":"/check","status":200,"duration":1332504}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.21662387Z","level":"INFO","msg":"http request","request_id":"ac59bd7fddf94ed151bdda79befd697d","method":"POST","path":"/check","status":200,"duration":485415}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.246908183Z","level":"INFO","msg":"http request","request_id":"7bef1f124e2151b6a75935db1f9752c9","method":"POST","path":"/check","status":200,"duration":480267}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.276635775Z","level":"INFO","msg":"http request","request_id":"2591bf7b35150011b6138533f228a093","method":"POST","path":"/check","status":200,"duration":527233}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.306849104Z","level":"INFO","msg":"http request","request_id":"e9ea8c2b39839bf8e32a41a9154cafdc","method":"POST","path":"/check","status":200,"duration":784469}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.337162797Z","level":"INFO","msg":"http request","request_id":"46577d9322decf5b7e0d09af8a876344","method":"POST","path":"/check","status":200,"duration":1012969}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.366728692Z","level":"INFO","msg":"http request","request_id":"f147d804a7fc8ea5cf2d76155fa50b68","method":"POST","path":"/check","status":200,"duration":504286}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.396873825Z","level":"INFO","msg":"http request","request_id":"183134eadbb69fdf41e4f6fc0ef0ae08","method":"POST","path":"/check","status":200,"duration":568836}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.426681731Z","level":"INFO","msg":"http request","request_id":"a5d2c147bf521d08002e8d78b5a61ded","method":"POST","path":"/check","status":200,"duration":678959}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.457136212Z","level":"INFO","msg":"http request","request_id":"4f5dfc7be18b0f0f856aa4f73f7d23f2","method":"POST","path":"/check","status":200,"duration":787257}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.48774778Z","level":"INFO","msg":"http request","request_id":"078b470d4685a585c76438d9aeb77b3a","method":"POST","path":"/check","status":200,"duration":685821}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.517331153Z","level":"INFO","msg":"http request","request_id":"c899efb1f5cef12588da2e7829b012dc","method":"POST","path":"/check","status":200,"duration":709839}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.547649243Z","level":"INFO","msg":"http request","request_id":"1ed281fe88599307c8092cbde1ed4909","method":"POST","path":"/check","status":200,"duration":778036}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.578514187Z","level":"INFO","msg":"http request","request_id":"23c2adef3a84d8bf8cc03ba83e5065a7","method":"POST","path":"/check","status":200,"duration":1184746}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.606288112Z","level":"INFO","msg":"http request","request_id":"82c65fe9f2def7545eb5af0d756dede0","method":"POST","path":"/check","status":200,"duration":783397}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.638174175Z","level":"INFO","msg":"http request","request_id":"c5bc2b025db83adf6c4f1d8e1adc870c","method":"POST","path":"/check","status":200,"duration":1451311}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.66885662Z","level":"INFO","msg":"http request","request_id":"b1c9430a0eab866b1f7584c268836c34","method":"POST","path":"/check","status":200,"duration":1247474}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.696319374Z","level":"INFO","msg":"http request","request_id":"812f28d9e746f5abafe09c41aea4f41b","method":"POST","path":"/check","status":200,"duration":493564}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.730871732Z","level":"INFO","msg":"http request","request_id":"fc3fd09d7878df41664b70e6638186d9","method":"POST","path":"/check","status":200,"duration":2484331}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.758871798Z","level":"INFO","msg":"http request","request_id":"1e7185b937627438bc345764da50c2fc","method":"POST","path":"/check","status":200,"duration":2038806}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.785739981Z","level":"INFO","msg":"http request","request_id":"39a2d25a39714fc19d583172ba6a660a","method":"POST","path":"/check","status":200,"duration":396417}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.816806082Z","level":"INFO","msg":"http request","request_id":"89a902c7559cfcf93333c393e863f46f","method":"POST","path":"/check","status":200,"duration":511364}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.845810539Z","level":"INFO","msg":"http request","request_id":"ef6d25c44bc871f72e2d2eb4a797a33b","method":"POST","path":"/check","status":200,"duration":435232}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.87880897Z","level":"INFO","msg":"http request","request_id":"c771e420906d79c7dc94e07dcbf385e6","method":"POST","path":"/check","status":200,"duration":1536664}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.907863395Z","level":"INFO","msg":"http request","request_id":"a134392c76c53ca5278621b6f3dc78e9","method":"POST","path":"/check","status":200,"duration":822428}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.938633444Z","level":"INFO","msg":"http request","request_id":"977d5471a04854703f43f628a6b29d02","method":"POST","path":"/check","status":200,"duration":1577946}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.968472552Z","level":"INFO","msg":"http request","request_id":"feaf28eeaa37f2198f77abd16dfc32b8","method":"POST","path":"/check","status":200,"duration":1352233}
+limiter-2-1   | {"time":"2026-11-15T05:32:09.996379653Z","level":"INFO","msg":"http request","request_id":"85c4bdd1b42061313ea2709e7247a031","method":"POST","path":"/check","status":200,"duration":621914}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.027525209Z","level":"INFO","msg":"http request","request_id":"f74fc493004a338c5993fdb100d167f3","method":"POST","path":"/check","status":200,"duration":699868}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.056690077Z","level":"INFO","msg":"http request","request_id":"a1b64646dec59b6f54d718c26d4deae7","method":"POST","path":"/check","status":200,"duration":721956}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.087391287Z","level":"INFO","msg":"http request","request_id":"6a4ad73e189bd7cc1ddecbb43f0a63c4","method":"POST","path":"/check","status":200,"duration":680567}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.116614593Z","level":"INFO","msg":"http request","request_id":"349bc85bc03dec1ae810b337e61a1baa","method":"POST","path":"/check","status":200,"duration":748870}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.147078403Z","level":"INFO","msg":"http request","request_id":"54ad03d1efee84e2b4d471e32ccd6f39","method":"POST","path":"/check","status":200,"duration":766455}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.177414614Z","level":"INFO","msg":"http request","request_id":"2b7d514b81db89833d79ae44adb7d9ff","method":"POST","path":"/check","status":200,"duration":754767}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.207628907Z","level":"INFO","msg":"http request","request_id":"3d7d69ce692a0bbdae86cf74b0abd6cc","method":"POST","path":"/check","status":200,"duration":685607}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.237442818Z","level":"INFO","msg":"http request","request_id":"a2f0bf33685c228ef0acd5bc5817897e","method":"POST","path":"/check","status":200,"duration":659122}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.267242681Z","level":"INFO","msg":"http request","request_id":"4dcd3e27c65d6c1771552227bee8753e","method":"POST","path":"/check","status":200,"duration":700832}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.297229869Z","level":"INFO","msg":"http request","request_id":"950bece2edab308e3f27b0c6ef106f64","method":"POST","path":"/check","status":200,"duration":664590}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.327166446Z","level":"INFO","msg":"http request","request_id":"4a21b6e5425b8f6deb018a137099f3a6","method":"POST","path":"/check","status":200,"duration":698045}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.357967269Z","level":"INFO","msg":"http request","request_id":"5ada029bf611d9f1e13e841e4ba64184","method":"POST","path":"/check","status":200,"duration":911103}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.386580993Z","level":"INFO","msg":"http request","request_id":"d3064aaa8762ac450ad296d9d45124be","method":"POST","path":"/check","status":200,"duration":631350}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.402345867Z","level":"INFO","msg":"http request","request_id":"0e5439dcd8e8db4e70c8959f2e038626","method":"GET","path":"/metrics","status":200,"duration":1910777}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.417268156Z","level":"INFO","msg":"http request","request_id":"669b5ff9df8ce9cf3f90a72940706cfc","method":"POST","path":"/check","status":200,"duration":1371534}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.447056117Z","level":"INFO","msg":"http request","request_id":"ef18d394b6e2e4697553ca0a447add25","method":"POST","path":"/check","status":200,"duration":777499}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.476500739Z","level":"INFO","msg":"http request","request_id":"8af00ebc31749a4021640d8f6c0f0bc7","method":"POST","path":"/check","status":200,"duration":406925}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.506925411Z","level":"INFO","msg":"http request","request_id":"e31aad36fcc10da68a5a796cbe9bec22","method":"POST","path":"/check","status":200,"duration":449601}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.536632631Z","level":"INFO","msg":"http request","request_id":"1dd5c4714c874e05142670cf7afc82c9","method":"POST","path":"/check","status":200,"duration":404352}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.566817545Z","level":"INFO","msg":"http request","request_id":"46bd6dc22d7a47e7c71ca582259beaa3","method":"POST","path":"/check","status":200,"duration":412714}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.596341193Z","level":"INFO","msg":"http request","request_id":"51c3a7616bc501692b59a242c8e44c6f","method":"POST","path":"/check","status":200,"duration":533452}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.626206679Z","level":"INFO","msg":"http request","request_id":"40d85c49a4bd73c40647b144a954f316","method":"POST","path":"/check","status":200,"duration":460323}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.65661634Z","level":"INFO","msg":"http request","request_id":"454502700375b4d93e1e5faa39e0f903","method":"POST","path":"/check","status":200,"duration":547285}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.686844251Z","level":"INFO","msg":"http request","request_id":"3c5addfbfd3031694b6851bf436c2840","method":"POST","path":"/check","status":200,"duration":538384}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.717487559Z","level":"INFO","msg":"http request","request_id":"cefe52d8c0df05f40db76bbfa1ed73bc","method":"POST","path":"/check","status":200,"duration":664805}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.747056778Z","level":"INFO","msg":"http request","request_id":"5a791b30d3f0a5d12797ccd48c486bcf","method":"POST","path":"/check","status":200,"duration":515223}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.777525091Z","level":"INFO","msg":"http request","request_id":"dbba01eaf47c333653e4b4314a6b8fa8","method":"POST","path":"/check","status":200,"duration":645290}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.807265551Z","level":"INFO","msg":"http request","request_id":"a8454a94fe0be1ab3e2a1c93a2373110","method":"POST","path":"/check","status":200,"duration":563904}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.836623427Z","level":"INFO","msg":"http request","request_id":"8423463ae4be1a443ee0ade541c6712d","method":"POST","path":"/check","status":200,"duration":606045}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.865699618Z","level":"INFO","msg":"http request","request_id":"1276067dca552d739f4263d0bdaad7d5","method":"POST","path":"/check","status":200,"duration":465149}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.897083754Z","level":"INFO","msg":"http request","request_id":"350adfb242cecdd1b14a28a6d04ecf3f","method":"POST","path":"/check","status":200,"duration":558329}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.927833108Z","level":"INFO","msg":"http request","request_id":"33b7bd6f3dc4383e9edac1f61e1c71b7","method":"POST","path":"/check","status":200,"duration":770423}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.957250387Z","level":"INFO","msg":"http request","request_id":"43b1043beb90b2901ce317d0bf9f6d44","method":"POST","path":"/check","status":200,"duration":657084}
+limiter-2-1   | {"time":"2026-11-15T05:32:10.989191136Z","level":"INFO","msg":"http request","request_id":"9615d1ef14330b05cc58209548ed4b64","method":"POST","path":"/check","status":200,"duration":1661583}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.028497168Z","level":"INFO","msg":"http request","request_id":"48899b25bb377bf1596a6b1e5e8a4d36","method":"POST","path":"/check","status":200,"duration":4605059}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.047082529Z","level":"INFO","msg":"http request","request_id":"6325fd109a862f68fc07cffb7d6a7eb7","method":"POST","path":"/check","status":200,"duration":541601}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.078627934Z","level":"INFO","msg":"http request","request_id":"b67fa73311a508c9eb57ddb9e4b55fcb","method":"POST","path":"/check","status":200,"duration":1171236}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.107372688Z","level":"INFO","msg":"http request","request_id":"947567d545ddc7650a6b8e49db80e68b","method":"POST","path":"/check","status":200,"duration":583420}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.136622372Z","level":"INFO","msg":"http request","request_id":"cdb53c40720e0b15a77f898e4f41a3b0","method":"POST","path":"/check","status":200,"duration":373041}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.168840194Z","level":"INFO","msg":"http request","request_id":"fa39c3ffdb8aaea3bae7be3d96f81947","method":"POST","path":"/check","status":200,"duration":1089957}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.197507423Z","level":"INFO","msg":"http request","request_id":"6ef6e6fe7913420d76135778a68a3dad","method":"POST","path":"/check","status":200,"duration":755090}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.226451512Z","level":"INFO","msg":"http request","request_id":"8fa83a9ff8371a273993a7852da9a5bd","method":"POST","path":"/check","status":200,"duration":282006}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.256888086Z","level":"INFO","msg":"http request","request_id":"29ef8c49cf1fa1816255f16ba8d0a793","method":"POST","path":"/check","status":200,"duration":512972}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.287944323Z","level":"INFO","msg":"http request","request_id":"720b6439538b980343ced856490ad55c","method":"POST","path":"/check","status":200,"duration":861994}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.316049256Z","level":"INFO","msg":"http request","request_id":"0a1a310234abab2c39dfcbcd1cd4da07","method":"POST","path":"/check","status":200,"duration":522301}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.34714506Z","level":"INFO","msg":"http request","request_id":"b168e876d634c0ae9b3db9cedd27bf1d","method":"POST","path":"/check","status":200,"duration":715415}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.377426799Z","level":"INFO","msg":"http request","request_id":"aa7eeec7787d60eab5b57d9753568b6b","method":"POST","path":"/check","status":200,"duration":760021}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.406785104Z","level":"INFO","msg":"http request","request_id":"108a0d8977778c6c2c3919400659d52f","method":"POST","path":"/check","status":200,"duration":793798}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.436630753Z","level":"INFO","msg":"http request","request_id":"713257c3742bd522fb29617b02b54fab","method":"POST","path":"/check","status":200,"duration":556935}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.466905308Z","level":"INFO","msg":"http request","request_id":"eaa2ae470a20df4dca3a6e96a75f0964","method":"POST","path":"/check","status":200,"duration":720455}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.496560416Z","level":"INFO","msg":"http request","request_id":"d281f857fcb259a585a5f2e7da929b94","method":"POST","path":"/check","status":200,"duration":509648}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.527267523Z","level":"INFO","msg":"http request","request_id":"a60cbbb1490e0c5c4481626be68e53ca","method":"POST","path":"/check","status":200,"duration":1017044}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.556765115Z","level":"INFO","msg":"http request","request_id":"b4f075274796a8e036cf4860a65aae08","method":"POST","path":"/check","status":200,"duration":498067}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.586553934Z","level":"INFO","msg":"http request","request_id":"50fcc4eb6076c387d04b653cd26793e9","method":"POST","path":"/check","status":200,"duration":527983}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.617300178Z","level":"INFO","msg":"http request","request_id":"b6de3932c453a746d036b7970eced2a9","method":"POST","path":"/check","status":200,"duration":709518}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.652019595Z","level":"INFO","msg":"http request","request_id":"f3a0d8a03cc3d0e1cf522ba36c85c574","method":"POST","path":"/check","status":200,"duration":5700163}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.677278093Z","level":"INFO","msg":"http request","request_id":"b90993349ff5ca247aaead37a8530981","method":"POST","path":"/check","status":200,"duration":649471}
+limiter-2-1   | {"time":"2026-11-15T05:32:11.706985742Z","level":"INFO","msg":"http request","request_id":"435a27906f737e6871d7b4a38ca13dfa","method":"POST","path":"/check","status":200,"duration":600683}
+limiter-2-1   | {"time":"2026-11-15T05:32:12.418785526Z","level":"INFO","msg":"http request","request_id":"fc69a95fa2850444a9402a6527d4bdf6","method":"GET","path":"/metrics","status":200,"duration":15615186}
+limiter-2-1   | {"time":"2026-11-15T05:32:14.404130776Z","level":"INFO","msg":"http request","request_id":"4fc677f869f80d36bd8ae7981a3697ae","method":"GET","path":"/metrics","status":200,"duration":3029793}
+limiter-2-1   | {"time":"2026-11-15T05:32:14.500263549Z","level":"INFO","msg":"http request","request_id":"677e13c541aebf060d7c9bca28b2307a","method":"GET","path":"/readyz","status":200,"duration":544925}
+limiter-2-1   | {"time":"2026-11-15T05:32:16.402395108Z","level":"INFO","msg":"http request","request_id":"0b469d933a68c9733873cc849a96949f","method":"GET","path":"/metrics","status":200,"duration":2273096}

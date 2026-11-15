@@ -1,0 +1,7 @@
+CONTAINER ID   NAME                             CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O    PIDS
+7382e1d873b2   ratelimiter-bench-limiter-1-1    0.00%     8.949MiB / 7.677GiB   0.11%     983kB / 1.93MB    0B / 0B      12
+02137c685fbb   ratelimiter-bench-limiter-2-1    0.02%     9.66MiB / 7.677GiB    0.12%     984kB / 1.94MB    0B / 0B      13
+57fd7b57e7b6   ratelimiter-bench-limiter-3-1    0.88%     10.01MiB / 7.677GiB   0.13%     983kB / 1.93MB    0B / 0B      13
+0f10ccd16727   ratelimiter-bench-nginx-1        0.00%     7.699MiB / 7.677GiB   0.10%     4.98MB / 5.54MB   0B / 0B      9
+676552f38591   ratelimiter-bench-prometheus-1   0.19%     18.28MiB / 7.677GiB   0.23%     440kB / 88.9kB    0B / 131kB   12
+519e91d5d578   ratelimiter-bench-redis-1        6.61%     5.109MiB / 7.677GiB   0.06%     2.72MB / 607kB    0B / 0B      6
