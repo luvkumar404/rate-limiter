@@ -9,10 +9,12 @@ production capacity estimate. The server image uses Go 1.26 and the normal
 50 ms Redis deadline, with fail-closed policy for the benchmark.
 
 **The 10k checks/s and p99 <10 ms targets are not met.** All nine high-load
-cases have invalid decisions and dropped iterations. Redis I/O timeouts and
-circuit-breaker activity appear in the captured logs. This identifies observed
+cases have invalid decisions and dropped iterations. The original diagnostics
+showed Redis I/O timeouts and circuit-breaker activity. This identifies observed
 failure behavior, not its root cause; CPU, logging, Docker scheduling, client
 capacity and Redis should be profiled before tuning or making capacity claims.
+Generated logs have been removed from the repository; rerunning the suite
+creates ignored diagnostic logs alongside the new results.
 
 Reproduce with [the load-test runner](../loadtest/README.md):
 
@@ -41,7 +43,7 @@ admission bounds; the existing Redis integration suite covers those algorithms.
 
 ## Offered-load sweep
 
-[Raw summaries and logs](../loadtest/results/20261115-final/summary.md) also
+[Raw summaries](../loadtest/results/20261115-final/summary.md) also
 include resolved configuration, image identities, environment and setup data.
 Each row below has zero valid blocked responses: successful admissions stayed
 below the per-key quota while timeouts/circuit rejections dominated other checks.

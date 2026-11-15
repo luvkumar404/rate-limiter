@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   quality:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 15
     services:
       redis:
@@ -49,7 +49,7 @@ jobs:
           version: v2.13.1
 
   containers:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
@@ -67,11 +67,14 @@ jobs:
         run: |
           mkdir -p loadtest/results
           chmod 777 loadtest/results
+          # Clear proxy peer failures from the backend configuration rollout.
+          # Compose starts it again only after all three backends are healthy.
+          docker compose stop nginx
           docker compose -f docker-compose.yml -f loadtest/compose.yaml up -d --no-build --wait --wait-timeout 120
           docker compose -f docker-compose.yml -f loadtest/compose.yaml run --rm --no-deps -e MODE=correctness -e OUTPUT=/results/correctness-ci.json k6 run /scripts/check.js
       - name: Preserve k6 correctness result
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2 (Node.js 24)
         with:
           name: k6-correctness
           path: loadtest/results/correctness-ci.json
