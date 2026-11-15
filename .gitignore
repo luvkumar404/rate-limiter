@@ -1,4 +1,19 @@
+# Go build, test, and profiling output
 /bin/
 /coverage.out
+/coverage/
 *.test
+*.prof
+
+# Generated load-test results and logs
+/loadtest/results/
+*.log
+
+# Local environment settings
 .env
+.env.*
+!.env.example
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
