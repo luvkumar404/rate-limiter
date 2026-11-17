@@ -7,9 +7,7 @@ A Go rate limiting service and middleware library with in-memory and Redis
 backends. Run it as an HTTP service, embed a limiter in a Go application, or
 protect `net/http` handlers with middleware that calls the central service.
 
-The project is under development. See [PRD.md](PRD.md) for the requirements and
-[implementation progress](docs/progress.md) for completed work and outstanding
-milestones.
+The project is under development.
 
 ## Features
 
